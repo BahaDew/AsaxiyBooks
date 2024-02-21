@@ -107,4 +107,6 @@ dependencies {
      */
     implementation("com.airbnb.android:lottie:4.2.0")
 
+
+    implementation ("com.github.santalu:maskara:1.0.0")
 }
