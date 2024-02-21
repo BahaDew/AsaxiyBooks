@@ -94,7 +94,6 @@ dependencies {
 
     // dots indicator
     implementation("com.tbuonomo:dotsindicator:5.0")
-//    implementation ("com.github.mazenrashed:DotsIndicatorWithoutViewpager:4.3")
 
     // glide - >
     implementation ("com.github.bumptech.glide:glide:4.16.0")
@@ -102,4 +101,10 @@ dependencies {
 
     // image slider
     implementation ("com.github.denzcoskun:ImageSlideshow:0.1.2")
+
+    /**
+     * lottie
+     */
+    implementation("com.airbnb.android:lottie:4.2.0")
+
 }
