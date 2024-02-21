@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AsaxiyBooks</string>
+    <string name="kitoblarim">Kitoblarim</string>
+    <string name="kutubxona">Kutubxona</string>
+    <string name="audio_kitoblar">Audio kitoblar</string>
+    <string name="profil">Profil</string>
 </resources>
