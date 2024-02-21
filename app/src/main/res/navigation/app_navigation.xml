@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/splashScreen">
+
+    <fragment
+        android:id="@+id/registerScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.register.RegisterScreen"
+        android:label="RegisterScreen"
+        tools:layout="@layout/screen_register" />
+
+    <fragment
+        android:id="@+id/splashScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.splash.SplashScreen"
+        android:label="SplashScreen"
+        tools:layout="@layout/screen_splash">
+        <action
+            android:id="@+id/action_splashScreen_to_registerScreen"
+            app:destination="@id/registerScreen" />
+    </fragment>
+
+</navigation>
