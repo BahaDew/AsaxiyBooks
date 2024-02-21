@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.sudo_pacman.asaxiybooks" />
+                  <option name="mobileSdkAppId" value="1:771968241733:android:3be0d6e45b02c90027932c" />
+                  <option name="projectId" value="asaxiybooks-6f7ed" />
+                  <option name="projectNumber" value="771968241733" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
