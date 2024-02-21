@@ -5,5 +5,10 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.AsaxiyBooks" parent="Base.Theme.AsaxiyBooks" />
+    <style name="Theme.AsaxiyBooks" parent="Base.Theme.AsaxiyBooks" >
+        <item name="colorPrimary">@color/active</item>
+        <item name="colorPrimaryDark">@color/active</item>
+        <item name="android:statusBarColor">@color/app_bg_color</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>

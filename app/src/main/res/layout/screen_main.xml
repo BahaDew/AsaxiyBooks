@@ -8,17 +8,19 @@
         android:id="@+id/vp2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/app_bg_color"
         app:layout_constraintBottom_toTopOf="@id/bnv"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnv"
-        android:layout_width="match_parent"
         style="@style/bg_menu"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/menu_bottom_navigation"
         app:itemIconTint="@color/bg_menu_color"
         app:itemTextColor="@color/bg_menu_color"
-        app:labelVisibilityMode="labeled"/>
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/menu_bottom_navigation"
+        android:background="@color/app_bg_color"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
