@@ -25,20 +25,15 @@ class AudioPageVMImpl @Inject constructor(
     override val progressSate = MutableStateFlow(true)
     override val allCategoryByData = MutableStateFlow<List<CategoryByBookData>>(arrayListOf())
 
-    init {
-        viewModelScope.launch {
-            repository.booksList.onEach {
-                progressSate.value = true
-                allCategoryByData.value = booksToSplitCategory(it)
-            }
-                .flowOn(Dispatchers.IO)
-                .launchIn(viewModelScope)
-        }
-    }
-
     override fun getAllCategoryByData() {
         progressSate.value = false
-        repository.getBooks()
+        repository.getCategoryByBooks()
+        repository.categoriesList
+            .onEach {
+                progressSate.value = true
+                allCategoryByData.value = it
+            }.flowOn(Dispatchers.IO)
+            .launchIn(viewModelScope)
     }
 
     override fun onClickCategory(category: CategoryByBookData) {
@@ -55,12 +50,5 @@ class AudioPageVMImpl @Inject constructor(
         viewModelScope.launch {
             appNavigator.navigateTo(MainScreenDirections.actionMainScreenToInfoScreen())
         }
-    }
-    private fun booksToSplitCategory(list : List<BookUIData>) : List<CategoryByBookData> {
-        val map = HashMap<String, List<BookUIData>>()
-//        for (i in list.indices) {
-//            if(map.containsKey(list[i]))
-//        }
-        return arrayListOf()
     }
 }

@@ -18,13 +18,13 @@ import javax.inject.Singleton
 class RepositoryImpl @Inject constructor() : Repository {
     private val fireStore = Firebase.firestore
 
-    override val booksList: MutableSharedFlow<List<BookUIData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
-    override val categoriesList: MutableSharedFlow<List<CategoryByBookData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
-    override val bookLoadError: MutableSharedFlow<String> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
-    private val mapCategories = HashMap<String, ArrayList<BookUIData>>()
-    init {
-        initCategories()
-    }
+    override val booksList: MutableSharedFlow<List<BookUIData>> =
+        MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    override val categoriesList: MutableSharedFlow<List<CategoryByBookData>> =
+        MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    override val bookLoadError: MutableSharedFlow<String> =
+        MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+
     override fun getBooks() {
         fireStore
             .collection("books_data")
@@ -56,30 +56,54 @@ class RepositoryImpl @Inject constructor() : Repository {
     }
 
     override fun getCategoryByBooks() {
-        fireStore
-            .collection("books_data")
+        val categoryList = ArrayList<CategoryByBookData>()
+        fireStore.collection("category")
             .addSnapshotListener { value, error ->
-                val books = mutableListOf<CategoryByBookData>()
-                value?.forEach { snapshot ->
-                    val data =
-                        BookUIData(
-                            docID = snapshot.id,
-                            audioUrl = snapshot.data.getOrDefault("audioUrl", "").toString(),
-                            author = snapshot.data.getOrDefault("author", "").toString(),
-                            bookUrl = snapshot.data.getOrDefault("bookUrl", "").toString(),
-                            categoryId = snapshot.data.getOrDefault("categoryId", "").toString(),
-                            coverImage = snapshot.data.getOrDefault("coverImage", "").toString(),
-                            description = snapshot.data.getOrDefault("description", "").toString(),
-                            filePath = snapshot.data.getOrDefault("filePath", "").toString(),
-                            name = snapshot.data.getOrDefault("name", "").toString(),
-                            totalSize = snapshot.data.getOrDefault("totalSize", "").toString(),
-                            type = snapshot.data.getOrDefault("pdf", "").toString(),
-                        )
-                }
+                value?.forEach {
+                    val categoryName = it.data.getOrDefault("name", "") as String
+                    val categoryId = it.id
+                    fireStore.collection("books_data")
+                        .whereEqualTo("categoryId", categoryId)
+                        .get().addOnSuccessListener { qs ->
+                            val listBookData = ArrayList<BookUIData>()
+                            qs.forEach { snapshot ->
+                                val data =
+                                    BookUIData(
+                                        docID = snapshot.id,
+                                        audioUrl = snapshot.data.getOrDefault("audioUrl", "")
+                                            .toString(),
+                                        author = snapshot.data.getOrDefault("author", "")
+                                            .toString(),
+                                        bookUrl = snapshot.data.getOrDefault("bookUrl", "")
+                                            .toString(),
+                                        categoryId = snapshot.data.getOrDefault("categoryId", "")
+                                            .toString(),
+                                        coverImage = snapshot.data.getOrDefault("coverImage", "")
+                                            .toString(),
+                                        description = snapshot.data.getOrDefault("description", "")
+                                            .toString(),
+                                        filePath = snapshot.data.getOrDefault("filePath", "")
+                                            .toString(),
+                                        name = snapshot.data.getOrDefault("name", "").toString(),
+                                        totalSize = snapshot.data.getOrDefault("totalSize", "")
+                                            .toString(),
+                                        type = snapshot.data.getOrDefault("type", "").toString(),
+                                    )
+                                listBookData.add(data)
+                            }
+                            categoryList.add(
+                                CategoryByBookData(
+                                    categoryName = categoryName,
+                                    categoryId = categoryId,
+                                    books = listBookData,
+                                    type = 10
+                                )
+                            )
+                        }.addOnFailureListener {
 
-                if (error != null) bookLoadError.tryEmit(error.message.toString())
-                "yaroqli olindi ${books.size}".myLog()
-                categoriesList.tryEmit(books)
+                        }
+
+                }
             }
     }
 
@@ -98,15 +122,5 @@ class RepositoryImpl @Inject constructor() : Repository {
         }
 
         awaitClose()
-    }
-    private fun initCategories() {
-        mapCategories.clear()
-        fireStore.collection("category")
-            .addSnapshotListener { value, _ ->
-                value?.forEach {
-                    val name = it.data.getOrDefault("", "") as String
-                    mapCategories[name] = arrayListOf()
-                }
-            }
     }
 }
