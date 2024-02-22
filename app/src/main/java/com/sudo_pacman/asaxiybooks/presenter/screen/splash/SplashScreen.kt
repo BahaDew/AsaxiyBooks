@@ -25,8 +25,8 @@ class SplashScreen : Fragment(R.layout.screen_splash) {
         lifecycleScope.launch {
             delay(2000)
             findNavController().navigate(SplashScreenDirections.actionSplashScreenToIntroScreen())
-            requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
+//            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
         requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
 

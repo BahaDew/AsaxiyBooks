@@ -25,6 +25,10 @@ class AudioPage : Fragment(R.layout.page_audio) {
     private val binding by viewBinding(PageAudioBinding::bind)
     private val adapter = AudioOuterAdapter()
     private val viewModel : AudioPageVM by viewModels<AudioPageVMImpl>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getAllCategoryByData()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -46,13 +50,11 @@ class AudioPage : Fragment(R.layout.page_audio) {
     private fun initView() = binding.apply {
         rvList.adapter = adapter
         rvList.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.getAllCategoryByData()
         adapter.setOnClickBook {
             viewModel.onClickBook(it)
         }
         adapter.setOnClickCategory {
             viewModel.onClickCategory(it)
         }
-
     }
 }
