@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg_color"
+    android:orientation="vertical"
+    android:scrollbars="none"
     tools:context="com.sudo_pacman.asaxiybooks.presenter.screen.main.page.ProfilePage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
