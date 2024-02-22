@@ -18,12 +18,12 @@ class RepositoryImpl {
                     books.add(
                         BookUIData(
                             docID = snapshot.id,
-                            name = snapshot.data.getOrDefault("name", "").toString(),
-                            author = snapshot.data.getOrDefault("author", "").toString(),
-                            description = snapshot.data.getOrDefault("description", "").toString(),
-                            totalSize = snapshot.data.getOrDefault("totalSize", "").toString(),
+                            author = snapshot.data.getOrDefault("author", "").toString(),,,
                             coverImage = snapshot.data.getOrDefault("coverImage", "").toString(),
+                            description = snapshot.data.getOrDefault("description", "").toString(),
                             filePath = snapshot.data.getOrDefault("filePath", "").toString(),
+                            name = snapshot.data.getOrDefault("name", "").toString(),
+                            totalSize = snapshot.data.getOrDefault("totalSize", "").toString(),
                             type = snapshot.data.getOrDefault("pdf", "").toString(),
                         )
                     )
