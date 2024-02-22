@@ -1,5 +1,6 @@
 package com.sudo_pacman.asaxiybooks.presenter.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -29,6 +30,7 @@ class AudioOuterAdapter : ListAdapter<CategoryByBookData, AudioOuterAdapter.Cate
                 if(System.currentTimeMillis() - time >= 500) {
                     time = System.currentTimeMillis()
                     onClickBook?.invoke(it)
+                    Log.d("TTT", "Bosil")
                 }
             }
             binding.rvList.adapter = adapter
@@ -56,7 +58,6 @@ class AudioOuterAdapter : ListAdapter<CategoryByBookData, AudioOuterAdapter.Cate
         ): Boolean {
             return oldItem == newItem
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryHolder {

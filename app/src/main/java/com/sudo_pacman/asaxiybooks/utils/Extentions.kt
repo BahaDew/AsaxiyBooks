@@ -4,7 +4,7 @@ import android.util.Log
 import com.sudo_pacman.asaxiybooks.data.entity.EntityBookData
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 
-fun String.myLog(tag: String = "TTT") = Log.d("TTT", this)
+fun String.myLog(tag: String = "TTT") = Log.d(tag, this)
 
 fun BookUIData.toEntityBookData(path: String): EntityBookData {
     return EntityBookData(

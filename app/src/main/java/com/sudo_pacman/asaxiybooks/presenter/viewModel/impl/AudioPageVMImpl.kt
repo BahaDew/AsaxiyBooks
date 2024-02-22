@@ -1,5 +1,6 @@
 package com.sudo_pacman.asaxiybooks.presenter.viewModel.impl
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
@@ -24,11 +25,9 @@ class AudioPageVMImpl @Inject constructor(
 ) : ViewModel(), AudioPageVM {
     override val progressSate = MutableStateFlow(true)
     override val allCategoryByData = MutableStateFlow<List<CategoryByBookData>>(arrayListOf())
-
     override fun getAllCategoryByData() {
         progressSate.value = false
         repository.getCategoryByBooks()
-        repository.categoriesList
             .onEach {
                 progressSate.value = true
                 it.onSuccess { list ->
@@ -36,7 +35,6 @@ class AudioPageVMImpl @Inject constructor(
                 }.onFailure {
 
                 }
-
             }
             .launchIn(viewModelScope)
     }

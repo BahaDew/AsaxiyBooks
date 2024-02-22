@@ -1,6 +1,7 @@
 package com.sudo_pacman.asaxiybooks.presenter.screen.main.page
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import com.sudo_pacman.asaxiybooks.databinding.PageAudioBinding
 import com.sudo_pacman.asaxiybooks.presenter.adapter.AudioOuterAdapter
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.AudioPageVM
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.AudioPageVMImpl
+import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -34,7 +36,10 @@ class AudioPage : Fragment(R.layout.page_audio) {
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
         viewModel.allCategoryByData
-            .onEach { adapter.submitList(it) }
+            .onEach {
+               "initFlow: ${it.size}".myLog("BAHA")
+                adapter.submitList(it)
+            }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
     }

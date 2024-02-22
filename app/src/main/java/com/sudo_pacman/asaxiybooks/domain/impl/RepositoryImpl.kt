@@ -6,11 +6,13 @@ import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.utils.myLog
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,8 +22,7 @@ class RepositoryImpl @Inject constructor() : Repository {
 
     override val booksList: MutableSharedFlow<List<BookUIData>> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
-    override val categoriesList: MutableSharedFlow<Result<List<CategoryByBookData>>> =
-        MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+
     override val bookLoadError: MutableSharedFlow<String> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
 
@@ -55,10 +56,10 @@ class RepositoryImpl @Inject constructor() : Repository {
             }
     }
 
-    override fun getCategoryByBooks() {
+    override fun getCategoryByBooks() :  Flow<Result<List<CategoryByBookData>>> = callbackFlow<Result<List<CategoryByBookData>>> {
         val categoryList = ArrayList<CategoryByBookData>()
         fireStore.collection("category")
-            .addSnapshotListener { value, error ->
+            .addSnapshotListener { value, _ ->
                 var count = 0
                 value?.forEach {
                     val categoryName = it.data.getOrDefault("name", "") as String
@@ -103,15 +104,16 @@ class RepositoryImpl @Inject constructor() : Repository {
                                 )
                             )
                             if(count == it.data.size) {
-                                categoriesList.tryEmit(Result.success(categoryList))
+                                trySend(Result.success(categoryList))
                             }
                         }
                         .addOnFailureListener {exp ->
-                            categoriesList.tryEmit(Result.failure(exp))
+                            trySend(Result.failure(exp))
                         }
                 }
             }
-    }
+        awaitClose()
+    }.flowOn(Dispatchers.IO)
 
     override fun setData(books: List<BookUIData>): Flow<Result<Unit>> = callbackFlow {
 
