@@ -91,6 +91,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_author" />
 
         <TextView
+            android:id="@+id/textStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:00"
@@ -100,9 +101,10 @@
             tools:ignore="HardcodedText" />
 
         <TextView
+            android:id="@+id/textEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00:00"
+            tools:text="00:00"
             android:textColor="#747b81"
             app:layout_constraintEnd_toEndOf="@id/seekBar"
             app:layout_constraintTop_toBottomOf="@id/seekBar"
