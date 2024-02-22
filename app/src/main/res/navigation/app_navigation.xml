@@ -34,7 +34,7 @@
         android:id="@+id/introScreen"
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.intro.IntroScreen"
         android:label="IntroScreen"
-        tools:layout="@layout/screen_intro" >
+        tools:layout="@layout/screen_intro">
         <action
             android:id="@+id/action_introScreen_to_registerScreen"
             app:destination="@id/registerScreen"
@@ -46,10 +46,17 @@
         android:id="@+id/mainScreen"
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.main.MainScreen"
         android:label="screen_main"
-        tools:layout="@layout/screen_main" >
+        tools:layout="@layout/screen_main">
         <action
             android:id="@+id/action_mainScreen_to_infoScreen"
             app:destination="@id/infoScreen" />
+        <action
+            android:id="@+id/action_mainScreen_to_categoryByAudiosScreen"
+            app:destination="@id/categoryByAudiosScreen" />
+        <action
+            android:id="@+id/action_mainScreen_to_categoryBooks2"
+            app:destination="@id/categoryBooks2" />
+
     </fragment>
 
     <fragment
@@ -73,6 +80,35 @@
         <argument
             android:name="book_data"
             app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />
+    </fragment>
+        android:id="@+id/audioScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.audio.AudioScreen"
+        android:label="AudioScreen"
+        tools:layout="@layout/screen_audio" />
+    <fragment
+        android:id="@+id/categoryByAudiosScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.category_by_audios.CategoryByAudiosScreen"
+        android:label="screen_category_by_aduio"
+        tools:layout="@layout/screen_category_by_aduio" >
+        <action
+            android:id="@+id/action_categoryByAudiosScreen_to_infoScreen"
+            app:destination="@id/infoScreen" />
+        <argument
+            android:name="categoryByData"
+            app:argType="com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryBooks2"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.book_category.CategoryBooks"
+        android:label="CategoryBooks"
+        tools:layout="@layout/screen_by_category"
+        >
+        <action
+            android:id="@+id/action_categoryBooks2_to_infoScreen"
+            app:destination="@id/infoScreen" />
+        <argument
+            android:name="categoryByData"
+            app:argType="com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData" />
     </fragment>
 
 </navigation>
