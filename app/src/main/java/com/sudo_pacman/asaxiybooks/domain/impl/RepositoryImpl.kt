@@ -20,7 +20,7 @@ class RepositoryImpl @Inject constructor() : Repository {
     val booksList: MutableSharedFlow<List<BookUIData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
     val bookLoadError: MutableSharedFlow<String> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
 
-    fun getBooks() {
+    override fun getBooks() {
         fireStore
             .collection("books_data")
             .addSnapshotListener { value, error ->
@@ -52,7 +52,7 @@ class RepositoryImpl @Inject constructor() : Repository {
             }
     }
 
-    fun setData(books: List<BookUIData>): Flow<Result<Unit>> = callbackFlow {
+    override fun setData(books: List<BookUIData>): Flow<Result<Unit>> = callbackFlow {
 
         for (index in books.indices) {
             fireStore
