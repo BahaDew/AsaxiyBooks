@@ -32,7 +32,8 @@ class AudioScreen : Fragment(R.layout.screen_audio) {
             repository.getBooks()
 
             repository.booksList.onEach {
-                audioUrl = it[1].audioUrl
+                audioUrl = it[0].audioUrl
+                "Audio screen ${it.size} and ${it[0]}".myLog()
                 "Audio Url $audioUrl".myLog()
             }.launchIn(lifecycleScope)
 

@@ -22,7 +22,7 @@ class RepositoryImpl @Inject constructor() : Repository {
 
     fun getBooks() {
         fireStore
-            .collection("book_data")
+            .collection("books_data")
             .addSnapshotListener { value, error ->
                 val books = mutableListOf<BookUIData>()
 
