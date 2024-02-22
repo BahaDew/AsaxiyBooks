@@ -97,5 +97,9 @@ dependencies {
     implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
 
     // lotto animation
-    implementation("com.airbnb.android:lottie:2.8.0")
+//    implementation("com.airbnb.android:lottie:2.8.0")
+    /**
+     * lottie
+     */
+    implementation("com.airbnb.android:lottie:4.2.0")
 }
