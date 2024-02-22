@@ -62,7 +62,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/img_book"
-                tools:text="Saodat asri qissalari" />
+                android:text="Saodat asri qissalari" />
 
 
             <TextView
@@ -76,7 +76,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_book_name"
-                tools:text="Ahmad Lutfiy" />
+                android:text="Ahmad Lutfiy" />
 
 
             <TextView

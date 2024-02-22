@@ -3,6 +3,7 @@ package com.sudo_pacman.asaxiybooks.presenter.screen.main.page
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.databinding.PageBooksBinding
@@ -14,8 +15,9 @@ class BooksPage : Fragment(R.layout.page_books) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.root.setOnClickListener {
-            MainScreenDirections.actionMainScreenToInfoScreen()
+        binding.buttonStart.setOnClickListener {
+            findNavController().navigate(MainScreenDirections.actionMainScreenToInfoScreen())
         }
+
     }
 }
