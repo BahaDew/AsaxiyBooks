@@ -22,7 +22,7 @@ class BooksPage : Fragment(R.layout.page_books) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonStart.setOnClickListener {
+        binding.addBook.setOnClickListener {
             findNavController().navigate(
                 MainScreenDirections.actionMainScreenToInfoScreen(
                     BookUIData(
@@ -35,13 +35,17 @@ class BooksPage : Fragment(R.layout.page_books) {
                         filePath = "",
                         name = "Cho'qintirgan ota",
                         totalSize = "2.75",
-                        type = "pdf"
+                        type = "pdf",
+                        audioUrl = "https://firebasestorage.googleapis.com/v0/b/asaxiybooks-6f7ed.appspot.com/o/audio%2Fbook_6_audio.mp3?alt=media&token=86936d6f-b3c0-41e9-80a4-16a1d71125f3"
                     )
                 )
             )
-        binding.addBook.setOnClickListener {
-            findNavController().navigate(MainScreenDirections.actionMainScreenToInfoScreen())
         }
+
+
+//        binding.addBook.setOnClickListener {
+//            findNavController().navigate(MainScreenDirections.actionMainScreenToInfoScreen())
+//        }
 
     }
 }
