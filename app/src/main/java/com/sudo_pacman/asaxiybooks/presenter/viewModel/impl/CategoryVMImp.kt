@@ -6,6 +6,9 @@ import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.navigation.AppNavigator
+import com.sudo_pacman.asaxiybooks.presenter.screen.book_category.CategoryBooksDirections
+import com.sudo_pacman.asaxiybooks.presenter.screen.category_by_audios.CategoryByAudiosScreenDirections
+import com.sudo_pacman.asaxiybooks.presenter.screen.main.MainScreenDirections
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,15 +22,31 @@ class CategoryVMImp @Inject constructor(
     private val repository: Repository,
     private val appNavigator: AppNavigator
 ): ViewModel(), CategoryVM {
-    override val category = MutableStateFlow<CategoryByBookData?>(null)
+    override val progressSate = MutableStateFlow(true)
+    override val allCategoryByData = MutableStateFlow<List<CategoryByBookData>>(arrayListOf())
+
+
+    override fun getAllCategoryByData() {
+        progressSate.value = false
+        repository.getBooks()
+        repository
+    }
+
+    override fun onClickCategory(category: CategoryByBookData) {
+        viewModelScope.launch {
+            appNavigator.navigateTo(MainScreenDirections.actionMainScreenToCategoryBooks2(category))
+        }
+    }
 
     override fun onClickBook(bookUIData: BookUIData) {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            appNavigator.navigateTo(MainScreenDirections.actionMainScreenToInfoScreen())
+        }
     }
 
     override fun onClickBack() {
-       viewModelScope.launch {
-         //  appNavigator.navigateTo()
-       }
+        viewModelScope.launch {
+            appNavigator.popBackStack()
+        }
     }
 }

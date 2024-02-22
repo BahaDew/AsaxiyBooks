@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/app_bg_color"
     android:id="@+id/container"
     >
 
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Tavsiyalar"
         android:layout_marginTop="5dp"
-        android:textColor="#000"
+        android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -30,7 +30,8 @@
         android:contentDescription="@string/app_name"
         android:src="@drawable/left_2_svgrepo_com"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@id/category_name" />
+        app:layout_constraintTop_toTopOf="@id/category_name"
+        app:tint="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list_on_category"
