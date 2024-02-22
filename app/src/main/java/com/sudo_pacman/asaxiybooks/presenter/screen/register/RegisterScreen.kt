@@ -25,7 +25,7 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
             val password = binding.name.text.toString()
 
             if (email.isEmpty() || password.isEmpty()) Toast.makeText(requireContext(), "Email or password error!", Toast.LENGTH_SHORT).show()
-            else findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToIntroScreen())
+//            else findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToIntroScreen())
         }
 
 
@@ -37,7 +37,7 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToIntroScreen())
+//                    findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToIntroScreen())
                 } else Toast.makeText(requireContext(), "log in error bro!", Toast.LENGTH_SHORT).show()
 
             }
