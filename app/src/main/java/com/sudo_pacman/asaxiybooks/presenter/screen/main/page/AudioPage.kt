@@ -42,6 +42,9 @@ class AudioPage : Fragment(R.layout.page_audio) {
         viewModel.allCategoryByData
             .onEach {
                "initFlow: ${it.size}".myLog("BAHA")
+                for (i in it.indices) {
+                    it[i].categoryName.myLog("BAHA")
+                }
                 adapter.submitList(it)
             }
             .flowWithLifecycle(lifecycle)
