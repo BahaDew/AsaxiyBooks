@@ -16,9 +16,6 @@ class InfoScreen : Fragment(R.layout.screen_info) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val bookData = navArgs.book
-
-
     }
 }

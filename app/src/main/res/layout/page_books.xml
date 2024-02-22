@@ -7,12 +7,6 @@
     android:background="@color/app_bg_color"
     tools:context="com.sudo_pacman.asaxiybooks.presenter.screen.main.page.BooksPage">
 
-    <Button
-        android:id="@+id/buttonStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name" />
-
     <ImageView
         android:id="@+id/placeholder"
         android:layout_width="200dp"
@@ -44,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/bg_btn_pay"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="30dp"
         android:text="Kitoblar qo'shish"
         android:textAllCaps="false"
         android:textColor="#FFF"

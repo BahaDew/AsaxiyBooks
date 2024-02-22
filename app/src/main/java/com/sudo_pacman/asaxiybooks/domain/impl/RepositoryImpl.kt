@@ -10,10 +10,11 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RepositoryImpl : Repository {
+class RepositoryImpl @Inject constructor() : Repository {
     private val fireStore = Firebase.firestore
 
     val booksList: MutableSharedFlow<List<BookUIData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
