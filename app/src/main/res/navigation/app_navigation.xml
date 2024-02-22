@@ -56,6 +56,10 @@
         android:id="@+id/infoScreen"
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.info.InfoScreen"
         android:label="InfoScreen"
-        tools:layout="@layout/screen_info"/>
+        tools:layout="@layout/screen_info">
+        <argument
+            android:name="book"
+            app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />
+    </fragment>
 
 </navigation>

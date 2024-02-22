@@ -1,5 +1,9 @@
 package com.sudo_pacman.asaxiybooks.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class BookUIData(
     var docID:String,
     var author: String,
@@ -11,4 +15,4 @@ data class BookUIData(
     var name: String,
     var totalSize: String,
     var type: String
-)
+) : Parcelable
