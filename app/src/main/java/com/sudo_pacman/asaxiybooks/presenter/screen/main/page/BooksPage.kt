@@ -39,6 +39,8 @@ class BooksPage : Fragment(R.layout.page_books) {
                     )
                 )
             )
+        binding.addBook.setOnClickListener {
+            findNavController().navigate(MainScreenDirections.actionMainScreenToInfoScreen())
         }
 
     }

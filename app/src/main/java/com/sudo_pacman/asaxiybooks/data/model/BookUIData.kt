@@ -5,7 +5,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class BookUIData(
-    var docID:String,
+    var docID: String,
+    var audioUrl: String,
     var author: String,
     var bookUrl: String,
     var categoryId: String,
@@ -14,5 +15,5 @@ data class BookUIData(
     var filePath: String,
     var name: String,
     var totalSize: String,
-    var type: String
+    var type: String,
 ) : Parcelable
