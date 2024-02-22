@@ -5,5 +5,5 @@ import com.sudo_pacman.asaxiybooks.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AudioScreen : Fragment(R.layout.screem_audio) {
+class AudioScreen : Fragment(R.layout.screen_audio) {
 }
