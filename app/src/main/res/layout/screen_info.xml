@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/app_bg_color">
 
     <androidx.constraintlayout.widget.Guideline
@@ -22,6 +23,22 @@
         app:layout_constraintGuide_percent="0.4"
         />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/line_start_book"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.30"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/line_end_book"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.69"
+        />
+
 
     <ImageView
         android:id="@+id/btn_back"
@@ -33,18 +50,76 @@
         android:paddingVertical="16dp"
         />
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/img_book"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:2"
-        app:layout_constraintTop_toBottomOf="@id/line_top_book"
+        app:layout_constraintTop_toTopOf="@id/line_top_book"
         app:layout_constraintBottom_toBottomOf="@id/line_bottom_book"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/line_start_book"
+        app:layout_constraintEnd_toEndOf="@id/line_end_book"
         android:src="@drawable/img_Umar_Ibn_Xattob"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
+        app:riv_corner_radius="16dp"
         />
 
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/img_book"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        tools:text="Saodat asri qissalari"
+        android:gravity="center"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
