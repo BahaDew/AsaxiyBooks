@@ -3,6 +3,7 @@ package com.sudo_pacman.asaxiybooks.domain.impl
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
+import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.utils.myLog
 import kotlinx.coroutines.channels.BufferOverflow
@@ -18,16 +19,18 @@ class RepositoryImpl @Inject constructor() : Repository {
     private val fireStore = Firebase.firestore
 
     override val booksList: MutableSharedFlow<List<BookUIData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    override val categoriesList: MutableSharedFlow<List<CategoryByBookData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
     override val bookLoadError: MutableSharedFlow<String> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
-
+    private val mapCategories = HashMap<String, ArrayList<BookUIData>>()
+    init {
+        initCategories()
+    }
     override fun getBooks() {
         fireStore
             .collection("books_data")
             .addSnapshotListener { value, error ->
                 val books = mutableListOf<BookUIData>()
-
                 value?.forEach { snapshot ->
-
                     books.add(
                         BookUIData(
                             docID = snapshot.id,
@@ -52,6 +55,34 @@ class RepositoryImpl @Inject constructor() : Repository {
             }
     }
 
+    override fun getCategoryByBooks() {
+        fireStore
+            .collection("books_data")
+            .addSnapshotListener { value, error ->
+                val books = mutableListOf<CategoryByBookData>()
+                value?.forEach { snapshot ->
+                    val data =
+                        BookUIData(
+                            docID = snapshot.id,
+                            audioUrl = snapshot.data.getOrDefault("audioUrl", "").toString(),
+                            author = snapshot.data.getOrDefault("author", "").toString(),
+                            bookUrl = snapshot.data.getOrDefault("bookUrl", "").toString(),
+                            categoryId = snapshot.data.getOrDefault("categoryId", "").toString(),
+                            coverImage = snapshot.data.getOrDefault("coverImage", "").toString(),
+                            description = snapshot.data.getOrDefault("description", "").toString(),
+                            filePath = snapshot.data.getOrDefault("filePath", "").toString(),
+                            name = snapshot.data.getOrDefault("name", "").toString(),
+                            totalSize = snapshot.data.getOrDefault("totalSize", "").toString(),
+                            type = snapshot.data.getOrDefault("pdf", "").toString(),
+                        )
+                }
+
+                if (error != null) bookLoadError.tryEmit(error.message.toString())
+                "yaroqli olindi ${books.size}".myLog()
+                categoriesList.tryEmit(books)
+            }
+    }
+
     override fun setData(books: List<BookUIData>): Flow<Result<Unit>> = callbackFlow {
 
         for (index in books.indices) {
@@ -67,5 +98,15 @@ class RepositoryImpl @Inject constructor() : Repository {
         }
 
         awaitClose()
+    }
+    private fun initCategories() {
+        mapCategories.clear()
+        fireStore.collection("category")
+            .addSnapshotListener { value, _ ->
+                value?.forEach {
+                    val name = it.data.getOrDefault("", "") as String
+                    mapCategories[name] = arrayListOf()
+                }
+            }
     }
 }
