@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/app_bg_color_xira"
+    android:id="@+id/box_item"
     android:layout_margin="10dp"
     app:cardCornerRadius="12dp">
 
@@ -26,7 +27,7 @@
             <ImageView
                 android:id="@+id/img_book"
                 android:layout_width="100dp"
-                android:layout_height="120dp"
+                android:layout_height="130dp"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
                 android:src="@drawable/book" />
@@ -38,11 +39,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="20dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="O'tkan kunlar (Audio kitob)"
             android:textColor="#FFF"
+            android:fontFamily="@font/roboto"
             android:textSize="20dp"
             app:layout_constraintLeft_toRightOf="@id/box_img"
             app:layout_constraintRight_toRightOf="parent"
@@ -52,7 +54,7 @@
             android:id="@+id/book_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="Abdulla Qodiry"
             android:textColor="#81FFFFFF"
             android:textSize="17dp"
@@ -63,14 +65,14 @@
             android:id="@+id/book_type"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_margin="10dp"
+            android:layout_margin="15dp"
             android:background="@drawable/bg_type_book_circle"
             android:contentDescription="@string/app_name"
             android:padding="8dp"
             android:src="@drawable/ic_menu_audio"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:tint="#FF9800" />
+            app:tint="@color/type_color" />
 
         <ImageView
             android:id="@+id/star1"

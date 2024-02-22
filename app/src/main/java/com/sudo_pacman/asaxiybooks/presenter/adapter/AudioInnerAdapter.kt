@@ -2,6 +2,7 @@ package com.sudo_pacman.asaxiybooks.presenter.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -28,6 +29,10 @@ class AudioInnerAdapter : ListAdapter<BookUIData, AudioInnerAdapter.BookHolder>(
                     .error(R.drawable.ic_logo_1)
                     .placeholder(R.drawable.book)
                     .into(binding.imgBook)
+                val margRig = if(adapterPosition == currentList.size - 1) 150 else 0
+                (binding.boxItem.layoutParams as MarginLayoutParams).apply {
+                   marginEnd = margRig
+               }
             }
         }
     }

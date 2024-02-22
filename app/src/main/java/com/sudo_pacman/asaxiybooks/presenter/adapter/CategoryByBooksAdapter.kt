@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.sudo_pacman.asaxiybooks.R
@@ -37,6 +38,11 @@ class CategoryByBooksAdapter :
                     .placeholder(R.drawable.book)
                     .error(R.drawable.ic_logo_1)
                     .into(binding.imgBook)
+                val marginBtm = if (adapterPosition == currentList.size - 1) 100 else 10
+                (binding.boxItem.layoutParams as LayoutParams)
+                    .apply {
+                        bottomMargin = marginBtm
+                    }
             }
         }
     }
