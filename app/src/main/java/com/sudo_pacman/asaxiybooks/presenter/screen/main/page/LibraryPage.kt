@@ -9,7 +9,9 @@ import com.sudo_pacman.asaxiybooks.databinding.PageLibraryBinding
 import com.sudo_pacman.asaxiybooks.presenter.adapter.LibraryAdapter
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.LibraryVM
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.LibraryVMImp
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LibraryPage : Fragment(R.layout.page_library){
 
     private val binding by viewBinding(PageLibraryBinding::bind)

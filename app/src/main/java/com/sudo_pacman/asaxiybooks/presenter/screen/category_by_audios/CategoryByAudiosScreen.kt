@@ -12,12 +12,14 @@ import com.sudo_pacman.asaxiybooks.databinding.ScreenCategoryByAduioBinding
 import com.sudo_pacman.asaxiybooks.presenter.adapter.CategoryByBooksAdapter
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryByAudioVM
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.CategoryByAudioVMImpl
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CategoryByAudiosScreen : Fragment(R.layout.screen_category_by_aduio) {
     private val binding by viewBinding(ScreenCategoryByAduioBinding::bind)
     private val adapter = CategoryByBooksAdapter()
-    private val viewModel: CategoryByAudioVM by viewModels<CategoryByAudioVMImpl>()
     private val navArgs by navArgs<CategoryByAudiosScreenArgs>()
+    private val viewModel: CategoryByAudioVM by viewModels<CategoryByAudioVMImpl>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()

@@ -12,9 +12,11 @@ import com.sudo_pacman.asaxiybooks.databinding.PageBooksBinding
 import com.sudo_pacman.asaxiybooks.domain.impl.RepositoryImpl
 import com.sudo_pacman.asaxiybooks.presenter.screen.main.MainScreenDirections
 import com.sudo_pacman.asaxiybooks.utils.myLog
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class BooksPage : Fragment(R.layout.page_books) {
     private val binding by viewBinding(PageBooksBinding::bind)
     private val repository = RepositoryImpl()
