@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sudo_pacman.asaxiybooks.data.model.BookByCategory
 import com.sudo_pacman.asaxiybooks.data.model.BookData
+import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.databinding.ScreenInnerItemBinding
 
 
 class LibraryAdapter: ListAdapter<BookByCategory, LibraryAdapter.LibraryViewHolder>(LibraryDiffUtil) {
 
-    private var onClickBook : ((BookData) -> Unit)? = null
+    private var onClickBook : ((BookUIData) -> Unit)? = null
     private var onClickCategory: ((BookByCategory) -> Unit)? = null
     object LibraryDiffUtil : DiffUtil.ItemCallback<BookByCategory>(){
         override fun areItemsTheSame(oldItem: BookByCategory, newItem: BookByCategory): Boolean {
@@ -68,7 +69,7 @@ class LibraryAdapter: ListAdapter<BookByCategory, LibraryAdapter.LibraryViewHold
         holder.bind()
     }
 
-    fun setOnClickBook(onClickBook : (BookData) -> Unit){
+    fun setOnClickBook(onClickBook : (BookUIData) -> Unit){
         this.onClickBook = onClickBook
     }
 

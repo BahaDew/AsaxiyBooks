@@ -8,18 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.data.model.BookData
+import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.databinding.ItemBookBinding
 
 class LibraryInnerAdapter :
-    ListAdapter<BookData,LibraryInnerAdapter.LibraryInnerViewHolder>(LibraryInnerDiffUtil) {
-
-        private var onClickBook: ((BookData) -> Unit)? = null
-    object LibraryInnerDiffUtil: DiffUtil.ItemCallback<BookData>(){
-        override fun areItemsTheSame(oldItem: BookData, newItem: BookData): Boolean {
+    ListAdapter<BookUIData,LibraryInnerAdapter.LibraryInnerViewHolder>(LibraryInnerDiffUtil) {
+        private var onClickBook: ((BookUIData) -> Unit)? = null
+    object LibraryInnerDiffUtil: DiffUtil.ItemCallback<BookUIData>(){
+        override fun areItemsTheSame(oldItem: BookUIData, newItem: BookUIData): Boolean {
             return oldItem.name == newItem.name
         }
 
-        override fun areContentsTheSame(oldItem: BookData, newItem: BookData): Boolean {
+        override fun areContentsTheSame(oldItem: BookUIData, newItem: BookUIData): Boolean {
             return oldItem == newItem
         }
 
@@ -61,7 +61,7 @@ class LibraryInnerAdapter :
         holder.bind()
     }
 
-    fun setOnClickBook(onClickBook: (BookData) -> Unit){
+    fun setOnClickBook(onClickBook: (BookUIData) -> Unit){
         this.onClickBook = onClickBook
     }
 
