@@ -105,6 +105,9 @@ dependencies {
      * indicator
      */
     implementation("com.tbuonomo:dotsindicator:5.0")
+
+    // rounded image view
+    implementation("com.makeramen:roundedimageview:2.3.0")
 }
 
 
