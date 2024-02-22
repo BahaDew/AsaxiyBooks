@@ -60,6 +60,19 @@
         <argument
             android:name="book"
             app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />
+        <action
+            android:id="@+id/action_infoScreen_to_readScreen"
+            app:destination="@id/readScreen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/readScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.read.ReadScreen"
+        android:label="ReadScreen"
+        tools:layout="@layout/screen_read" >
+        <argument
+            android:name="book_data"
+            app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />
     </fragment>
 
 </navigation>
