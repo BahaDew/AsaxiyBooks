@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_mainScreen_to_infoScreen"
             app:destination="@id/infoScreen" />
+        <action
+            android:id="@+id/action_mainScreen_to_categoryByAudiosScreen"
+            app:destination="@id/categoryByAudiosScreen" />
     </fragment>
 
     <fragment
@@ -69,5 +72,17 @@
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.audio.AudioScreen"
         android:label="AudioScreen"
         tools:layout="@layout/screen_audio" />
+    <fragment
+        android:id="@+id/categoryByAudiosScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.category_by_audios.CategoryByAudiosScreen"
+        android:label="screen_category_by_aduio"
+        tools:layout="@layout/screen_category_by_aduio" >
+        <action
+            android:id="@+id/action_categoryByAudiosScreen_to_infoScreen"
+            app:destination="@id/infoScreen" />
+        <argument
+            android:name="categoryByData"
+            app:argType="com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData" />
+    </fragment>
 
 </navigation>

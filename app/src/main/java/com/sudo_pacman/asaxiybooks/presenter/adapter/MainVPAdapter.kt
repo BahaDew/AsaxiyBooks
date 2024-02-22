@@ -6,7 +6,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.sudo_pacman.asaxiybooks.presenter.screen.main.page.AudioPage
 import com.sudo_pacman.asaxiybooks.presenter.screen.main.page.BooksPage
-import com.sudo_pacman.asaxiybooks.presenter.screen.main.page.LibraryPage
 import com.sudo_pacman.asaxiybooks.presenter.screen.main.page.ProfilePage
 
 class MainVPAdapter(
