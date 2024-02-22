@@ -1,7 +1,6 @@
 package com.sudo_pacman.asaxiybooks.presenter.screen.splash
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
