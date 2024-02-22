@@ -11,4 +11,6 @@
     <string name="audio_book">Audio Kitob</string>
     <string name="about_book">Kitob haqida</string>
     <string name="jahon">Jahon</string>
+    <string name="boxodir_yusubjonov">Boxodir Yusubjonov</string>
+    <string name="txt_profil">Profil</string>
 </resources>
