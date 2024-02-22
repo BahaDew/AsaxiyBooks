@@ -963,4 +963,5 @@
     <color name="no_active">#94a3b8</color>
     <color name="active">#008dff</color>
     <color name="app_bg_color">#0F172B</color>
+    <color name="app_bg_color_xira">#1E293B</color>
 </resources>
