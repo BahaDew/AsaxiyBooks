@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LibraryVMImp @Inject constructor(
     private val repository: Repository,
-    private val appNavigator: AppNavigator
+   // private val appNavigator: AppNavigator
 ): ViewModel(),LibraryVM  {
     override val allBookByCategory = MutableStateFlow<List<BookByCategory>>(
         arrayListOf()
@@ -45,7 +45,7 @@ class LibraryVMImp @Inject constructor(
 
     override fun loadBooks() {
         progressState.value = false
-        repository.
+       // repository.
 
     }
 }
