@@ -26,7 +26,8 @@ class ReadScreen : Fragment(R.layout.screen_read) {
         viewModel.downloadBook(navArgs.bookData)
 
         viewModel.bookSharedFlow.onEach {
-            "screen kitob keldi".myLog()
+            "screen kitob keldi name: ${it.name} , path: ${it.absolutePath}".myLog()
+//            "screen da bunaqa kitob bormi ${i}"
             binding.pdfViewer.fromFile(it)
                 .load()
         }.launchIn(lifecycleScope)

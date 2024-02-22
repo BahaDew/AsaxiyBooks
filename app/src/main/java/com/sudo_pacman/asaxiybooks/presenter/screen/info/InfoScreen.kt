@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.databinding.ScreenInfoBinding
+import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,6 +21,8 @@ class InfoScreen : Fragment(R.layout.screen_info) {
         super.onViewCreated(view, savedInstanceState)
 
         val bookData = navArgs.book
+
+        "infoga keldi $bookData".myLog()
 
         Glide.with(requireContext())
             .load(bookData.coverImage)

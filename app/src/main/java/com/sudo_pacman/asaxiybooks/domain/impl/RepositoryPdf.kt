@@ -23,6 +23,8 @@ class RepositoryPdf @Inject constructor(
 
     fun downloadBook(bookUIData: BookUIData): Flow<Result<File>> = callbackFlow {
 
+        "repo olish kerak $bookUIData".myLog()
+
         if (bookDao.isHas(bookUIData.bookUrl) != 0L) {
             "bunaqasi borakan".myLog()
             trySend(Result.success(File(bookUIData.filePath)))

@@ -26,13 +26,13 @@ class BooksPage : Fragment(R.layout.page_books) {
             findNavController().navigate(
                 MainScreenDirections.actionMainScreenToInfoScreen(
                     BookUIData(
-                        docID = "test",
+                        docID = "uMAjLaUWV3ZGpGRG71bE",
                         author = "Mario Puzo",
                         bookUrl = "https://firebasestorage.googleapis.com/v0/b/asaxiybooks-6f7ed.appspot.com/o/books%2Fbook6.pdf?alt=media&token=7a6242e5-e183-4711-b736-e2eca1199738",
                         categoryId = "CyloVyCdbMKXkJRizgPR",
                         coverImage = "https://firebasestorage.googleapis.com/v0/b/asaxiybooks-6f7ed.appspot.com/o/images%2Fcho'qintirgan%20ota.PNG?alt=media&token=0dc20354-691a-42e0-9ea2-e22b4be66f18",
                         description = "info",
-                        filePath = "",
+                        filePath = "/data/user/0/com.sudo_pacman.asaxiybooks/cache/Book3926591660955463398pdf",
                         name = "Cho'qintirgan ota",
                         totalSize = "2.75",
                         type = "pdf",
