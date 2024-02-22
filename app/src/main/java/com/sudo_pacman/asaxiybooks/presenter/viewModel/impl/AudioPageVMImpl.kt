@@ -31,7 +31,7 @@ class AudioPageVMImpl @Inject constructor(
 
     override fun onClickBook(bookUIData: BookUIData) {
         viewModelScope.launch {
-            appNavigator.navigateTo(MainScreenDirections.actionMainScreenToInfoScreen(bookUIData))
+            appNavigator.navigateTo(MainScreenDirections.actionMainScreenToInfoScreen())
         }
     }
 }
