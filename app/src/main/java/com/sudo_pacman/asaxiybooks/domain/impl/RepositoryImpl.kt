@@ -3,15 +3,17 @@ package com.sudo_pacman.asaxiybooks.domain.impl
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
+import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.utils.myLog
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
+import javax.inject.Singleton
 
-
-class RepositoryImpl {
+@Singleton
+class RepositoryImpl : Repository {
     private val fireStore = Firebase.firestore
 
     val booksList: MutableSharedFlow<List<BookUIData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
