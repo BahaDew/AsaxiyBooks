@@ -1,4 +1,4 @@
-package com.sudo_pacman.asaxiybooks.presenter.adapter
+package com.sudo_pacman.asaxiybooks.presenter.screen.intro.page
 
 import android.annotation.SuppressLint
 import android.os.Bundle
