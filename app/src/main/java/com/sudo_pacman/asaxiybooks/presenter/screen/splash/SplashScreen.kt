@@ -1,8 +1,10 @@
 package com.sudo_pacman.asaxiybooks.presenter.screen.splash
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -23,10 +25,11 @@ class SplashScreen : Fragment(R.layout.screen_splash) {
 
         lifecycleScope.launch {
             delay(2000)
-
-            findNavController().navigate(SplashScreenDirections.actionSplashScreenToRegisterScreen())
+            findNavController().navigate(SplashScreenDirections.actionSplashScreenToIntroScreen())
+            requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
-
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
 
         val animationView = binding.animationView
         animationView.setAnimation("asaxiy_logo.json")
