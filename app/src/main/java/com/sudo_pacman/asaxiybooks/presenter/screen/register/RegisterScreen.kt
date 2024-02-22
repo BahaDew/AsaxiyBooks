@@ -3,7 +3,6 @@ package com.sudo_pacman.asaxiybooks.presenter.screen.register
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -26,8 +25,8 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
             val email = binding.phone.text.toString()
             val password = binding.name.text.toString()
             requireActivity().window.statusBarColor = Color.parseColor("#0F172B")
-//            if (email.isEmpty() || password.isEmpty()) Toast.makeText(requireContext(), "Email or password error!", Toast.LENGTH_SHORT).show()
-//            else findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToIntroScreen())
+            if (email.isEmpty() || password.isEmpty()) Toast.makeText(requireContext(), "Email or password error!", Toast.LENGTH_SHORT).show()
+            else findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToIntroScreen())
         }
 
 
@@ -39,7 +38,7 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-//                    findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToIntroScreen())
+                    findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToIntroScreen())
                 } else Toast.makeText(requireContext(), "log in error bro!", Toast.LENGTH_SHORT).show()
 
             }
