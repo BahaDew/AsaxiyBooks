@@ -10,9 +10,7 @@
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.register.RegisterScreen"
         android:label="RegisterScreen"
         tools:layout="@layout/screen_register">
-        <action
-            android:id="@+id/action_registerScreen_to_introScreen"
-            app:destination="@id/introScreen" />
+
     </fragment>
 
     <fragment
@@ -20,14 +18,19 @@
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.splash.SplashScreen"
         android:label="SplashScreen"
         tools:layout="@layout/screen_splash">
+
         <action
-            android:id="@+id/action_splashScreen_to_registerScreen"
-            app:destination="@id/registerScreen" />
+            android:id="@+id/action_splashScreen_to_introScreen"
+            app:destination="@id/introScreen" />
     </fragment>
     <fragment
         android:id="@+id/introScreen"
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.intro.IntroScreen"
         android:label="IntroScreen"
-        tools:layout="@layout/screen_intro" />
+        tools:layout="@layout/screen_intro" >
+        <action
+            android:id="@+id/action_introScreen_to_registerScreen"
+            app:destination="@id/registerScreen" />
+    </fragment>
 
 </navigation>

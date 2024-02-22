@@ -1,11 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/app_bg_color">
 
-    <TextView
+    <View
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="14dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@+id/worm_dots_indicator"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+        android:id="@+id/worm_dots_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name" />
+        app:dotsColor="#f96400"
+        app:dotsCornerRadius="8dp"
+        app:dotsSize="10dp"
+        app:dotsSpacing="4dp"
+        app:dotsStrokeColor="#f96400"
+        app:dotsStrokeWidth="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.86"
+        app:tabBackground="@drawable/tab_background" />
 
+    <!--    <com.google.android.material.tabs.TabLayout-->
+    <!--        android:id="@+id/tab_layout"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginBottom="30dp"-->
+    <!--        android:background="@color/app_bg_color"-->
+    <!--        android:clickable="false"-->
+    <!--        android:focusable="false"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/next_layout"-->
+    <!--        app:layout_constraintLeft_toLeftOf="0"-->
+    <!--        app:layout_constraintRight_toRightOf="0"-->
+    <!--        app:tabBackground="@drawable/tab_background"-->
+    <!--        app:tabIndicatorHeight="0dp"-->
+    <!--        app:tabRippleColor="@null" />-->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/next_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/blue">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/next"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:fontFamily="@font/roboto_medium"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:text="Next"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

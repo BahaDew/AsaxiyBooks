@@ -24,13 +24,14 @@ class SplashScreen : Fragment(R.layout.screen_splash) {
         lifecycleScope.launch {
             delay(2000)
 
-            findNavController().navigate(SplashScreenDirections.actionSplashScreenToRegisterScreen())
+            findNavController().navigate(SplashScreenDirections.actionSplashScreenToIntroScreen())
         }
 
 
         val animationView = binding.animationView
         animationView.setAnimation("asaxiy_logo.json")
         animationView.playAnimation()
+
     }
 
 }
