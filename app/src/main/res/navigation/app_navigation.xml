@@ -34,7 +34,7 @@
         android:id="@+id/introScreen"
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.intro.IntroScreen"
         android:label="IntroScreen"
-        tools:layout="@layout/screen_intro" >
+        tools:layout="@layout/screen_intro">
         <action
             android:id="@+id/action_introScreen_to_registerScreen"
             app:destination="@id/registerScreen"
@@ -46,7 +46,7 @@
         android:id="@+id/mainScreen"
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.main.MainScreen"
         android:label="screen_main"
-        tools:layout="@layout/screen_main" >
+        tools:layout="@layout/screen_main">
         <action
             android:id="@+id/action_mainScreen_to_infoScreen"
             app:destination="@id/infoScreen" />
@@ -57,9 +57,17 @@
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.info.InfoScreen"
         android:label="InfoScreen"
         tools:layout="@layout/screen_info">
-        <argument
-            android:name="book"
-            app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />
+<!--        <argument-->
+<!--            android:name="book"-->
+<!--            app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />-->
+        <action
+            android:id="@+id/action_infoScreen_to_audioScreen"
+            app:destination="@id/audioScreen" />
     </fragment>
+    <fragment
+        android:id="@+id/audioScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.audio.AudioScreen"
+        android:label="AudioScreen"
+        tools:layout="@layout/screen_audio" />
 
 </navigation>

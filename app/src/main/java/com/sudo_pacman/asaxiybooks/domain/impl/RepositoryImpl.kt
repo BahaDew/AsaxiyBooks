@@ -15,7 +15,7 @@ class RepositoryImpl {
     private val fireStore = Firebase.firestore
 
     val booksList: MutableSharedFlow<List<BookUIData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
-    val bookLoadError: MutableSharedFlow<String> =  MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    val bookLoadError: MutableSharedFlow<String> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
 
     fun getBooks() {
         fireStore
@@ -23,24 +23,23 @@ class RepositoryImpl {
             .addSnapshotListener { value, error ->
                 val books = mutableListOf<BookUIData>()
 
-                value?.forEach {snapshot ->
+                value?.forEach { snapshot ->
 
-                    if (snapshot.data.getOrDefault("bookUrl", "").toString().isNotEmpty()) {
-                        books.add(
-                            BookUIData(
-                                docID = snapshot.id,
-                                author = snapshot.data.getOrDefault("author", "").toString(),
-                                bookUrl = snapshot.data.getOrDefault("bookUrl", "").toString(),
-                                categoryId = snapshot.data.getOrDefault("categoryId", "").toString(),
-                                coverImage = snapshot.data.getOrDefault("coverImage", "").toString(),
-                                description = snapshot.data.getOrDefault("description", "").toString(),
-                                filePath = snapshot.data.getOrDefault("filePath", "").toString(),
-                                name = snapshot.data.getOrDefault("name", "").toString(),
-                                totalSize = snapshot.data.getOrDefault("totalSize", "").toString(),
-                                type = snapshot.data.getOrDefault("pdf", "").toString(),
-                            )
+                    books.add(
+                        BookUIData(
+                            docID = snapshot.id,
+                            audioUrl = snapshot.data.getOrDefault("audioUrl", "").toString(),
+                            author = snapshot.data.getOrDefault("author", "").toString(),
+                            bookUrl = snapshot.data.getOrDefault("bookUrl", "").toString(),
+                            categoryId = snapshot.data.getOrDefault("categoryId", "").toString(),
+                            coverImage = snapshot.data.getOrDefault("coverImage", "").toString(),
+                            description = snapshot.data.getOrDefault("description", "").toString(),
+                            filePath = snapshot.data.getOrDefault("filePath", "").toString(),
+                            name = snapshot.data.getOrDefault("name", "").toString(),
+                            totalSize = snapshot.data.getOrDefault("totalSize", "").toString(),
+                            type = snapshot.data.getOrDefault("pdf", "").toString(),
                         )
-                    }
+                    )
                 }
 
                 if (error != null) bookLoadError.tryEmit(error.message.toString())
