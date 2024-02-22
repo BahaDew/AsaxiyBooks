@@ -58,7 +58,7 @@
         app:layout_constraintBottom_toBottomOf="@id/line_bottom_book"
         app:layout_constraintStart_toStartOf="@id/line_start_book"
         app:layout_constraintEnd_toEndOf="@id/line_end_book"
-        android:src="@drawable/img_Umar_Ibn_Xattob"
+        android:src="@drawable/img_umar_ibn_xattob"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         app:riv_corner_radius="16dp"
