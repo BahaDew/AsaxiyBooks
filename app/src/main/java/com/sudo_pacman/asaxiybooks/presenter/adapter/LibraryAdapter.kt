@@ -6,22 +6,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.sudo_pacman.asaxiybooks.data.model.BookByCategory
-import com.sudo_pacman.asaxiybooks.data.model.BookData
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
+import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
 import com.sudo_pacman.asaxiybooks.databinding.ScreenInnerItemBinding
 
 
-class LibraryAdapter: ListAdapter<BookByCategory, LibraryAdapter.LibraryViewHolder>(LibraryDiffUtil) {
+class LibraryAdapter: ListAdapter<CategoryByBookData, LibraryAdapter.LibraryViewHolder>(LibraryDiffUtil) {
 
     private var onClickBook : ((BookUIData) -> Unit)? = null
-    private var onClickCategory: ((BookByCategory) -> Unit)? = null
-    object LibraryDiffUtil : DiffUtil.ItemCallback<BookByCategory>(){
-        override fun areItemsTheSame(oldItem: BookByCategory, newItem: BookByCategory): Boolean {
-            return oldItem.name == newItem.name
+    private var onClickCategory: ((CategoryByBookData) -> Unit)? = null
+    object LibraryDiffUtil : DiffUtil.ItemCallback<CategoryByBookData>(){
+        override fun areItemsTheSame(oldItem: CategoryByBookData, newItem: CategoryByBookData): Boolean {
+            return oldItem.categoryId == newItem.categoryId
         }
 
-        override fun areContentsTheSame(oldItem: BookByCategory, newItem: BookByCategory): Boolean {
+        override fun areContentsTheSame(oldItem: CategoryByBookData, newItem: CategoryByBookData): Boolean {
             return oldItem == newItem
         }
 
@@ -47,7 +46,7 @@ class LibraryAdapter: ListAdapter<BookByCategory, LibraryAdapter.LibraryViewHold
             }
         fun bind(){
             binding.apply {
-                categoryName.text = getItem(adapterPosition).name
+                categoryName.text = getItem(adapterPosition).categoryName
 
             }
         }
@@ -73,7 +72,7 @@ class LibraryAdapter: ListAdapter<BookByCategory, LibraryAdapter.LibraryViewHold
         this.onClickBook = onClickBook
     }
 
-    fun setOnClickCategory(onClickCategory: (BookByCategory) -> Unit){
+    fun setOnClickCategory(onClickCategory: (CategoryByBookData) -> Unit){
         this.onClickCategory = onClickCategory
     }
 }

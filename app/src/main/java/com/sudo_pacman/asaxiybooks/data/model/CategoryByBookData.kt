@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class CategoryByBookData(
     val categoryId : String,
     val categoryName : String,
-    val books : List<BookUIData>
+    val books : List<BookUIData>,
+    val type: Int
 ) : Parcelable
