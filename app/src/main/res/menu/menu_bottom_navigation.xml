@@ -13,7 +13,7 @@
         android:title="@string/audio_kitoblar"
         android:icon="@drawable/ic_menu_audio"/>
     <item
-        android:id="@+id/profil"
+        android:id="@+id/profile"
         android:title="@string/profil"
         android:icon="@drawable/ic_menu_profile"/>
 </menu>
