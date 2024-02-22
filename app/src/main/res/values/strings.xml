@@ -6,4 +6,9 @@
     <string name="profil">Profil</string>
     <string name="elektron_kitob_info">Sizning cho\'ntagingizda, har kuni, har yerda xohlagan vaqtingizda</string>
     <string name="elektron_kitoblar">Elektron kitoblar</string>
+    <string name="yuklab_olish">Yuklab Olish</string>
+    <string name="read_fragment">Fragmentni o\'qish</string>
+    <string name="audio_book">Audio Kitob</string>
+    <string name="about_book">Kitob haqida</string>
+    <string name="jahon">Jahon</string>
 </resources>
