@@ -27,21 +27,21 @@ class LibraryInnerAdapter :
     inner class LibraryInnerViewHolder(val binding: ItemBookBinding) : RecyclerView.ViewHolder(binding.root){
 
         init{
-            binding.book.setOnClickListener{
+            binding.item.setOnClickListener{
                // onClickBook?.invoke()
             }
         }
         fun bind(){
              binding.apply {
                  val item = getItem(adapterPosition)
-                 nameOfBook.text = item.name
-                 nameOfAuthor.text = item.author
+                 bookName.text = item.name
+                 bookAuthor.text = item.author
                  Glide.with(binding.root.context)
                      .load(item.coverImage.get(0)!!)
                      .centerCrop()
                      .placeholder(R.drawable.ic_logo_1)
                      .error(R.drawable.ic_logo_1)
-                     .into(binding.imageOfBook)
+                     .into(binding.imgBook)
              }
         }
     }
