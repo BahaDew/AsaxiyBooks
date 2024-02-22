@@ -26,7 +26,7 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
             val email = binding.phone.text.toString()
             val password = binding.name.text.toString()
             requireActivity().window.statusBarColor = Color.parseColor("#0F172B")
-            if (email.isEmpty() || password.isEmpty()) Toast.makeText(requireContext(), "Email or password error!", Toast.LENGTH_SHORT).show()
+//            if (email.isEmpty() || password.isEmpty()) Toast.makeText(requireContext(), "Email or password error!", Toast.LENGTH_SHORT).show()
 //            else findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToIntroScreen())
         }
 

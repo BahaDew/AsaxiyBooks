@@ -7,5 +7,5 @@ data class BookData(
     var totalSize: String,
     var coverImage: String,
     var filePath: String,
-    var type: String
+    var type: String,
 )
