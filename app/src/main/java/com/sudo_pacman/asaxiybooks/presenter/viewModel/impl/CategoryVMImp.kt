@@ -40,7 +40,7 @@ class CategoryVMImp @Inject constructor(
 
     override fun onClickBook(bookUIData: BookUIData) {
         viewModelScope.launch {
-            appNavigator.navigateTo(MainScreenDirections.actionMainScreenToInfoScreen())
+            appNavigator.navigateTo(MainScreenDirections.actionMainScreenToInfoScreen(bookUIData))
         }
     }
 
