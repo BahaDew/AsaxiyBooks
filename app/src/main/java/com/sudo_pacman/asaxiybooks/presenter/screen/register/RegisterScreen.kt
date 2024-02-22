@@ -29,7 +29,6 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
         }
 
 
-
     }
 
     private fun logIN(email: String, password: String) {

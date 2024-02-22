@@ -28,9 +28,9 @@ class SplashScreen : Fragment(R.layout.screen_splash) {
         }
 
 
-//        val animationView = binding.animationView
-//        animationView.setAnimation("raw/asaxiy_logo.json")
-//        animationView.playAnimation()
+        val animationView = binding.animationView
+        animationView.setAnimation("asaxiy.logo.json")
+        animationView.playAnimation()
     }
 
 }
