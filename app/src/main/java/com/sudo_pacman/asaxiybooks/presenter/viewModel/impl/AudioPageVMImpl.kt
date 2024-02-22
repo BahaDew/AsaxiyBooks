@@ -22,11 +22,15 @@ class AudioPageVMImpl @Inject constructor(
     override val allCategoryByData = MutableStateFlow<List<CategoryByBookData>>(arrayListOf())
 
     override fun getAllCategoryByData() {
-        progressSate.value
+        progressSate.value = false
+        repository.getBooks()
+        repository
     }
 
     override fun onClickCategory(category: CategoryByBookData) {
-
+        viewModelScope.launch {
+            appNavigator.navigateTo(MainScreenDirections.actionMainScreenToCategoryByAudiosScreen(category))
+        }
     }
 
     override fun onClickBook(bookUIData: BookUIData) {
