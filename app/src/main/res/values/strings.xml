@@ -6,4 +6,12 @@
     <string name="profil">Profil</string>
     <string name="elektron_kitob_info">Sizning cho\'ntagingizda, har kuni, har yerda xohlagan vaqtingizda</string>
     <string name="elektron_kitoblar">Elektron kitoblar</string>
+    <string name="yuklab_olish">Yuklab Olish</string>
+    <string name="read_fragment">Fragmentni o\'qish</string>
+    <string name="audio_book">Audio Kitob</string>
+    <string name="about_book">Kitob haqida</string>
+    <string name="jahon">Jahon</string>
+    <string name="boxodir_yusubjonov">Boxodir Yusubjonov</string>
+    <string name="txt_profil">Profil</string>
+    <string name="bu_yerda_siz_o_qishni_yoki_tinglashni_nxohlagan_kitoblaringiz_ro_yhatini_ntopasiz">Bu yerda siz o\'qishni yoki tinglashni \nxohlagan kitoblaringiz ro\'yhatini \ntopasiz</string>
 </resources>
