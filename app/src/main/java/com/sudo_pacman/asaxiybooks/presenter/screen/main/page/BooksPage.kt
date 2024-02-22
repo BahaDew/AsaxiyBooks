@@ -23,5 +23,10 @@ class BooksPage : Fragment(R.layout.page_books) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.addBook.setOnClickListener {
+            findNavController().navigate(MainScreenDirections.actionMainScreenToInfoScreen())
+        }
+
     }
 }
