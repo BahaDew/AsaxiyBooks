@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg_color">
@@ -20,11 +19,11 @@
         android:id="@+id/progress"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,6 +38,7 @@
                 android:id="@+id/img_book"
                 android:layout_width="180dp"
                 android:layout_height="240dp"
+                android:layout_marginTop="16dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/img_umar_ibn_xattob"
@@ -46,8 +46,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:riv_corner_radius="16dp"
-                android:layout_marginTop="16dp"/>
+                app:riv_corner_radius="16dp" />
 
 
             <TextView
@@ -58,12 +57,12 @@
                 android:fontFamily="@font/nunito_extra_bold"
                 android:gravity="center"
                 android:maxLines="2"
+                android:text="Saodat asri qissalari"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/img_book"
-                android:text="Saodat asri qissalari" />
+                app:layout_constraintTop_toBottomOf="@id/img_book" />
 
 
             <TextView
@@ -72,12 +71,12 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
                 android:gravity="center"
+                android:text="Ahmad Lutfiy"
                 android:textColor="#747b81"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_book_name"
-                android:text="Ahmad Lutfiy" />
+                app:layout_constraintTop_toBottomOf="@id/tv_book_name" />
 
 
             <TextView
@@ -186,15 +185,16 @@
 
 
             <TextView
+                android:id="@+id/bookDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
                 android:justificationMode="inter_word"
                 android:padding="16dp"
+                android:text="Саодат йўлининг энг улуғ ва энг сўнгги раҳбари, Оллоҳ таолонинг энг севгили кули ва элчиси ҳазрати Мухаммад Мустафо соллаллоҳу алайҳи васаллам (с.а.в.) жанобларииинг гўзал, баркамол, ўрнакли ҳаётларини бутун борлиғича айнан тасвирлаш, асҳобининг унга нисбатан мухаббатини, вафодорлик туйғуларини мукаммал кўрсатиш, душманларининг кин ва ҳасадга тўла хаттиҳаракатларини тўласича ифодалаб бериш, фикримизча, ҳеч бир инсоннинг қўлидан келмайди. Масалан, Абу Бакр ҳазратларининг Жаноби Расулуллоҳга (с.а.в.) бўлган меҳрмуҳаббати, Абу Жаҳлдаги кин ва ҳасад уммон каби чексизчегарасиздир. Ҳозирга қадар айтилган ганлар ҳам, айтилажак гаплар хам шу уммондан бир неча қатрадир, холос."
                 android:textColor="#747b81"
                 android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@id/l_category"
-                android:text="Саодат йўлининг энг улуғ ва энг сўнгги раҳбари, Оллоҳ таолонинг энг севгили кули ва элчиси ҳазрати Мухаммад Мустафо соллаллоҳу алайҳи васаллам (с.а.в.) жанобларииинг гўзал, баркамол, ўрнакли ҳаётларини бутун борлиғича айнан тасвирлаш, асҳобининг унга нисбатан мухаббатини, вафодорлик туйғуларини мукаммал кўрсатиш, душманларининг кин ва ҳасадга тўла хаттиҳаракатларини тўласича ифодалаб бериш, фикримизча, ҳеч бир инсоннинг қўлидан келмайди. Масалан, Абу Бакр ҳазратларининг Жаноби Расулуллоҳга (с.а.в.) бўлган меҳрмуҳаббати, Абу Жаҳлдаги кин ва ҳасад уммон каби чексизчегарасиздир. Ҳозирга қадар айтилган ганлар ҳам, айтилажак гаплар хам шу уммондан бир неча қатрадир, холос." />
+                app:layout_constraintTop_toBottomOf="@id/l_category" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
