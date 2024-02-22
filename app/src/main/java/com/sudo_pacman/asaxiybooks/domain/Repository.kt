@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 
 interface Repository {
     val booksList: MutableSharedFlow<List<BookUIData>>
-    val categoriesList: MutableSharedFlow<List<CategoryByBookData>>
+    val categoriesList: MutableSharedFlow<Result<List<CategoryByBookData>>>
     val bookLoadError: MutableSharedFlow<String>
     fun getBooks()
     fun getCategoryByBooks()

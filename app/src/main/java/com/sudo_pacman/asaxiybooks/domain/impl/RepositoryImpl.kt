@@ -20,7 +20,7 @@ class RepositoryImpl @Inject constructor() : Repository {
 
     override val booksList: MutableSharedFlow<List<BookUIData>> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
-    override val categoriesList: MutableSharedFlow<List<CategoryByBookData>> =
+    override val categoriesList: MutableSharedFlow<Result<List<CategoryByBookData>>> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
     override val bookLoadError: MutableSharedFlow<String> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
@@ -59,12 +59,15 @@ class RepositoryImpl @Inject constructor() : Repository {
         val categoryList = ArrayList<CategoryByBookData>()
         fireStore.collection("category")
             .addSnapshotListener { value, error ->
+                var count = 0
                 value?.forEach {
                     val categoryName = it.data.getOrDefault("name", "") as String
                     val categoryId = it.id
                     fireStore.collection("books_data")
                         .whereEqualTo("categoryId", categoryId)
-                        .get().addOnSuccessListener { qs ->
+                        .get()
+                        .addOnSuccessListener { qs ->
+                            count++
                             val listBookData = ArrayList<BookUIData>()
                             qs.forEach { snapshot ->
                                 val data =
@@ -99,10 +102,13 @@ class RepositoryImpl @Inject constructor() : Repository {
                                     type = 10
                                 )
                             )
-                        }.addOnFailureListener {
-
+                            if(count == it.data.size) {
+                                categoriesList.tryEmit(Result.success(categoryList))
+                            }
                         }
-
+                        .addOnFailureListener {exp ->
+                            categoriesList.tryEmit(Result.failure(exp))
+                        }
                 }
             }
     }

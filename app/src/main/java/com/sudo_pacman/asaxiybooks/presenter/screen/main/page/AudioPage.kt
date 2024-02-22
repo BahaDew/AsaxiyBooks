@@ -25,6 +25,8 @@ class AudioPage : Fragment(R.layout.page_audio) {
     private val viewModel : AudioPageVM by viewModels<AudioPageVMImpl>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+        initFlow()
     }
     private fun initFlow() = binding.apply {
         viewModel.progressSate

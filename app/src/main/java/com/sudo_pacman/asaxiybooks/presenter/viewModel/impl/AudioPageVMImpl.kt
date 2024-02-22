@@ -31,8 +31,13 @@ class AudioPageVMImpl @Inject constructor(
         repository.categoriesList
             .onEach {
                 progressSate.value = true
-                allCategoryByData.value = it
-            }.flowOn(Dispatchers.IO)
+                it.onSuccess { list ->
+                    allCategoryByData.value = list
+                }.onFailure {
+
+                }
+
+            }
             .launchIn(viewModelScope)
     }
 
