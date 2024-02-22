@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "855331770145",
-    "project_id": "asaxiybook-5ff17",
-    "storage_bucket": "asaxiybook-5ff17.appspot.com"
+    "project_number": "771968241733",
+    "project_id": "asaxiybooks-6f7ed",
+    "storage_bucket": "asaxiybooks-6f7ed.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:855331770145:android:4bf0fc7217300cb9047860",
+        "mobilesdk_app_id": "1:771968241733:android:3be0d6e45b02c90027932c",
         "android_client_info": {
           "package_name": "com.sudo_pacman.asaxiybooks"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAdMwupEbFellcLCc8RHhhVNhgAn51AUDE"
+          "current_key": "AIzaSyAq2WDBapM7jvvtAQcfx2Sbt9VpmH49yJo"
         }
       ],
       "services": {
