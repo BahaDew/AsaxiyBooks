@@ -17,8 +17,8 @@ import javax.inject.Singleton
 class RepositoryImpl @Inject constructor() : Repository {
     private val fireStore = Firebase.firestore
 
-    val booksList: MutableSharedFlow<List<BookUIData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
-    val bookLoadError: MutableSharedFlow<String> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    override val booksList: MutableSharedFlow<List<BookUIData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    override val bookLoadError: MutableSharedFlow<String> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
 
     override fun getBooks() {
         fireStore
