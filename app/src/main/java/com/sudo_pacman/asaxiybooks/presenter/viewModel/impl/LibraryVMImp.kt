@@ -1,24 +1,27 @@
 package com.sudo_pacman.asaxiybooks.presenter.viewModel.impl
 
 import androidx.lifecycle.ViewModel
-import com.sudo_pacman.asaxiybooks.data.model.BookByCategory
+import androidx.lifecycle.viewModelScope
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
+import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.navigation.AppNavigator
+import com.sudo_pacman.asaxiybooks.presenter.screen.main.MainScreenDirections
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.LibraryVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class LibraryVMImp @Inject constructor(
     private val repository: Repository,
-   // private val appNavigator: AppNavigator
+    private val appNavigator: AppNavigator
 ): ViewModel(),LibraryVM  {
-    override val allBookByCategory = MutableStateFlow<List<BookByCategory>>(
+    override val allBookByCategory = MutableStateFlow<List<CategoryByBookData>>(
         arrayListOf()
     )
 
@@ -35,8 +38,10 @@ class LibraryVMImp @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun onClickCategory(category: BookByCategory) {
-        TODO("Not yet implemented")
+    override fun onClickCategory(category: CategoryByBookData) {
+        viewModelScope.launch {
+            appNavigator.navigateTo(MainScreenDirections.actionMainScreenToCategoryBooks2(category))
+        }
     }
 
     override fun onClickBook(book: BookUIData) {
