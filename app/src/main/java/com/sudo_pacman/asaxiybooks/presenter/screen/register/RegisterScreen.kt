@@ -33,14 +33,10 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
     }
 
     private fun logIN(email: String, password: String) {
-//        viewModel.logIn(email, password)
-
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToMainScreen())
-                } else Toast.makeText(requireContext(), "log in error bro!", Toast.LENGTH_SHORT).show()
-
+                if (it.isSuccessful) findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToMainScreen())
+                else Toast.makeText(requireContext(), "log in error bro!", Toast.LENGTH_SHORT).show()
             }
     }
 
