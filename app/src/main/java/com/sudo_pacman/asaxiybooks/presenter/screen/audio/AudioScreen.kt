@@ -11,6 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.databinding.ScreenAudioBinding
 import com.sudo_pacman.asaxiybooks.domain.impl.RepositoryImpl
+import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -31,7 +32,8 @@ class AudioScreen : Fragment(R.layout.screen_audio) {
             repository.getBooks()
 
             repository.booksList.onEach {
-                audioUrl = it[0].audioUrl
+                audioUrl = it[1].audioUrl
+                "Audio Url $audioUrl".myLog()
             }.launchIn(lifecycleScope)
 
 
@@ -39,7 +41,7 @@ class AudioScreen : Fragment(R.layout.screen_audio) {
 
             try {
                 mediaPlayer.setDataSource(audioUrl)
-
+                "Audio Url $audioUrl".myLog()
                 mediaPlayer.prepare()
 
                 mediaPlayer.start()
