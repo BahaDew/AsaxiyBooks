@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_mainScreen_to_searchScreen"
             app:destination="@id/searchScreen" />
+        <action
+            android:id="@+id/action_mainScreen_to_audioScreen"
+            app:destination="@id/audioScreen" />
 
     </fragment>
 
@@ -73,12 +76,13 @@
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.InfoScreen"
         android:label="InfoScreen"
         tools:layout="@layout/screen_info">
-        <argument
-            android:name="book"
-            app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />
+
         <action
             android:id="@+id/action_infoScreen_to_readScreen"
             app:destination="@id/readScreen" />
+        <argument
+            android:name="data"
+            app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />
     </fragment>
 
     <fragment
@@ -101,6 +105,10 @@
         <argument
             android:name="categoryByData"
             app:argType="com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData" />
+        <action
+            android:id="@+id/action_categoryByAudiosScreen_to_audioScreen"
+            app:destination="@id/audioScreen" />
+
     </fragment>
     <fragment
         android:id="@+id/categoryBooks2"
@@ -137,6 +145,15 @@
         <action
             android:id="@+id/action_searchScreen_to_infoScreen"
             app:destination="@id/infoScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/audioScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.AudioScreen"
+        tools:layout="@layout/screen_audio"
+        android:label="AudioScreen" >
+        <argument
+            android:name="data"
+            app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />
     </fragment>
 
 </navigation>

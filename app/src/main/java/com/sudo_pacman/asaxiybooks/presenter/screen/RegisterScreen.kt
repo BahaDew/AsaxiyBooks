@@ -29,7 +29,6 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
         binding.signIn.setOnClickListener {
 
             val name = binding.fullNameEditView.text.toString()
@@ -49,8 +48,6 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
             findNavController().navigateUp()
         }
 
-
     }
-
 
 }

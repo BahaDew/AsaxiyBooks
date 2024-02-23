@@ -1,129 +1,135 @@
 package com.sudo_pacman.asaxiybooks.presenter.screen
 
-import android.annotation.SuppressLint
-import android.media.AudioAttributes
+import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.sudo_pacman.asaxiybooks.R
+import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.databinding.ScreenAudioBinding
-import com.sudo_pacman.asaxiybooks.domain.impl.RepositoryImpl
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.io.IOException
 
 @AndroidEntryPoint
 class AudioScreen : Fragment(R.layout.screen_audio) {
 
     private val binding by viewBinding(ScreenAudioBinding::bind)
     private var mediaPlayer: MediaPlayer? = null
-    private var audioUrl =
-        "https://firebasestorage.googleapis.com/v0/b/asaxiybooks-6f7ed.appspot.com/o/audio%2Fbook_6_audio.mp3?alt=media&token=86936d6f-b3c0-41e9-80a4-16a1d71125f3"
+    private lateinit var seekBar: SeekBar
+    private var isPlaying = true
+    private lateinit var data: BookUIData
+    private val navArgs: AudioScreenArgs by navArgs()
 
-    private var repository = RepositoryImpl()
+//    private var audioUrl =
+//        "https://firebasestorage.googleapis.com/v0/b/asaxiybooks-6f7ed.appspot.com/o/audio%2Fbook_6_audio.mp3?alt=media&token=86936d6f-b3c0-41e9-80a4-16a1d71125f3"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        data = navArgs.data
+        seekBar = binding.seekBar
+        init()
+        controllerSound()
 
-//        repository.booksList.onEach {
-//            "List<Book> $it".myLog()
-//            audioUrl =
-//                if (audioUrl == "1") "https://firebasestorage.googleapis.com/v0/b/asaxiybooks-6f7ed.appspot.com/o/audio%2Fbook_6_audio.mp3?alt=media&token=86936d6f-b3c0-41e9-80a4-16a1d71125f3"
-//                else it[0].audioUrl
-//        }.launchIn(lifecycleScope)
-
-
-        binding.playMusic.setOnClickListener {
-//            binding.pauseMusic.visibility = GONE
-//            binding.playMusic.visibility = VISIBLE
-            Toast.makeText(requireContext(), "Play Music set on click", Toast.LENGTH_SHORT).show()
-            playMusic()
-        }
-
-//        binding.pauseMusic.setOnClickListener {
-//            binding.playMusic.visibility = GONE
-//            binding.pauseMusic.visibility = VISIBLE
-//            pauseMusic()
-//        }
-
-        binding.textStart.text = "?"
 
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
-    private fun playMusic() {
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer()
-        } else {
-            mediaPlayer?.reset()
+    private fun controllerSound() {
+//        val book = File(shar.getBookLink(bookId = audio.id))
+//        mediaPlayer = MediaPlayer.create(requireContext(), Uri.fromFile(book))
+        mediaPlayer?.setOnPreparedListener {
+            seekBar.max = mediaPlayer!!.duration
+            mediaPlayer!!.start()
+            binding.textEnd.text = milliSecondsToTimer(mediaPlayer!!.duration.toLong())
+            isPlaying = true
+
+            binding.playMusic.setImageResource(R.drawable.ic_pause)
+            startSeekBarUpdate()
+        }
+        binding.playMusic.setOnClickListener {
+            if (mediaPlayer == null) {
+
+                this.mediaPlayer?.setOnCompletionListener {
+                    stopPlaying()
+                }
+
+                mediaPlayer?.setOnErrorListener { _, _, _ ->
+//                    stopPlaying()
+                    true
+                }
+
+            } else {
+                if (!isPlaying) {
+                    pausePlaying()
+                } else {
+                    resumePlaying()
+                }
+            }
         }
 
-        mediaPlayer?.apply {
-            setAudioAttributes(
-                AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build()
-            )
-        }
-        binding.seekBar.setOnSeekBarChangeListener(@SuppressLint("AppCompatCustomView")
-        object : SeekBar.OnSeekBarChangeListener {
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    mediaPlayer!!.seekTo(progress)
+                    // progress -> second
+                    mediaPlayer?.seekTo(progress)
+                    binding.textStart.text = milliSecondsToTimer(progress.toLong())
                 }
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
-
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
 
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                mediaPlayer?.setDataSource(audioUrl)
-                mediaPlayer?.prepare()
-                mediaPlayer?.start()
+    private fun startSeekBarUpdate() {
+        val handler = Handler()
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                try {
+                    seekBar.progress = mediaPlayer!!.currentPosition
+                    handler.postDelayed(this, 1000)
+                    binding.textStart.text = milliSecondsToTimer(mediaPlayer!!.currentPosition.toLong())
 
-                activity?.runOnUiThread {
-                    Toast.makeText(requireContext(), "Audio started playing..", Toast.LENGTH_SHORT).show()
-                    binding.textEnd.text = milliSecondsToTimer(mediaPlayer!!.duration.toLong())
 
-                    binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                            if (fromUser) mediaPlayer!!.seekTo(progress)
-                        }
-
-                        override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                        }
-
-                        override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                        }
-
-                    })
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-                activity?.runOnUiThread {
-                    Toast.makeText(requireContext(), "Failed to play audio", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+//                    stopPlaying()
                 }
             }
-        }
+        }, 0)
     }
 
-    private fun pauseMusic() {
+    private fun pausePlaying() {
         mediaPlayer?.pause()
-        Toast.makeText(requireContext(), "Audio paused", Toast.LENGTH_SHORT).show()
+        isPlaying = true
+        binding.playMusic.setImageResource(R.drawable.ic_play)
     }
 
-    private fun milliSecondsToTimer(milliseconds: Long): String {
+    private fun resumePlaying() {
+        mediaPlayer?.start()
+        isPlaying = false
+        binding.playMusic.setImageResource(R.drawable.ic_pause)
+    }
+
+    private fun stopPlaying() {
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        mediaPlayer = null
+        isPlaying = true
+        binding.playMusic.setImageResource(R.drawable.ic_play)
+        seekBar.progress = 0
+        binding.textStart.text = milliSecondsToTimer(0L)
+    }
+
+    fun milliSecondsToTimer(milliseconds: Long): String {
         var finalTimerString = ""
         var secondsString = ""
 
@@ -144,10 +150,35 @@ class AudioScreen : Fragment(R.layout.screen_audio) {
         return finalTimerString
     }
 
+    fun init() {
+        binding.apply {
+            Glide.with(requireContext()).load(data.coverImage[0]).listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
+                        imgBook.setImageResource(R.drawable.book)
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>?,
+                        dataSource: com.bumptech.glide.load.DataSource,
+                        isFirstResource: Boolean,
+                    ): Boolean {
+                        return false
+                    }
+
+                }).into(imgBook)
+            tvBookName.text = data.name
+            tvAuthor.text = data.author
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        mediaPlayer?.release()
+        mediaPlayer?.stop()
         mediaPlayer = null
     }
+
 
 }

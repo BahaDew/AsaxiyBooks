@@ -1,7 +1,6 @@
 package com.sudo_pacman.asaxiybooks.presenter.page
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -19,7 +18,6 @@ import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
