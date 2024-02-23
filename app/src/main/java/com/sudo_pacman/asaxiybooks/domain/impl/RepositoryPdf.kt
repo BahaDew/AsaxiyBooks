@@ -49,6 +49,9 @@ class RepositoryPdf @Inject constructor(
                 .addOnFailureListener {
                     trySend(Result.failure(Throwable(it.message)))
                 }
+                .addOnProgressListener {
+                    "yuklanyapti ${it.bytesTransferred*100 / it.totalByteCount}".myLog()
+                }
         }
 
         awaitClose()

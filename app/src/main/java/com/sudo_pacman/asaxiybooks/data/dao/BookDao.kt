@@ -10,6 +10,9 @@ interface BookDao {
     @Query("SELECT * FROM entitybookdata")
     fun getAllBooks(): List<EntityBookData>
 
+    @Query("SELECT * FROM entitybookdata where id=:id")
+    fun getBooksById(id:Long): EntityBookData
+
     @Insert
     fun setBook(bookData: EntityBookData)
 
