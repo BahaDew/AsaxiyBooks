@@ -35,9 +35,10 @@
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.IntroScreen"
         android:label="IntroScreen"
         tools:layout="@layout/screen_intro">
+
         <action
-            android:id="@+id/action_introScreen_to_registerScreen"
-            app:destination="@id/registerScreen"
+            android:id="@+id/action_introScreen_to_logInScreen"
+            app:destination="@id/logInScreen"
             app:popUpTo="@id/introScreen"
             app:popUpToInclusive="true" />
     </fragment>
@@ -104,6 +105,18 @@
         <argument
             android:name="categoryByData"
             app:argType="com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData" />
+    </fragment>
+    <fragment
+        android:id="@+id/logInScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.LogInScreen"
+        android:label="LogInScreen"
+        tools:layout="@layout/screen_log_in">
+        <action
+            android:id="@+id/action_logInScreen_to_mainScreen"
+            app:destination="@id/mainScreen" />
+        <action
+            android:id="@+id/action_logInScreen_to_registerScreen"
+            app:destination="@id/registerScreen" />
     </fragment>
 
 </navigation>
