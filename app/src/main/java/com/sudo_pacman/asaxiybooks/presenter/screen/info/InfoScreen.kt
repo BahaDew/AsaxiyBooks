@@ -1,8 +1,15 @@
 package com.sudo_pacman.asaxiybooks.presenter.screen.info
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,6 +23,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class InfoScreen : Fragment(R.layout.screen_info) {
     private val binding by viewBinding(ScreenInfoBinding::bind)
     private val navArgs by navArgs<InfoScreenArgs>()
+    private val viewModel: InfoViewModel by viewModels<InfoViewModelImpl>()
+    private var isResume = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +44,44 @@ class InfoScreen : Fragment(R.layout.screen_info) {
         binding.bookDescription.text = bookData.description
 
         binding.btnDownload.setOnClickListener {
-            findNavController().navigate(InfoScreenDirections.actionInfoScreenToReadScreen(bookData))
+            viewModel.downloadBook(bookData)
+            dialog()
+//            findNavController().navigate(InfoScreenDirections.actionInfoScreenToReadScreen(bookData))
         }
+
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+    }
+
+    private fun dialog() {
+        val bottomDialog = Dialog(requireContext())
+
+        bottomDialog.setContentView(R.layout.dialog_download)
+
+        bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)?.setOnClickListener {
+            isResume = if (isResume) {
+                viewModel.pause()
+                true
+            } else {
+                viewModel.resume()
+                false
+            }
+        }
+
+        bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)?.setOnClickListener {
+            viewModel.cancel()
+        }
+
+
+        bottomDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        bottomDialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        bottomDialog.window?.setGravity(Gravity.BOTTOM)
+
+        bottomDialog.show()
     }
 }
