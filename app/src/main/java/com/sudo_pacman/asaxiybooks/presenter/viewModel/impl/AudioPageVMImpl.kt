@@ -6,7 +6,7 @@ import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.navigation.AppNavigator
-import com.sudo_pacman.asaxiybooks.presenter.screen.main.MainScreenDirections
+import com.sudo_pacman.asaxiybooks.presenter.screen.MainScreenDirections
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.AudioPageVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.awaitClose
