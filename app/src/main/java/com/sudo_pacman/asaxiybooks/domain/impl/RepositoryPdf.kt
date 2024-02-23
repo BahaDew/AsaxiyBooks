@@ -7,6 +7,7 @@ import com.google.firebase.storage.ktx.storage
 import com.sudo_pacman.asaxiybooks.data.dao.BookDao
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.data.model.UploadData
+import com.sudo_pacman.asaxiybooks.data.source.MySharedPreference
 import com.sudo_pacman.asaxiybooks.utils.myLog
 import com.sudo_pacman.asaxiybooks.utils.toEntityBookData
 import kotlinx.coroutines.Dispatchers
@@ -120,5 +121,24 @@ class RepositoryPdf @Inject constructor(
 
     fun resumeDownload() {
         loadTask?.resume()
+    }
+
+    fun buyBook(book: BookUIData): Flow<Unit> = callbackFlow {
+        val user = MySharedPreference.getUserData()
+        user.booksId.add(book.docID)
+
+        fireStore
+            .collection("users")
+            .document(MySharedPreference.getUserData().id)
+            .set(user)
+            .addOnSuccessListener {
+                "repo add book to user".myLog()
+                trySend(Unit)
+            }
+            .addOnFailureListener {
+                "repo add book to user fail ${it.message}".myLog()
+            }
+
+        awaitClose()
     }
 }

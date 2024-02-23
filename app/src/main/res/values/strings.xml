@@ -15,4 +15,7 @@
     <string name="txt_profil">Profil</string>
     <string name="bu_yerda_siz_o_qishni_yoki_tinglashni_nxohlagan_kitoblaringiz_ro_yhatini_ntopasiz">Bu yerda siz o\'qishni yoki tinglashni \nxohlagan kitoblaringiz ro\'yhatini \ntopasiz</string>
     <string name="kitoblarni_qidirish">Kitoblarni qidirish</string>
+    <string name="ha">Ha</string>
+    <string name="rostdan_ham_sotib_olmoqchimisiz">Rostdan ham sotib olmoqchimisiz</string>
+    <string name="sotib_olish">Sotib olish</string>
 </resources>

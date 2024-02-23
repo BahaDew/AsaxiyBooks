@@ -17,19 +17,28 @@ class LoginRepositoryImpl @Inject constructor() : LoginRepository {
     private val fireStore = Firebase.firestore
 
     override fun loginUser(password: String, gmail: String): Flow<Result<Boolean>> = callbackFlow {
-        fireStore.collection("users").whereEqualTo("password", password).whereEqualTo("gmail", gmail).limit(1).get().addOnSuccessListener {
-            if (it.size() == 0) {
-                trySend(Result.failure(Throwable("Bunaqa user mavjud emas !")))
-            } else {
-                val user = Mapper.run { it.toUserDataList()[0] }
-                MySharedPreference.setUserData(user)
-                trySend(Result.success(true))
-                channel.close()
+        fireStore
+            .collection("users")
+            .whereEqualTo("password", password)
+            .whereEqualTo("gmail", gmail).limit(1)
+            .addSnapshotListener { value, error ->
+
+                if (value?.documents?.size == 0) {
+                    trySend(Result.failure(Throwable("Bunaqa user mavjud emas !")))
+                }
+                else {
+                    val user = Mapper.run { value!!.toUserDataList()[0] }
+                    MySharedPreference.setUserData(user)
+                    trySend(Result.success(true))
+                    channel.close()
+                }
+
+                if (error != null) {
+                    trySend(Result.success(false))
+                    channel.close()
+                }
             }
-        }.addOnFailureListener {
-            trySend(Result.success(false))
-            channel.close()
-        }
+
         awaitClose()
     }
 
