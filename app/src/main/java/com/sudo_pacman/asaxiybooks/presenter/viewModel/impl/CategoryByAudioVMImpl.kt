@@ -25,7 +25,7 @@ class CategoryByAudioVMImpl @Inject constructor(
 
     override fun onClickBook(bookUIData: BookUIData) {
         viewModelScope.launch {
-            appNavigator.navigateTo(CategoryByAudiosScreenDirections.actionCategoryByAudiosScreenToInfoScreen(bookUIData))
+            appNavigator.navigateTo(CategoryByAudiosScreenDirections.actionCategoryByAudiosScreenToAudioScreen(bookUIData))
         }
     }
 }

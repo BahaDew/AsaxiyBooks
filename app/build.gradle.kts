@@ -117,7 +117,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
 
     // circle seekbar
-    implementation("com.mikhaellopez:circularfillableloaders:1.3.2")
+    implementation("me.tankery.lib:circularSeekBar:1.4.2")
 }
 
 

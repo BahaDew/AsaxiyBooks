@@ -8,8 +8,10 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -22,6 +24,9 @@ import com.sudo_pacman.asaxiybooks.presenter.viewModel.InfoViewModel
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.InfoViewModelImpl
 import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class InfoScreen : Fragment(R.layout.screen_info) {
@@ -29,12 +34,26 @@ class InfoScreen : Fragment(R.layout.screen_info) {
     private val navArgs by navArgs<InfoScreenArgs>()
     private val viewModel: InfoViewModel by viewModels<InfoViewModelImpl>()
     private var isResume = false
-    private val bottomDialog by lazy(LazyThreadSafetyMode.NONE) { Dialog(requireContext()) }
+    private val downloadDialog by lazy(LazyThreadSafetyMode.NONE) { Dialog(requireContext()) }
+    private val buyDialog by lazy((LazyThreadSafetyMode.NONE)) { Dialog(requireContext()) }
+    private var isBuy = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bookData = navArgs.book
+        lifecycleScope.launch {
+
+            Firebase.firestore.collection("category")
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    querySnapshot.documents.forEach {
+                        binding.tvCatogry.text = it.data?.getOrDefault("name", "").toString()
+                    }
+                }
+
+        }
+
+        val bookData = navArgs.data
 
         "infoga keldi $bookData".myLog()
 
@@ -49,9 +68,15 @@ class InfoScreen : Fragment(R.layout.screen_info) {
         binding.bookDescription.text = bookData.description
 
         binding.btnDownload.setOnClickListener {
-            viewModel.downloadBook(bookData)
-            dialog()
-//            findNavController().navigate(InfoScreenDirections.actionInfoScreenToReadScreen(bookData))
+            if (isBuy) {
+                "screen info sotob olingan ekan yuklaymiz".myLog()
+                viewModel.downloadBook(bookData)
+                downloadDialog()
+//                findNavController().navigate(InfoScreenDirections.actionInfoScreenToReadScreen(bookData))
+            } else {
+                "screen info sotib olish kerak ekab".myLog()
+                payDialog()
+            }
         }
 
 
@@ -59,44 +84,68 @@ class InfoScreen : Fragment(R.layout.screen_info) {
             findNavController().popBackStack()
         }
 
-        Firebase.firestore.collection("category")
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                querySnapshot.documents.forEach {
-                    binding.tvCatogry.text = it.data?.getOrDefault("name", "").toString()
-                }
-            }
+        viewModel.dismissDownloadDialog.onEach {
+            downloadDialog.dismiss()
+        }
+            .launchIn(lifecycleScope)
     }
 
-    private fun dialog() {
-        bottomDialog.setContentView(R.layout.dialog_download)
+    private fun downloadDialog() {
+        downloadDialog.setContentView(R.layout.dialog_download)
 
-        bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)?.setOnClickListener {
+        downloadDialog.window?.findViewById<ImageView>(R.id.btn_pause)?.setOnClickListener {
             isResume = if (isResume) {
-                bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)!!
-                    .setImageResource(R.drawable.ic_pause)
+                downloadDialog.window?.findViewById<ImageView>(R.id.btn_pause)!!
+                    .setImageResource(R.drawable.ic_restart)
                 viewModel.pause()
                 true
             } else {
-                bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)!!
+                downloadDialog.window?.findViewById<ImageView>(R.id.btn_pause)!!
                     .setImageResource(R.drawable.ic_pause)
                 viewModel.resume()
                 false
             }
         }
 
-        bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)?.setOnClickListener {
+        downloadDialog.window?.findViewById<ImageView>(R.id.btn_pause)?.setOnClickListener {
+            viewModel.pause()
+        }
+
+        downloadDialog.window?.findViewById<ImageView>(R.id.btn_cancel)?.setOnClickListener {
             viewModel.cancel()
         }
 
 
-        bottomDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        bottomDialog.window?.setLayout(
+        downloadDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        downloadDialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        bottomDialog.window?.setGravity(Gravity.BOTTOM)
+        downloadDialog.window?.setGravity(Gravity.BOTTOM)
 
-        bottomDialog.show()
+        downloadDialog.show()
     }
+
+    private fun payDialog() {
+        buyDialog.setContentView(R.layout.dialog_buy)
+
+        buyDialog.window?.findViewById<AppCompatButton>(R.id.btn_yes_pay)?.setOnClickListener {
+            isBuy = true
+            binding.btnDownload.text = "Yuklab olish"
+            viewModel.buyBook(navArgs.data)
+            buyDialog.dismiss()
+        }
+
+
+        buyDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        buyDialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        buyDialog.window?.setGravity(Gravity.CENTER)
+
+        buyDialog.show()
+    }
+
+    private fun initView() {}
 }
