@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AudioPageVMImpl @Inject constructor(
     private val repository: Repository,
-    private val appNavigator: AppNavigator
+    private val appNavigator: AppNavigator,
 ) : ViewModel(), AudioPageVM {
     override val progressSate = MutableStateFlow(true)
     override val allCategoryByData = MutableStateFlow<List<CategoryByBookData>>(arrayListOf())
