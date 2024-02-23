@@ -12,7 +12,5 @@ interface Repository {
     fun getCategoryByBooks() : Flow<Result<List<CategoryByBookData>>>
     fun setData(books: List<BookUIData>): Flow<Result<Unit>>
 
-    fun getBookByName(name : String) : List<BookUIData>
-
-
+    fun getBooksByName(name : String) : Flow<Result<List<BookUIData>>>
 }

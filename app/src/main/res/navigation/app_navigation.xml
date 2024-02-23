@@ -116,7 +116,9 @@
         tools:layout="@layout/screen_log_in">
         <action
             android:id="@+id/action_logInScreen_to_mainScreen"
-            app:destination="@id/mainScreen" />
+            app:destination="@id/mainScreen"
+            app:popUpTo="@id/logInScreen"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_logInScreen_to_registerScreen"
             app:destination="@id/registerScreen" />
