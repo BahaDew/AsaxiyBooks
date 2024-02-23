@@ -1,4 +1,4 @@
-package com.sudo_pacman.asaxiybooks.presenter.screen.info
+package com.sudo_pacman.asaxiybooks.presenter.screen
 
 import android.app.Dialog
 import android.graphics.Color
@@ -18,6 +18,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.databinding.ScreenInfoBinding
+import com.sudo_pacman.asaxiybooks.presenter.viewModel.InfoViewModel
+import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.InfoViewModelImpl
 import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
 

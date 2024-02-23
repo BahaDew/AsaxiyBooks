@@ -23,6 +23,7 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
         requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         requireActivity().window.statusBarColor = Color.parseColor("#0F172B")
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         auth = FirebaseAuth.getInstance()
 

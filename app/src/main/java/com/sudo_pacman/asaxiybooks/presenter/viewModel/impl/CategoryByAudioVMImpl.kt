@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.navigation.AppNavigator
-import com.sudo_pacman.asaxiybooks.presenter.screen.category_by_audios.CategoryByAudiosScreenDirections
+import com.sudo_pacman.asaxiybooks.presenter.screen.CategoryByAudiosScreenDirections
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryByAudioVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

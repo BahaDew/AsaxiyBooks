@@ -117,8 +117,8 @@
                 android:textColorHint="#99AEA0A0"
                 android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/input_phone_text"
-                tools:layout_editor_absoluteX="0dp"
-                tools:ignore="HardcodedText,RtlSymmetry,TextFields,UnusedAttribute" />
+                tools:ignore="HardcodedText,RtlSymmetry,TextFields,UnusedAttribute"
+                tools:layout_editor_absoluteX="0dp" />
 
             <TextView
                 android:id="@+id/input_name"

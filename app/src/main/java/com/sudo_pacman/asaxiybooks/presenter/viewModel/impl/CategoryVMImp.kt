@@ -3,16 +3,11 @@ package com.sudo_pacman.asaxiybooks.presenter.viewModel.impl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
-import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.navigation.AppNavigator
-import com.sudo_pacman.asaxiybooks.presenter.screen.book_category.CategoryBooksDirections
-import com.sudo_pacman.asaxiybooks.presenter.screen.category_by_audios.CategoryByAudiosScreenDirections
-import com.sudo_pacman.asaxiybooks.presenter.screen.main.MainScreenDirections
+import com.sudo_pacman.asaxiybooks.presenter.screen.CategoryBooksDirections
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryVM
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
