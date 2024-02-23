@@ -1,15 +1,23 @@
 package com.sudo_pacman.asaxiybooks.domain.impl
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FileDownloadTask
+import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import com.sudo_pacman.asaxiybooks.data.dao.BookDao
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
+import com.sudo_pacman.asaxiybooks.data.model.UploadData
 import com.sudo_pacman.asaxiybooks.utils.myLog
 import com.sudo_pacman.asaxiybooks.utils.toEntityBookData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,6 +28,7 @@ class RepositoryPdf @Inject constructor(
 ) {
     private val fireStorage = Firebase.storage
     private val fireStore = Firebase.firestore
+    private var loadTask: FileDownloadTask? = null
 
     fun downloadBook(bookUIData: BookUIData): Flow<Result<File>> = callbackFlow {
 
@@ -28,8 +37,7 @@ class RepositoryPdf @Inject constructor(
         if (bookDao.isHas(bookUIData.bookUrl) != 0L) {
             "bunaqasi borakan".myLog()
             trySend(Result.success(File(bookUIData.filePath)))
-        }
-        else {
+        } else {
             "bunaqasi yo'q ekan yuklaymiz".myLog()
 
             val book = File.createTempFile("Book", "pdf")
@@ -50,10 +58,68 @@ class RepositoryPdf @Inject constructor(
                     trySend(Result.failure(Throwable(it.message)))
                 }
                 .addOnProgressListener {
-                    "yuklanyapti ${it.bytesTransferred*100 / it.totalByteCount}".myLog()
+                    "yuklanyapti ${it.bytesTransferred * 100 / it.totalByteCount}".myLog()
                 }
         }
 
         awaitClose()
+    }
+
+    fun downloadBookWithProgress(bookUIData: BookUIData): Flow<UploadData> = callbackFlow {
+
+        "repo olish kerak $bookUIData".myLog()
+
+        if (bookDao.isHas(bookUIData.bookUrl) != 0L) {
+            "bunaqasi borakan".myLog()
+            trySend(UploadData.Success(File(bookUIData.filePath)))
+        } else {
+            "bunaqasi yo'q ekan yuklaymiz".myLog()
+
+            val book = File.createTempFile("Book", "pdf")
+            loadTask = fireStorage.getReferenceFromUrl(bookUIData.bookUrl)
+                .getFile(book)
+
+            loadTask!!
+                .addOnSuccessListener {
+                    bookDao.setBook(bookUIData.toEntityBookData(book.path))
+                    bookUIData.filePath = book.absolutePath
+
+                    fireStore
+                        .collection("books_data")
+                        .document(bookUIData.docID)
+                        .set(bookUIData)
+
+                    trySend(UploadData.Success(File(bookUIData.filePath)))
+                }
+                .addOnFailureListener {
+                    trySend(UploadData.Error(it.message ?: ""))
+                }
+                .addOnPausedListener {
+                    trySend(UploadData.PAUSE)
+                }
+                .addOnCanceledListener {
+                    trySend(UploadData.CANCEL)
+                }
+                .addOnProgressListener {
+//                    "yuklanyapti ${it.bytesTransferred*100 / it.totalByteCount}".myLog()
+                    trySend(UploadData.Progress((it.bytesTransferred * 100) / it.totalByteCount))
+                }
+        }
+
+        awaitClose()
+    }
+    .flowOn(Dispatchers.IO)
+
+
+    fun cancelDownload() {
+        loadTask?.cancel()
+    }
+
+    fun pauseDownload() {
+        loadTask?.pause()
+    }
+
+    fun resumeDownload() {
+        loadTask?.resume()
     }
 }
