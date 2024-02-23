@@ -49,6 +49,10 @@ class LibraryPage : Fragment(R.layout.page_library){
         adapter.setOnClickCategory { categoryName ->
             viewModel.onClickCategory(categoryName)
         }
+        librarySearch.setOnClickListener {
+            viewModel.onClickSearch()
+        }
+
     }
 
 

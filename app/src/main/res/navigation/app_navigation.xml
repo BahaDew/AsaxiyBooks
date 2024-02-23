@@ -125,5 +125,15 @@
             android:id="@+id/action_logInScreen_to_registerScreen"
             app:destination="@id/registerScreen" />
     </fragment>
+    <fragment
+        android:id="@+id/searchScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.SearchScreen"
+        android:label="SearchScreen"
+        tools:layout="@layout/screen_search"
+        >
+        <action
+            android:id="@+id/action_searchScreen_to_infoScreen"
+            app:destination="@id/infoScreen" />
+    </fragment>
 
 </navigation>

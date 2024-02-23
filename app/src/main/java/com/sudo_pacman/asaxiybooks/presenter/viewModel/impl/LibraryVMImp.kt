@@ -55,7 +55,7 @@ class LibraryVMImp @Inject constructor(
 
     override fun onClickSearch() {
         viewModelScope.launch {
-           // appNavigator.navigateTo()
+           appNavigator.navigateTo(MainScreenDirections.actionMainScreenToSearchScreen())
         }
     }
 
