@@ -40,12 +40,14 @@ class MainScreen : Fragment(R.layout.screen_main) {
             }
             return@setOnItemSelectedListener true
         }
+
     }
 
     private fun initFlow() = binding.apply {
         viewModel.pageState
             .onEach {
                 vp2.currentItem = it
+                bnv.selectedItemId = R.id.library
             }.flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
     }

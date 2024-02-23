@@ -22,6 +22,7 @@
         app:itemTextColor="@color/bg_menu_color"
         app:itemIconTint="@color/bg_menu_color"
         app:labelVisibilityMode="labeled"
+        app:itemBackground="@drawable/bg_menu_items"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_bottom_navigation"
         android:background="@color/app_bg_color"/>

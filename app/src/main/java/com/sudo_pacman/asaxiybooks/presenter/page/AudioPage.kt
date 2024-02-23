@@ -96,10 +96,10 @@ class AudioPage : Fragment(R.layout.page_audio) {
                 viewModel.onClickBook(data)
 
             }
-
-            adapter.setOnClickCategory {
-                viewModel.onClickCategory(it)
-            }
+        }
+        adapter.setOnClickCategory { category ->
+            "Page bosildi category ".myLog("ADAPTER")
+            viewModel.onClickCategory(category)
         }
     }
 }

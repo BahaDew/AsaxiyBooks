@@ -49,7 +49,9 @@ class AudioPageVMImpl @Inject constructor(
     }
 
     override fun onClickCategory(category: CategoryByBookData) {
+        "viewModel bosildi category ".myLog("ADAPTER")
         viewModelScope.launch {
+            "viewModelScope bosildi category ".myLog("ADAPTER")
             appNavigator.navigateTo(
                 MainScreenDirections.actionMainScreenToCategoryByAudiosScreen(
                     category
