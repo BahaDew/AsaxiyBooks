@@ -6,61 +6,72 @@
     android:layout_height="match_parent"
     android:background="@color/app_bg_color"
     tools:context="com.sudo_pacman.asaxiybooks.presenter.page.BooksPage">
+
     <View
         android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
         android:background="@color/app_bg_color"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mening kitoblarim"
-        android:textSize="24dp"
-        android:textColor="#FFF"
+        android:layout_marginStart="15dp"
         android:fontFamily="@font/roboto_medium"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="Mening kitoblarim"
+        android:textColor="#FFF"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="@id/bar"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="15dp"/>
-    <ImageView
-        android:id="@+id/placeholder"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/plaseholder"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_hisob_raqam"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bar"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/books"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_tab_item_active"
+            android:gravity="center"
+            android:text="Kitoblar"
+            android:paddingVertical="5dp"
+            android:textColor="#FFF"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/audio"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Audiolar"
+            android:textColor="#FFF"
+            android:fontFamily="@font/roboto"
+            android:textSize="20dp"
+            android:background="@drawable/bg_tab_item_no_active"/>
+    </LinearLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vp2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
-
-    <TextView
-        android:id="@+id/txt_placeholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="center"
-        android:text="@string/bu_yerda_siz_o_qishni_yoki_tinglashni_nxohlagan_kitoblaringiz_ro_yhatini_ntopasiz"
-        android:textColor="#586D80"
-        android:textSize="17dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/placeholder" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/add_book"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bg_btn_pay"
-        android:paddingHorizontal="30dp"
-        android:text="Kitoblar qo'shish"
-        android:textAllCaps="false"
-        android:textColor="#FFF"
-        android:textSize="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_placeholder" />
+        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

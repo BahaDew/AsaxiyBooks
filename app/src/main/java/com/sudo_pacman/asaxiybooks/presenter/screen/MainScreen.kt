@@ -3,14 +3,24 @@ package com.sudo_pacman.asaxiybooks.presenter.screen
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.databinding.ScreenMainBinding
 import com.sudo_pacman.asaxiybooks.presenter.adapter.MainVPAdapter
+import com.sudo_pacman.asaxiybooks.presenter.viewModel.MainVM
+import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.MainVMImpl
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class MainScreen : Fragment(R.layout.screen_main) {
     private val binding by viewBinding(ScreenMainBinding::bind)
     private lateinit var adapter: MainVPAdapter
+    private val viewModel: MainVM by viewModels<MainVMImpl>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -22,7 +32,7 @@ class MainScreen : Fragment(R.layout.screen_main) {
         vp2.adapter = adapter
         vp2.isUserInputEnabled = false
         bnv.setOnItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.books -> vp2.setCurrentItem(0, false)
                 R.id.library -> vp2.setCurrentItem(1, false)
                 R.id.audio -> vp2.setCurrentItem(2, false)
@@ -33,6 +43,10 @@ class MainScreen : Fragment(R.layout.screen_main) {
     }
 
     private fun initFlow() = binding.apply {
-
+        viewModel.pageState
+            .onEach {
+                vp2.currentItem = it
+            }.flowWithLifecycle(lifecycle)
+            .launchIn(lifecycleScope)
     }
 }
