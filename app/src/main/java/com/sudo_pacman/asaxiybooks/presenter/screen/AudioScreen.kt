@@ -1,4 +1,4 @@
-package com.sudo_pacman.asaxiybooks.presenter.screen.audio
+package com.sudo_pacman.asaxiybooks.presenter.screen
 
 import android.annotation.SuppressLint
 import android.media.AudioAttributes
@@ -54,7 +54,6 @@ class AudioScreen : Fragment(R.layout.screen_audio) {
 //        }
 
         binding.textStart.text = "?"
-
 
     }
 

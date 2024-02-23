@@ -1,10 +1,11 @@
-package com.sudo_pacman.asaxiybooks.presenter.screen.info
+package com.sudo_pacman.asaxiybooks.presenter.viewModel.impl
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.data.model.UploadData
 import com.sudo_pacman.asaxiybooks.domain.impl.RepositoryPdf
+import com.sudo_pacman.asaxiybooks.presenter.viewModel.InfoViewModel
 import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow

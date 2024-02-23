@@ -1,4 +1,4 @@
-package com.sudo_pacman.asaxiybooks.presenter.screen.intro
+package com.sudo_pacman.asaxiybooks.presenter.screen
 
 import android.os.Bundle
 import android.view.View

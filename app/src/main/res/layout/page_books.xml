@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg_color"
-    tools:context="com.sudo_pacman.asaxiybooks.presenter.screen.main.page.BooksPage">
+    tools:context="com.sudo_pacman.asaxiybooks.presenter.page.BooksPage">
 
     <ImageView
         android:id="@+id/placeholder"

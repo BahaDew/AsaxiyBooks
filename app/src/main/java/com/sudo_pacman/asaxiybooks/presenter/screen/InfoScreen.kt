@@ -1,4 +1,4 @@
-package com.sudo_pacman.asaxiybooks.presenter.screen.info
+package com.sudo_pacman.asaxiybooks.presenter.screen
 
 import android.app.Dialog
 import android.graphics.Color
@@ -16,6 +16,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.databinding.ScreenInfoBinding
+import com.sudo_pacman.asaxiybooks.presenter.viewModel.InfoViewModel
+import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.InfoViewModelImpl
 import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -61,7 +63,7 @@ class InfoScreen : Fragment(R.layout.screen_info) {
         bottomDialog.setContentView(R.layout.dialog_download)
 
         bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)?.setOnClickListener {
-            isResume = if (isResume) {
+            isResume = if (!isResume) {
                 viewModel.pause()
                 true
             } else {
@@ -70,7 +72,7 @@ class InfoScreen : Fragment(R.layout.screen_info) {
             }
         }
 
-        bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)?.setOnClickListener {
+        bottomDialog.window?.findViewById<ImageView>(R.id.btn_cancel)?.setOnClickListener {
             viewModel.cancel()
         }
 

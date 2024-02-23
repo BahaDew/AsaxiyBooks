@@ -1,4 +1,4 @@
-package com.sudo_pacman.asaxiybooks.presenter.screen.book_category
+package com.sudo_pacman.asaxiybooks.presenter.screen
 
 import android.os.Bundle
 import android.view.View
@@ -9,12 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.databinding.ScreenByCategoryBinding
-import com.sudo_pacman.asaxiybooks.presenter.adapter.CategoryByBooksAdapter
 import com.sudo_pacman.asaxiybooks.presenter.adapter.CategoryPdfByBooksAdapter
-import com.sudo_pacman.asaxiybooks.presenter.screen.category_by_audios.CategoryByAudiosScreenArgs
-import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryByAudioVM
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryVM
-import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.CategoryByAudioVMImpl
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.CategoryVMImp
 
 class CategoryBooks : Fragment(R.layout.screen_by_category){

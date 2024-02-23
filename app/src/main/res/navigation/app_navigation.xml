@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/registerScreen"
-        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.register.RegisterScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.RegisterScreen"
         android:label="RegisterScreen"
         tools:layout="@layout/screen_register">
 
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/splashScreen"
-        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.splash.SplashScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.SplashScreen"
         android:label="SplashScreen"
         tools:layout="@layout/screen_splash">
 
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/introScreen"
-        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.intro.IntroScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.IntroScreen"
         android:label="IntroScreen"
         tools:layout="@layout/screen_intro">
         <action
@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/mainScreen"
-        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.main.MainScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.MainScreen"
         android:label="screen_main"
         tools:layout="@layout/screen_main">
         <action
@@ -61,7 +61,7 @@
 
     <fragment
         android:id="@+id/infoScreen"
-        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.info.InfoScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.InfoScreen"
         android:label="InfoScreen"
         tools:layout="@layout/screen_info">
         <argument
@@ -74,7 +74,7 @@
 
     <fragment
         android:id="@+id/readScreen"
-        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.read.ReadScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.ReadScreen"
         android:label="ReadScreen"
         tools:layout="@layout/screen_read">
         <argument
@@ -83,7 +83,7 @@
     </fragment>
     <fragment
         android:id="@+id/categoryByAudiosScreen"
-        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.category_by_audios.CategoryByAudiosScreen"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.CategoryByAudiosScreen"
         android:label="screen_category_by_aduio"
         tools:layout="@layout/screen_category_by_aduio">
         <action
@@ -95,7 +95,7 @@
     </fragment>
     <fragment
         android:id="@+id/categoryBooks2"
-        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.book_category.CategoryBooks"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.CategoryBooks"
         android:label="CategoryBooks"
         tools:layout="@layout/screen_by_category">
         <action

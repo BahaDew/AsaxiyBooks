@@ -1,4 +1,4 @@
-package com.sudo_pacman.asaxiybooks.presenter.screen.register
+package com.sudo_pacman.asaxiybooks.presenter.screen
 
 import android.graphics.Color
 import android.os.Bundle
