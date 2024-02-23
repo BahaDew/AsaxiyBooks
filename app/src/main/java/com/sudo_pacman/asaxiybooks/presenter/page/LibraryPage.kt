@@ -55,17 +55,17 @@ class LibraryPage : Fragment(R.layout.page_library){
     private fun initFlow() = binding.apply {
         viewModel.progressState.onEach {
             progress.isGone = it
+            "initFlow: progress:  $it".myLog("BEHRUZ")
         }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
 
         viewModel.allBookByCategory
             .onEach {
-                "initFlow: ${it.size}".myLog("BAHA")
+                "initFlow: ${it.size}".myLog("BEHRUZ")
                 for (i in it.indices) {
-                    it[i].categoryName.myLog("BAHA")
+                    it[i].categoryName.myLog("BEHRUZ")
                 }
-                Log.d("TTT", "All book by Category")
                 adapter.submitList(it)
             }
             .flowWithLifecycle(lifecycle)

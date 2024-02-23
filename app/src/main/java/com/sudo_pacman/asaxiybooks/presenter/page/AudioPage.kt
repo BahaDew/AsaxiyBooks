@@ -41,6 +41,7 @@ class AudioPage : Fragment(R.layout.page_audio) {
     private fun initFlow() = binding.apply {
         viewModel.progressSate.onEach {
             progress.isGone = it
+            "initFlow: progress:  $it".myLog("BAHA")
         }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
@@ -51,7 +52,6 @@ class AudioPage : Fragment(R.layout.page_audio) {
                 for (i in it.indices) {
                     it[i].categoryName.myLog("BAHA")
                 }
-                Log.d("TTT", "All book by Category")
                 adapter.submitList(it)
             }
             .flowWithLifecycle(lifecycle)
