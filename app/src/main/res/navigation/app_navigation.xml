@@ -57,6 +57,11 @@
         <action
             android:id="@+id/action_mainScreen_to_categoryBooks2"
             app:destination="@id/categoryBooks2" />
+        <action
+            android:id="@+id/action_mainScreen_to_logInScreen"
+            app:destination="@id/logInScreen"
+            app:popUpTo="@id/mainScreen"
+            app:popUpToInclusive="true" />
 
     </fragment>
 
