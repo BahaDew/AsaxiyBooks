@@ -1,5 +1,6 @@
 package com.sudo_pacman.asaxiybooks.presenter.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -15,6 +16,7 @@ class LibraryAdapter: ListAdapter<CategoryByBookData, LibraryAdapter.LibraryView
 
     private var onClickBook : ((BookUIData) -> Unit)? = null
     private var onClickCategory: ((CategoryByBookData) -> Unit)? = null
+    private var time = System.currentTimeMillis()
     object LibraryDiffUtil : DiffUtil.ItemCallback<CategoryByBookData>(){
         override fun areItemsTheSame(oldItem: CategoryByBookData, newItem: CategoryByBookData): Boolean {
             return oldItem.categoryId == newItem.categoryId
@@ -26,28 +28,36 @@ class LibraryAdapter: ListAdapter<CategoryByBookData, LibraryAdapter.LibraryView
 
     }
 
-    inner class LibraryViewHolder(val binding : ScreenInnerItemBinding)
+    inner class LibraryViewHolder(private val binding : ScreenInnerItemBinding)
         : RecyclerView.ViewHolder(binding.root){
 
             private val adapter = LibraryInnerAdapter()
 
             init {
                binding.btnAll.setOnClickListener {
-                   onClickCategory?.invoke(getItem(adapterPosition))
+                   if(System.currentTimeMillis() - time >= 500) {
+                       time = System.currentTimeMillis()
+                       onClickCategory?.invoke(getItem(adapterPosition))
+                   }
                }
                 adapter.setOnClickBook {
-                    onClickBook?.invoke(it)
+                    if(System.currentTimeMillis() - time >= 500) {
+                        time = System.currentTimeMillis()
+                        onClickBook?.invoke(it)
+                        Log.d("TTT", "Bosil")
+                    }
                 }
+
+
+                binding.rvListInner.adapter = adapter
+                binding.rvListInner.layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
             }
 
-            init{
-                 binding.rvListInner.adapter = adapter
-                 binding.rvListInner.layoutManager = LinearLayoutManager(binding.root.context, LinearLayoutManager.HORIZONTAL, false)
-            }
-        fun bind(){
-            binding.apply {
-                categoryName.text = getItem(adapterPosition).categoryName
 
+        fun bind() {
+            getItem(adapterPosition).apply {
+                binding.categoryName.text = categoryName
+                adapter.submitList(books)
             }
         }
 

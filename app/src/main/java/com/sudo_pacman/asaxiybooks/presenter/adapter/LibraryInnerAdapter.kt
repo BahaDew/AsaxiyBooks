@@ -32,18 +32,21 @@ class LibraryInnerAdapter :
             }
         }
         fun bind(){
-             binding.apply {
-                 val item = getItem(adapterPosition)
-                 bookName.text = item.name
-                 bookAuthor.text = item.author
+            getItem(adapterPosition).apply {
+                binding.bookName.text = name
+                binding.bookAuthor.text = author
 
-                 Glide.with(binding.root.context)
-                     .load(item.coverImage.get(0)!!)
-                     .centerCrop()
-                     .placeholder(R.drawable.ic_logo_1)
-                     .error(R.drawable.ic_logo_1)
-                     .into(binding.imgBook)
-             }
+                Glide
+                    .with(binding.root.context)
+                    .load(coverImage)
+                    .error(R.drawable.ic_logo_1)
+                    .placeholder(R.drawable.book)
+                    .into(binding.imgBook)
+                val margRig = if(adapterPosition == currentList.size - 1) 150 else 0
+                (binding.boxItem.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                    marginEnd = margRig
+                }
+            }
         }
     }
 

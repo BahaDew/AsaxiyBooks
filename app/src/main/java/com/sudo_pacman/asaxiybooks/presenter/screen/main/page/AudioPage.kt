@@ -1,6 +1,7 @@
 package com.sudo_pacman.asaxiybooks.presenter.screen.main.page
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -38,16 +39,19 @@ class AudioPage : Fragment(R.layout.page_audio) {
     }
 
     private fun initFlow() = binding.apply {
-        viewModel.progressSate
-            .onEach { progress.isGone = it }
+        viewModel.progressSate.onEach {
+            progress.isGone = it
+        }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
+
         viewModel.allCategoryByData
             .onEach {
                 "initFlow: ${it.size}".myLog("BAHA")
                 for (i in it.indices) {
                     it[i].categoryName.myLog("BAHA")
                 }
+                Log.d("TTT", "All book by Category")
                 adapter.submitList(it)
             }
             .flowWithLifecycle(lifecycle)
