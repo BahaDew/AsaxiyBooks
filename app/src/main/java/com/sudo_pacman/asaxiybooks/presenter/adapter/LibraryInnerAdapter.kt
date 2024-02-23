@@ -28,7 +28,7 @@ class LibraryInnerAdapter :
 
         init{
             binding.item.setOnClickListener{
-               // onClickBook?.invoke()
+                onClickBook?.invoke(getItem(adapterPosition))
             }
         }
         fun bind(){
