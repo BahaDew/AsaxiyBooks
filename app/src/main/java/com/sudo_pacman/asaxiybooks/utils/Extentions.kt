@@ -28,12 +28,20 @@ fun BookUIData.toEntityBookData(path: String): EntityBookData {
 object Mapper {
     fun QuerySnapshot.toUserDataList(): List<UserData> {
         val userList = mutableListOf<UserData>()
-        for (document in documents) {
+        for (document in this) {
             val id = document.id
-            val name = document.getString("name") ?: ""
-            val gmail = document.getString("gmail") ?: ""
-            val password = document.getString("password") ?: ""
-            val userData = UserData(id, name, gmail, password)
+            val name = document.data.getOrDefault("name", "").toString()
+            val gmail = document.data.getOrDefault("gmail", "").toString()
+            val password = document.data.getOrDefault("password", "").toString()
+            val booksId = document.data.getOrDefault("", mutableListOf<String>()) as List<String>
+
+            val userData = UserData(
+                id = id,
+                name = name,
+                gmail = gmail,
+                password = password,
+                booksId = booksId.toMutableList() as ArrayList<String>
+            )
             userList.add(userData)
         }
         return userList

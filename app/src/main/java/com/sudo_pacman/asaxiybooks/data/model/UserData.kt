@@ -5,4 +5,5 @@ data class UserData(
     val name: String,
     val gmail: String,
     val password: String,
+    val booksId: ArrayList<String>
 )

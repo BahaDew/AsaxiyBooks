@@ -14,4 +14,6 @@ interface InfoViewModel {
 
     val bookSharedFlow: MutableSharedFlow<File>
     val progressPercentSharedFlow: MutableStateFlow<Long>
+    fun buyBook(book: BookUIData)
+    val dismissDownloadDialog: MutableSharedFlow<Unit>
 }
