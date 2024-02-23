@@ -36,6 +36,7 @@ class LibraryInnerAdapter :
                  val item = getItem(adapterPosition)
                  bookName.text = item.name
                  bookAuthor.text = item.author
+
                  Glide.with(binding.root.context)
                      .load(item.coverImage.get(0)!!)
                      .centerCrop()

@@ -10,10 +10,10 @@ interface LibraryVM {
     val errorMessage: Flow<String>
     val progressState: StateFlow<Boolean>
 
+    fun getAllCategoryByData()
     fun onClickSearch()
     fun onClickCategory(category: CategoryByBookData)
     fun onClickBook(book: BookUIData)
 
-    fun loadBooks()
 
 }
