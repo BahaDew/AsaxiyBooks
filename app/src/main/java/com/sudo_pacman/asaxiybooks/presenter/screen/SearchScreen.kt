@@ -14,6 +14,7 @@ import com.sudo_pacman.asaxiybooks.databinding.ScreenSearchBinding
 import com.sudo_pacman.asaxiybooks.presenter.adapter.SearchAdapter
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.SearchVM
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.SearchVMImp
+import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -46,6 +47,7 @@ class SearchScreen: Fragment(R.layout.screen_search) {
     private fun initFlow() = binding.apply {
         viewModel.resultBooks
             .onEach {
+                ("size -> " + it.size).myLog("BUSH")
                 adapter.submitList(it)
             }
             .flowWithLifecycle(lifecycle)

@@ -151,63 +151,77 @@ class RepositoryImpl @Inject constructor() : Repository {
         awaitClose()
     }
 
-    override fun getBookByName(name: String): List<BookUIData> {
-          if(name.isEmpty()) return  arrayListOf()
-        val ls = allBookData.filter {
-            it.name.lowercase().contains(name.lowercase()) ?: false
-        }
-
-        return ls
-    }
+//    override fun getBookByName(name: String): List<BookUIData> {
+//          if(name.isEmpty()) return  arrayListOf()
+//        val ls = allBookData.filter {
+//            it.name.lowercase().contains(name.lowercase()) ?: false
+//        }
+//
+//        return ls
+//    }
 
     override fun getBooksByName(name: String): Flow<Result<List<BookUIData>>> =
         channelFlow<Result<List<BookUIData>>> {
-            fireStore.collection("books_data")
-                .whereEqualTo("name", name)
-                .get()
-                .addOnSuccessListener { querySnapshot ->
-                    val booksList = ArrayList<BookUIData>()
-                    querySnapshot.forEach { snapshot ->
-                        val data =
-                            BookUIData(
-                                docID = snapshot.id,
-                                audioUrl = snapshot.data.getOrDefault("audioUrl", "")
-                                    .toString(),
-                                author = snapshot.data.getOrDefault("author", "")
-                                    .toString(),
-                                bookUrl = snapshot.data.getOrDefault("bookUrl", "")
-                                    .toString(),
-                                categoryId = snapshot.data.getOrDefault(
-                                    "categoryId",
-                                    ""
-                                )
-                                    .toString(),
-                                coverImage = snapshot.data.getOrDefault(
-                                    "coverImage",
-                                    ""
-                                )
-                                    .toString(),
-                                description = snapshot.data.getOrDefault(
-                                    "description",
-                                    ""
-                                )
-                                    .toString(),
-                                filePath = snapshot.data.getOrDefault("filePath", "")
-                                    .toString(),
-                                name = snapshot.data.getOrDefault("name", "")
-                                    .toString(),
-                                totalSize = snapshot.data.getOrDefault("totalSize", "")
-                                    .toString(),
-                                type = snapshot.data.getOrDefault("type", "")
-                                    .toString(),
-                            )
-                        booksList.add(data)
+            ("name -> #$name#  " + name.trim().isEmpty()).myLog("BUSH")
+            if (name.trim().isEmpty())
+                trySend(Result.success(arrayListOf()))
+            else {
+                fireStore.collection("books_data")
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        val booksList = ArrayList<BookUIData>()
+                        querySnapshot.forEach { snapshot ->
+                            val userName = snapshot.data.getOrDefault("name", "").toString()
+                            "qidir name : $name kegan name  solishtir $userName ${
+                                userName.lowercase().contains(name.lowercase())
+                            }".myLog("BAHA2")
+                            "2 - > qidir name : $name kegan name  solishtir $userName ${
+                                name.lowercase().contains(userName.lowercase())
+                            }".myLog("BAHA2")
+                            if (userName.lowercase().contains(name.lowercase())) {
+                                val data =
+                                    BookUIData(
+                                        docID = snapshot.id,
+                                        audioUrl = snapshot.data.getOrDefault("audioUrl", "")
+                                            .toString(),
+                                        author = snapshot.data.getOrDefault("author", "")
+                                            .toString(),
+                                        bookUrl = snapshot.data.getOrDefault("bookUrl", "")
+                                            .toString(),
+                                        categoryId = snapshot.data.getOrDefault(
+                                            "categoryId",
+                                            ""
+                                        )
+                                            .toString(),
+                                        coverImage = snapshot.data.getOrDefault(
+                                            "coverImage",
+                                            ""
+                                        )
+                                            .toString(),
+                                        description = snapshot.data.getOrDefault(
+                                            "description",
+                                            ""
+                                        )
+                                            .toString(),
+                                        filePath = snapshot.data.getOrDefault("filePath", "")
+                                            .toString(),
+                                        name = snapshot.data.getOrDefault("name", "")
+                                            .toString(),
+                                        totalSize = snapshot.data.getOrDefault("totalSize", "")
+                                            .toString(),
+                                        type = snapshot.data.getOrDefault("type", "")
+                                            .toString(),
+                                    )
+                                booksList.add(data)
+                            }
+                        }
+                        booksList.size.toString().myLog("BAHA")
+                        trySend(Result.success(booksList))
                     }
-                    trySend(Result.success(booksList))
-                }
-                .addOnFailureListener { ex ->
-                    trySend(Result.failure(ex))
-                }
+                    .addOnFailureListener { ex ->
+                        trySend(Result.failure(ex))
+                    }
+            }
             awaitClose()
         }.flowOn(Dispatchers.IO).catch { emit(Result.failure(it)) }
 }

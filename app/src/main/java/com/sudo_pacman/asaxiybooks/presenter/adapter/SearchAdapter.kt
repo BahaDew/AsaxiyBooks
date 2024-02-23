@@ -32,7 +32,7 @@ class SearchAdapter : ListAdapter<BookUIData, SearchAdapter.SearchViewHolder>(Se
                     bookAuthor.text = item.author
 
                     Glide.with(binding.root.context)
-                        .load(item.coverImage[0])
+                        .load(item.coverImage)
                         .centerCrop()
                         .placeholder(R.drawable.ic_logo_1)
                         .error(R.drawable.ic_logo_1)
