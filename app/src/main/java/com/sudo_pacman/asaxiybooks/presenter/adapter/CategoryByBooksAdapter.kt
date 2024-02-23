@@ -19,7 +19,7 @@ class CategoryByBooksAdapter :
     private var onClick: ((BookUIData) -> Unit)? = null
     private var time = System.currentTimeMillis()
 
-    inner class CategoryByHolder(private val binding: ItemAudioBookBinding) :
+    inner class CategoryByHolder(private val binding: ItemBookByCategoryBinding) :
         ViewHolder(binding.root) {
         init {
             binding.item.setOnClickListener {
@@ -61,7 +61,7 @@ class CategoryByBooksAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryByHolder {
         return CategoryByHolder(
-            ItemAudioBookBinding.inflate(
+            ItemBookByCategoryBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
