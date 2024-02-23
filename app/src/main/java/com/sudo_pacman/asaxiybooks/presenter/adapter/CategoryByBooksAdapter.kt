@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
+import com.sudo_pacman.asaxiybooks.databinding.ItemAudioBookBinding
 import com.sudo_pacman.asaxiybooks.databinding.ItemBookBinding
 import com.sudo_pacman.asaxiybooks.databinding.ItemBookByCategoryBinding
 
@@ -18,7 +19,7 @@ class CategoryByBooksAdapter :
     private var onClick: ((BookUIData) -> Unit)? = null
     private var time = System.currentTimeMillis()
 
-    inner class CategoryByHolder(private val binding: ItemBookBinding) :
+    inner class CategoryByHolder(private val binding: ItemAudioBookBinding) :
         ViewHolder(binding.root) {
         init {
             binding.item.setOnClickListener {
@@ -60,7 +61,7 @@ class CategoryByBooksAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryByHolder {
         return CategoryByHolder(
-            ItemBookBinding.inflate(
+            ItemAudioBookBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
