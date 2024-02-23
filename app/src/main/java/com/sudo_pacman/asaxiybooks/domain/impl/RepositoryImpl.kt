@@ -59,9 +59,9 @@ class RepositoryImpl @Inject constructor() : Repository {
 
     override fun getCategoryByBooks() :  Flow<Result<List<CategoryByBookData>>> = callbackFlow<Result<List<CategoryByBookData>>> {
         val categoryList = ArrayList<CategoryByBookData>()
+        var count = 0
         fireStore.collection("category")
             .addSnapshotListener { value, _ ->
-                var count = 0
                 value?.forEach {
                     val categoryName = it.data.getOrDefault("name", "") as String
                     val categoryId = it.id
@@ -104,7 +104,9 @@ class RepositoryImpl @Inject constructor() : Repository {
                                     type = 10
                                 )
                             )
-                            if(count == it.data.size) {
+                            "$count chi ma'lumot ${value.size()} ta ma'lumot bor".myLog("BAHA")
+                            if(count == value.size()) {
+                                "$count ta ma'lumot".myLog("BAHA")
                                 trySend(Result.success(categoryList))
                             }
                         }
