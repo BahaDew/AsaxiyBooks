@@ -29,7 +29,7 @@ class InfoScreen : Fragment(R.layout.screen_info) {
     private val navArgs by navArgs<InfoScreenArgs>()
     private val viewModel: InfoViewModel by viewModels<InfoViewModelImpl>()
     private var isResume = false
-    private val bottomDialog = Dialog(requireContext())
+    private val bottomDialog by lazy(LazyThreadSafetyMode.NONE) { Dialog(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,11 +73,13 @@ class InfoScreen : Fragment(R.layout.screen_info) {
 
         bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)?.setOnClickListener {
             isResume = if (isResume) {
-                bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)!!.setImageResource(R.drawable.ic_restart)
+                bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)!!
+                    .setImageResource(R.drawable.ic_restart)
                 viewModel.pause()
                 true
             } else {
-                bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)!!.setImageResource(R.drawable.ic_pause)
+                bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)!!
+                    .setImageResource(R.drawable.ic_pause)
                 viewModel.resume()
                 false
             }
