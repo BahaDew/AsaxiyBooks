@@ -39,18 +39,19 @@ class LibraryVMImp @Inject constructor(
 
     override val progressState = MutableStateFlow(true)
     override fun getAllCategoryByData() {
-          progressState.value = false
+        progressState.value = false
         repository.getCategoryByBooks()
             .onEach {
                 progressState.value = true
                 it.onSuccess { list ->
                     allBookByCategory.value = list
+                }.onFailure { th ->
+                    _errorMessage?.invoke(th.message.toString())
                 }
-                it.onFailure { exception ->
-                    _errorMessage?.invoke(exception.message.toString())
-                }
-            }.launchIn(viewModelScope)
+            }
+            .launchIn(viewModelScope)
     }
+
 
     override fun onClickSearch() {
         viewModelScope.launch {

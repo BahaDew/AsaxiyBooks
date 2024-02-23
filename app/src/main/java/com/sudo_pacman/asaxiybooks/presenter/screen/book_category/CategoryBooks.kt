@@ -10,13 +10,18 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.databinding.ScreenByCategoryBinding
 import com.sudo_pacman.asaxiybooks.presenter.adapter.CategoryByBooksAdapter
+import com.sudo_pacman.asaxiybooks.presenter.adapter.CategoryPdfByBooksAdapter
 import com.sudo_pacman.asaxiybooks.presenter.screen.category_by_audios.CategoryByAudiosScreenArgs
+import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryByAudioVM
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryVM
+import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.CategoryByAudioVMImpl
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.CategoryVMImp
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CategoryBooks : Fragment(R.layout.screen_by_category){
     private val binding by viewBinding(ScreenByCategoryBinding::bind)
-    private val adapter = CategoryByBooksAdapter()
+    private val adapter = CategoryPdfByBooksAdapter()
     private val navArgs by navArgs<CategoryByAudiosScreenArgs>()
     private val viewModel : CategoryVM by viewModels<CategoryVMImp>()
 

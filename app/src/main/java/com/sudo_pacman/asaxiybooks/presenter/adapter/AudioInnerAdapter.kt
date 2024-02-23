@@ -23,6 +23,7 @@ class AudioInnerAdapter : ListAdapter<BookUIData, AudioInnerAdapter.BookHolder>(
             getItem(adapterPosition).apply {
                 binding.bookName.text = name
                 binding.bookAuthor.text = author
+
                 Glide
                     .with(binding.root.context)
                     .load(coverImage)
