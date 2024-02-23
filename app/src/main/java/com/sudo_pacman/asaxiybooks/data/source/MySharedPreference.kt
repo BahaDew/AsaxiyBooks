@@ -5,7 +5,9 @@ import android.content.SharedPreferences
 import com.sudo_pacman.asaxiybooks.data.model.UserData
 
 object MySharedPreference {
+
     private lateinit var sharedPreferences: SharedPreferences
+
     fun init(context: Context) {
         sharedPreferences = context.getSharedPreferences("Uzum_Market", Context.MODE_PRIVATE)
     }
@@ -47,6 +49,15 @@ object MySharedPreference {
             booksId = booksId
         )
     }
+
+    fun getBookLink(bookId: String): String {
+        return sharedPreferences.getString(bookId, "") ?: ""
+    }
+
+    fun setBookInfo(bookId: String, bookLink: String) {
+        sharedPreferences.edit().putString(bookId,bookLink).apply()
+    }
+
 }
 
 
