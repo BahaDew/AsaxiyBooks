@@ -9,7 +9,10 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.firebase.Firebase
+import com.google.firebase.storage.storage
 import com.sudo_pacman.asaxiybooks.R
+import com.sudo_pacman.asaxiybooks.data.source.MySharedPreference
 import com.sudo_pacman.asaxiybooks.databinding.PageAudioBinding
 import com.sudo_pacman.asaxiybooks.presenter.adapter.AudioOuterAdapter
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.AudioPageVM
@@ -18,6 +21,7 @@ import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.io.File
 
 
 @AndroidEntryPoint
@@ -59,11 +63,37 @@ class AudioPage : Fragment(R.layout.page_audio) {
     private fun initView() = binding.apply {
         rvList.adapter = adapter
         rvList.layoutManager = LinearLayoutManager(requireContext())
-        adapter.setOnClickBook {
-            viewModel.onClickBook(it)
+
+        adapter.setOnClickBook { data ->
+
+            val book = File.createTempFile(data.name, ".${data.type}")
+            Firebase.storage.getReferenceFromUrl(data.audioUrl)
+                .getFile(book)
+                .addOnSuccessListener {
+                    book.parent?.myLog()
+                    MySharedPreference.setBookInfo(bookId = data.docID, bookLink = "${book.parent}/${book.name}")
+                    "OnSuccess".myLog()
+                }
+
+                .addOnFailureListener {
+                    "${it.message}".myLog()
+                    binding.apply {
+                    }
+                }
+
+                .addOnProgressListener {
+                    val prot = it.bytesTransferred * 100 / it.totalByteCount
+                    "audio &6& $prot".myLog()
+                }
+
+            viewModel.onClickBook(data)
+
         }
+
         adapter.setOnClickCategory {
             viewModel.onClickCategory(it)
         }
     }
+
+
 }
