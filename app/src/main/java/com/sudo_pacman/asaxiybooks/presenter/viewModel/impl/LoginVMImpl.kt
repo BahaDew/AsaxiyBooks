@@ -15,11 +15,12 @@ import javax.inject.Inject
 class LoginVMImpl @Inject constructor(
     val repository: LoginRepository,
 ) : ViewModel(), LoginVM {
+
     override val successLoginFlow = MutableSharedFlow<Unit>(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
     override val errorMessage = MutableSharedFlow<String>(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
 
     override fun loginUser(password: String, gmail: String) {
-        repository.loginUser(password, gmail).onEach { it ->
+        repository.loginUser(password, gmail).onEach {
             it.onSuccess {
                 successLoginFlow.tryEmit(Unit)
             }
@@ -28,4 +29,5 @@ class LoginVMImpl @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
+
 }

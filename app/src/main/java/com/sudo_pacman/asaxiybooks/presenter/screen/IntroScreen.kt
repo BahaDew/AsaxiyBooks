@@ -24,7 +24,7 @@ class IntroScreen : Fragment(R.layout.screen_intro) {
         binding.wormDotsIndicator.attachTo(binding.viewPager)
 
         binding.next.setOnClickListener {
-            findNavController().navigate(IntroScreenDirections.actionIntroScreenToRegisterScreen())
+            findNavController().navigate(IntroScreenDirections.actionIntroScreenToLogInScreen())
         }
 
 

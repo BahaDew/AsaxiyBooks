@@ -16,10 +16,9 @@ class LoginRepositoryImpl @Inject constructor() : LoginRepository {
     private val fireStore = Firebase.firestore
 
     override fun loginUser(password: String, gmail: String): Flow<Result<Boolean>> = callbackFlow {
-        fireStore.collection("user")
+        fireStore.collection("users")
             .whereEqualTo("password", password)
             .whereEqualTo("gmail", gmail)
-            .whereEqualTo("type", "client")
             .limit(1)
             .get().addOnSuccessListener {
                 if (it.size() == 0) {
