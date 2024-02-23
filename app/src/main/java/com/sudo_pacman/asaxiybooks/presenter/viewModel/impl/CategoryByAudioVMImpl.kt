@@ -10,6 +10,7 @@ import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryByAudioVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Singleton
 
 @HiltViewModel
 class CategoryByAudioVMImpl @Inject constructor(

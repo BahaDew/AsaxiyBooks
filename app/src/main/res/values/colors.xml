@@ -964,4 +964,6 @@
     <color name="active">#008dff</color>
     <color name="app_bg_color">#0F172B</color>
     <color name="app_bg_color_xira">#1E293B</color>
+    <color name="type_color">#DA6E34</color>
+    <color name="type_color_bg">#25FF5E00</color>
 </resources>

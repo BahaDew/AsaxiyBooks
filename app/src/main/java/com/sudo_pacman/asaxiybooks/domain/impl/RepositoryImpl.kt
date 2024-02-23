@@ -6,11 +6,14 @@ import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.utils.myLog
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,13 +21,12 @@ import javax.inject.Singleton
 class RepositoryImpl @Inject constructor() : Repository {
     private val fireStore = Firebase.firestore
 
-    override val booksList: MutableSharedFlow<List<BookUIData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
-    override val categoriesList: MutableSharedFlow<List<CategoryByBookData>> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
-    override val bookLoadError: MutableSharedFlow<String> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
-    private val mapCategories = HashMap<String, ArrayList<BookUIData>>()
-    init {
-        initCategories()
-    }
+    override val booksList: MutableSharedFlow<List<BookUIData>> =
+        MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+
+    override val bookLoadError: MutableSharedFlow<String> =
+        MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+
     override fun getBooks() {
         fireStore
             .collection("books_data")
@@ -55,33 +57,64 @@ class RepositoryImpl @Inject constructor() : Repository {
             }
     }
 
-    override fun getCategoryByBooks() {
-        fireStore
-            .collection("books_data")
-            .addSnapshotListener { value, error ->
-                val books = mutableListOf<CategoryByBookData>()
-                value?.forEach { snapshot ->
-                    val data =
-                        BookUIData(
-                            docID = snapshot.id,
-                            audioUrl = snapshot.data.getOrDefault("audioUrl", "").toString(),
-                            author = snapshot.data.getOrDefault("author", "").toString(),
-                            bookUrl = snapshot.data.getOrDefault("bookUrl", "").toString(),
-                            categoryId = snapshot.data.getOrDefault("categoryId", "").toString(),
-                            coverImage = snapshot.data.getOrDefault("coverImage", "").toString(),
-                            description = snapshot.data.getOrDefault("description", "").toString(),
-                            filePath = snapshot.data.getOrDefault("filePath", "").toString(),
-                            name = snapshot.data.getOrDefault("name", "").toString(),
-                            totalSize = snapshot.data.getOrDefault("totalSize", "").toString(),
-                            type = snapshot.data.getOrDefault("pdf", "").toString(),
-                        )
+    override fun getCategoryByBooks() :  Flow<Result<List<CategoryByBookData>>> = callbackFlow<Result<List<CategoryByBookData>>> {
+        val categoryList = ArrayList<CategoryByBookData>()
+        fireStore.collection("category")
+            .addSnapshotListener { value, _ ->
+                var count = 0
+                value?.forEach {
+                    val categoryName = it.data.getOrDefault("name", "") as String
+                    val categoryId = it.id
+                    fireStore.collection("books_data")
+                        .whereEqualTo("categoryId", categoryId)
+                        .get()
+                        .addOnSuccessListener { qs ->
+                            count++
+                            val listBookData = ArrayList<BookUIData>()
+                            qs.forEach { snapshot ->
+                                val data =
+                                    BookUIData(
+                                        docID = snapshot.id,
+                                        audioUrl = snapshot.data.getOrDefault("audioUrl", "")
+                                            .toString(),
+                                        author = snapshot.data.getOrDefault("author", "")
+                                            .toString(),
+                                        bookUrl = snapshot.data.getOrDefault("bookUrl", "")
+                                            .toString(),
+                                        categoryId = snapshot.data.getOrDefault("categoryId", "")
+                                            .toString(),
+                                        coverImage = snapshot.data.getOrDefault("coverImage", "")
+                                            .toString(),
+                                        description = snapshot.data.getOrDefault("description", "")
+                                            .toString(),
+                                        filePath = snapshot.data.getOrDefault("filePath", "")
+                                            .toString(),
+                                        name = snapshot.data.getOrDefault("name", "").toString(),
+                                        totalSize = snapshot.data.getOrDefault("totalSize", "")
+                                            .toString(),
+                                        type = snapshot.data.getOrDefault("type", "").toString(),
+                                    )
+                                listBookData.add(data)
+                            }
+                            categoryList.add(
+                                CategoryByBookData(
+                                    categoryName = categoryName,
+                                    categoryId = categoryId,
+                                    books = listBookData,
+                                    type = 10
+                                )
+                            )
+                            if(count == it.data.size) {
+                                trySend(Result.success(categoryList))
+                            }
+                        }
+                        .addOnFailureListener {exp ->
+                            trySend(Result.failure(exp))
+                        }
                 }
-
-                if (error != null) bookLoadError.tryEmit(error.message.toString())
-                "yaroqli olindi ${books.size}".myLog()
-                categoriesList.tryEmit(books)
             }
-    }
+        awaitClose()
+    }.flowOn(Dispatchers.IO)
 
     override fun setData(books: List<BookUIData>): Flow<Result<Unit>> = callbackFlow {
 
@@ -98,15 +131,5 @@ class RepositoryImpl @Inject constructor() : Repository {
         }
 
         awaitClose()
-    }
-    private fun initCategories() {
-        mapCategories.clear()
-        fireStore.collection("category")
-            .addSnapshotListener { value, _ ->
-                value?.forEach {
-                    val name = it.data.getOrDefault("", "") as String
-                    mapCategories[name] = arrayListOf()
-                }
-            }
     }
 }

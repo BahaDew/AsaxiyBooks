@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_bg_color"
+    android:orientation="vertical"
+    android:scrollbars="none"
     tools:context="com.sudo_pacman.asaxiybooks.presenter.screen.main.page.ProfilePage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -366,7 +368,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="15dp"
-            android:text="Ilova mavzusi"
+            android:text="Biz bilan bog'lanish"
             android:textColor="#FFF"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@id/ic_call"
@@ -399,7 +401,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="15dp"
-            android:text="Ilova mavzusi"
+            android:text="Akkauntdan chiqish"
             android:textColor="#FFF"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="@id/ic_log_out"

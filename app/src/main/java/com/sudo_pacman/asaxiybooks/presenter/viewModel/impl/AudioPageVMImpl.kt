@@ -9,9 +9,10 @@ import com.sudo_pacman.asaxiybooks.navigation.AppNavigator
 import com.sudo_pacman.asaxiybooks.presenter.screen.main.MainScreenDirections
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.AudioPageVM
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -24,21 +25,26 @@ class AudioPageVMImpl @Inject constructor(
 ) : ViewModel(), AudioPageVM {
     override val progressSate = MutableStateFlow(true)
     override val allCategoryByData = MutableStateFlow<List<CategoryByBookData>>(arrayListOf())
-
-    init {
-        viewModelScope.launch {
-            repository.booksList.onEach {
-                progressSate.value = true
-                allCategoryByData.value = booksToSplitCategory(it)
-            }
-                .flowOn(Dispatchers.IO)
-                .launchIn(viewModelScope)
+    private var _errorMessage: ((String) -> Unit)? = null
+    override val errorMessage: Flow<String> = channelFlow {
+        _errorMessage = {
+            trySend(it)
         }
+        awaitClose { _errorMessage = null }
     }
 
     override fun getAllCategoryByData() {
         progressSate.value = false
-        repository.getBooks()
+        repository.getCategoryByBooks()
+            .onEach {
+                progressSate.value = true
+                it.onSuccess { list ->
+                    allCategoryByData.value = list
+                }.onFailure { th ->
+                    _errorMessage?.invoke(th.message.toString())
+                }
+            }
+            .launchIn(viewModelScope)
     }
 
     override fun onClickCategory(category: CategoryByBookData) {
@@ -55,12 +61,5 @@ class AudioPageVMImpl @Inject constructor(
         viewModelScope.launch {
             appNavigator.navigateTo(MainScreenDirections.actionMainScreenToInfoScreen(bookUIData))
         }
-    }
-    private fun booksToSplitCategory(list : List<BookUIData>) : List<CategoryByBookData> {
-        val map = HashMap<String, List<BookUIData>>()
-//        for (i in list.indices) {
-//            if(map.containsKey(list[i]))
-//        }
-        return arrayListOf()
     }
 }
