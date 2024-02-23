@@ -16,7 +16,9 @@ import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryByAudioVM
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryVM
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.CategoryByAudioVMImpl
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.CategoryVMImp
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CategoryBooks : Fragment(R.layout.screen_by_category){
     private val binding by viewBinding(ScreenByCategoryBinding::bind)
     private val adapter = CategoryPdfByBooksAdapter()
