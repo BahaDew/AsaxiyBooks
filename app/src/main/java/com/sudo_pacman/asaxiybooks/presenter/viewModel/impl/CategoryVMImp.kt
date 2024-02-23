@@ -22,21 +22,7 @@ class CategoryVMImp @Inject constructor(
     private val repository: Repository,
     private val appNavigator: AppNavigator
 ): ViewModel(), CategoryVM {
-    override val progressSate = MutableStateFlow(true)
-    override val allCategoryByData = MutableStateFlow<List<CategoryByBookData>>(arrayListOf())
 
-
-    override fun getAllCategoryByData() {
-        progressSate.value = false
-        repository.getBooks()
-        repository
-    }
-
-    override fun onClickCategory(category: CategoryByBookData) {
-        viewModelScope.launch {
-            appNavigator.navigateTo(MainScreenDirections.actionMainScreenToCategoryBooks2(category))
-        }
-    }
 
     override fun onClickBook(bookUIData: BookUIData) {
         viewModelScope.launch {

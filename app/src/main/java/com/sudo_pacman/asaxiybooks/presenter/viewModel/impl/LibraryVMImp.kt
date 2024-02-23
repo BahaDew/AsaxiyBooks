@@ -12,6 +12,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +23,7 @@ class LibraryVMImp @Inject constructor(
     private val repository: Repository,
     private val appNavigator: AppNavigator
 ): ViewModel(),LibraryVM  {
+
     override val allBookByCategory = MutableStateFlow<List<CategoryByBookData>>(
         arrayListOf()
     )
@@ -32,10 +35,27 @@ class LibraryVMImp @Inject constructor(
         }
         awaitClose{ _errorMessage = null}
     }
+
+
     override val progressState = MutableStateFlow(true)
+    override fun getAllCategoryByData() {
+          progressState.value = false
+        repository.getCategoryByBooks()
+            .onEach {
+                progressState.value = true
+                it.onSuccess { list ->
+                    allBookByCategory.value = list
+                }
+                it.onFailure { exception ->
+                    _errorMessage?.invoke(exception.message.toString())
+                }
+            }.launchIn(viewModelScope)
+    }
 
     override fun onClickSearch() {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+           // appNavigator.navigateTo()
+        }
     }
 
     override fun onClickCategory(category: CategoryByBookData) {
@@ -45,12 +65,10 @@ class LibraryVMImp @Inject constructor(
     }
 
     override fun onClickBook(book: BookUIData) {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            appNavigator.navigateTo(MainScreenDirections.actionMainScreenToInfoScreen(book))
+        }
     }
 
-    override fun loadBooks() {
-        progressState.value = false
-       // repository.
 
-    }
 }
