@@ -74,7 +74,7 @@ class InfoScreen : Fragment(R.layout.screen_info) {
         bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)?.setOnClickListener {
             isResume = if (isResume) {
                 bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)!!
-                    .setImageResource(R.drawable.ic_restart)
+                    .setImageResource(R.drawable.ic_pause)
                 viewModel.pause()
                 true
             } else {
