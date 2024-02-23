@@ -14,6 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.databinding.ScreenInfoBinding
 import com.sudo_pacman.asaxiybooks.utils.myLog
@@ -25,6 +27,7 @@ class InfoScreen : Fragment(R.layout.screen_info) {
     private val navArgs by navArgs<InfoScreenArgs>()
     private val viewModel: InfoViewModel by viewModels<InfoViewModelImpl>()
     private var isResume = false
+    private val bottomDialog = Dialog(requireContext())
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,22 +52,30 @@ class InfoScreen : Fragment(R.layout.screen_info) {
 //            findNavController().navigate(InfoScreenDirections.actionInfoScreenToReadScreen(bookData))
         }
 
+
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
 
+        Firebase.firestore.collection("category")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                querySnapshot.documents.forEach {
+                    binding.tvCatogry.text = it.data?.getOrDefault("name", "").toString()
+                }
+            }
     }
 
     private fun dialog() {
-        val bottomDialog = Dialog(requireContext())
-
         bottomDialog.setContentView(R.layout.dialog_download)
 
         bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)?.setOnClickListener {
             isResume = if (isResume) {
+                bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)!!.setImageResource(R.drawable.ic_restart)
                 viewModel.pause()
                 true
             } else {
+                bottomDialog.window?.findViewById<ImageView>(R.id.btn_pause)!!.setImageResource(R.drawable.ic_pause)
                 viewModel.resume()
                 false
             }
