@@ -68,36 +68,38 @@ class AudioPage : Fragment(R.layout.page_audio) {
             "initView: book bosildi".myLog("AUDIO")
             viewModel.onClickBook(it)
 
-        adapter.setOnClickBook { data ->
+            adapter.setOnClickBook { data ->
 
-            val book = File.createTempFile(data.name, ".${data.type}")
-            Firebase.storage.getReferenceFromUrl(data.audioUrl)
-                .getFile(book)
-                .addOnSuccessListener {
-                    book.parent?.myLog()
-                    MySharedPreference.setBookInfo(bookId = data.docID, bookLink = "${book.parent}/${book.name}")
-                    "OnSuccess".myLog()
-                }
-
-                .addOnFailureListener {
-                    "${it.message}".myLog()
-                    binding.apply {
+                val book = File.createTempFile(data.name, ".${data.type}")
+                Firebase.storage.getReferenceFromUrl(data.audioUrl)
+                    .getFile(book)
+                    .addOnSuccessListener {
+                        book.parent?.myLog()
+                        MySharedPreference.setBookInfo(
+                            bookId = data.docID,
+                            bookLink = "${book.parent}/${book.name}"
+                        )
+                        "OnSuccess".myLog()
                     }
-                }
 
-                .addOnProgressListener {
-                    val prot = it.bytesTransferred * 100 / it.totalByteCount
-                    "audio &6& $prot".myLog()
-                }
+                    .addOnFailureListener {
+                        "${it.message}".myLog()
+                        binding.apply {
+                        }
+                    }
 
-            viewModel.onClickBook(data)
+                    .addOnProgressListener {
+                        val prot = it.bytesTransferred * 100 / it.totalByteCount
+                        "audio &6& $prot".myLog()
+                    }
 
-        }
+                viewModel.onClickBook(data)
 
-        adapter.setOnClickCategory {
-            viewModel.onClickCategory(it)
+            }
+
+            adapter.setOnClickCategory {
+                viewModel.onClickCategory(it)
+            }
         }
     }
-
-
 }
