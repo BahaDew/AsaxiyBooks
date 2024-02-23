@@ -1,4 +1,4 @@
-package com.sudo_pacman.asaxiybooks.presenter.screen.read
+package com.sudo_pacman.asaxiybooks.presenter.viewModel
 
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import kotlinx.coroutines.flow.MutableSharedFlow

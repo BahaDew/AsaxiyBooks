@@ -4,7 +4,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.sudo_pacman.asaxiybooks.presenter.screen.intro.page.IntroPage
+import com.sudo_pacman.asaxiybooks.presenter.page.IntroPage
 
 class IntroAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
     override fun getItemCount(): Int = 3

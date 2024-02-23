@@ -1,4 +1,4 @@
-package com.sudo_pacman.asaxiybooks.presenter.screen.main.page
+package com.sudo_pacman.asaxiybooks.presenter.page
 
 import android.os.Bundle
 import android.view.View
@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class BooksPage : Fragment(R.layout.page_books) {
     private val binding by viewBinding(PageBooksBinding::bind)
-    private val repository = RepositoryImpl()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

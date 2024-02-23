@@ -1,10 +1,8 @@
 package com.sudo_pacman.asaxiybooks.domain.impl
 
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FileDownloadTask
-import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import com.sudo_pacman.asaxiybooks.data.dao.BookDao
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
@@ -12,10 +10,8 @@ import com.sudo_pacman.asaxiybooks.data.model.UploadData
 import com.sudo_pacman.asaxiybooks.utils.myLog
 import com.sudo_pacman.asaxiybooks.utils.toEntityBookData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import java.io.File
@@ -24,7 +20,7 @@ import javax.inject.Singleton
 
 @Singleton
 class RepositoryPdf @Inject constructor(
-    private val bookDao: BookDao
+    private val bookDao: BookDao,
 ) {
     private val fireStorage = Firebase.storage
     private val fireStore = Firebase.firestore
@@ -34,9 +30,10 @@ class RepositoryPdf @Inject constructor(
 
         "repo olish kerak $bookUIData".myLog()
 
-        if (bookDao.isHas(bookUIData.bookUrl) != 0L) {
+        val bookId = bookDao.isHas(bookUIData.bookUrl)
+        if (bookId != 0L) {
             "bunaqasi borakan".myLog()
-            trySend(Result.success(File(bookUIData.filePath)))
+            trySend(Result.success(File(bookDao.getBooksById(id = bookId).filePath)))
         } else {
             "bunaqasi yo'q ekan yuklaymiz".myLog()
 
@@ -69,9 +66,11 @@ class RepositoryPdf @Inject constructor(
 
         "repo olish kerak $bookUIData".myLog()
 
-        if (bookDao.isHas(bookUIData.bookUrl) != 0L) {
-            "bunaqasi borakan".myLog()
-            trySend(UploadData.Success(File(bookUIData.filePath)))
+        val bookId = bookDao.isHas(bookUIData.bookUrl)
+
+        if (bookId != 0L) {
+            "repo o'zi bor ekan".myLog()
+            trySend(UploadData.Success(File(bookDao.getBooksById(id = bookId).filePath)))
         } else {
             "bunaqasi yo'q ekan yuklaymiz".myLog()
 
@@ -108,7 +107,7 @@ class RepositoryPdf @Inject constructor(
 
         awaitClose()
     }
-    .flowOn(Dispatchers.IO)
+        .flowOn(Dispatchers.IO)
 
 
     fun cancelDownload() {

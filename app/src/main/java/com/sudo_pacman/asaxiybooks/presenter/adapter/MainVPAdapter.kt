@@ -4,10 +4,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.sudo_pacman.asaxiybooks.presenter.screen.main.page.AudioPage
-import com.sudo_pacman.asaxiybooks.presenter.screen.main.page.BooksPage
-import com.sudo_pacman.asaxiybooks.presenter.screen.main.page.LibraryPage
-import com.sudo_pacman.asaxiybooks.presenter.screen.main.page.ProfilePage
+import com.sudo_pacman.asaxiybooks.presenter.page.AudioPage
+import com.sudo_pacman.asaxiybooks.presenter.page.BooksPage
+import com.sudo_pacman.asaxiybooks.presenter.page.LibraryPage
+import com.sudo_pacman.asaxiybooks.presenter.page.ProfilePage
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.AudioPageVMImpl
 
 class MainVPAdapter(
