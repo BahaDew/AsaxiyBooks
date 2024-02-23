@@ -6,4 +6,5 @@ interface LoginVM {
     val successLoginFlow: Flow<Unit>
     val errorMessage: Flow<String>
     fun loginUser(password: String, gmail: String)
+    fun onClickEmail()
 }
