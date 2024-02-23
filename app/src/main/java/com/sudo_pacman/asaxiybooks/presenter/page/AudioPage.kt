@@ -28,6 +28,7 @@ class AudioPage : Fragment(R.layout.page_audio) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getAllCategoryByData()
+        "onCreate: getAll".myLog("AUDIO")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,16 +40,16 @@ class AudioPage : Fragment(R.layout.page_audio) {
     private fun initFlow() = binding.apply {
         viewModel.progressSate.onEach {
             progress.isGone = it
-            "initFlow: progress:  $it".myLog("BAHA")
+            "initFlow: progress:  $it".myLog("AUDIO")
         }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
 
         viewModel.allCategoryByData
             .onEach {
-                "initFlow: ${it.size}".myLog("BAHA")
+                "initFlow: ${it.size}".myLog("AUDIO")
                 for (i in it.indices) {
-                    it[i].categoryName.myLog("BAHA")
+                    it[i].categoryName.myLog("AUDIO")
                 }
                 adapter.submitList(it)
             }
@@ -60,6 +61,7 @@ class AudioPage : Fragment(R.layout.page_audio) {
         rvList.adapter = adapter
         rvList.layoutManager = LinearLayoutManager(requireContext())
         adapter.setOnClickBook {
+            "initView: book bosildi".myLog("AUDIO")
             viewModel.onClickBook(it)
         }
         adapter.setOnClickCategory {
