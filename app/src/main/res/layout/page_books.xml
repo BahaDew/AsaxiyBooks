@@ -9,14 +9,14 @@
     <View
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="?android:actionBarSize"
         android:background="@color/app_bg_color"
         app:layout_constraintTop_toTopOf="parent"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mening kitoblarim"
-        android:textSize="20dp"
+        android:textSize="24dp"
         android:textColor="#FFF"
         android:fontFamily="@font/roboto_medium"
         app:layout_constraintTop_toTopOf="parent"

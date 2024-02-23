@@ -53,10 +53,11 @@
             android:layout_gravity="center"
             android:layout_weight="5"
             android:autofillHints=""
-            android:gravity="bottom"
             android:hint="@string/kitoblarni_qidirish"
             android:inputType="text"
             android:textColor="@color/white"
+            android:textCursorDrawable="@drawable/bg_text_cursor"
+            android:background="@android:color/transparent"
             android:textSize="20dp" />
     </LinearLayout>
 
