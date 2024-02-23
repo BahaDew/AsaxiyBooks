@@ -1,6 +1,7 @@
 package com.sudo_pacman.asaxiybooks.presenter.screen.main.page
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import com.sudo_pacman.asaxiybooks.databinding.PageLibraryBinding
 import com.sudo_pacman.asaxiybooks.presenter.adapter.LibraryAdapter
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.LibraryVM
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.LibraryVMImp
+import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,8 +24,8 @@ import kotlinx.coroutines.flow.onEach
 class LibraryPage : Fragment(R.layout.page_library){
 
     private val binding by viewBinding(PageLibraryBinding::bind)
-    private val viewModel: LibraryVM by viewModels<LibraryVMImp>()
     private val adapter = LibraryAdapter()
+    private val viewModel: LibraryVM by viewModels<LibraryVMImp>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +42,7 @@ class LibraryPage : Fragment(R.layout.page_library){
     private fun initViews() = binding.apply {
         rvList.adapter = adapter
         rvList.layoutManager = LinearLayoutManager(requireContext())
+
         adapter.setOnClickBook { bookData ->
             viewModel.onClickBook(bookData)
         }
@@ -58,6 +61,11 @@ class LibraryPage : Fragment(R.layout.page_library){
 
         viewModel.allBookByCategory
             .onEach {
+                "initFlow: ${it.size}".myLog("BAHA")
+                for (i in it.indices) {
+                    it[i].categoryName.myLog("BAHA")
+                }
+                Log.d("TTT", "All book by Category")
                 adapter.submitList(it)
             }
             .flowWithLifecycle(lifecycle)
