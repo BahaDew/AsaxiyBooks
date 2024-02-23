@@ -30,9 +30,10 @@ class RepositoryPdf @Inject constructor(
 
         "repo olish kerak $bookUIData".myLog()
 
-        if (bookDao.isHas(bookUIData.bookUrl) != 0L) {
+        val bookId = bookDao.isHas(bookUIData.bookUrl)
+        if (bookId != 0L) {
             "bunaqasi borakan".myLog()
-            trySend(Result.success(File(bookUIData.filePath)))
+            trySend(Result.success(File(bookDao.getBooksById(id = bookId).filePath)))
         } else {
             "bunaqasi yo'q ekan yuklaymiz".myLog()
 
@@ -65,9 +66,11 @@ class RepositoryPdf @Inject constructor(
 
         "repo olish kerak $bookUIData".myLog()
 
-        if (bookDao.isHas(bookUIData.bookUrl) != 0L) {
-            "bunaqasi borakan".myLog()
-            trySend(UploadData.Success(File(bookUIData.filePath)))
+        val bookId = bookDao.isHas(bookUIData.bookUrl)
+
+        if (bookId != 0L) {
+            "repo o'zi bor ekan".myLog()
+            trySend(UploadData.Success(File(bookDao.getBooksById(id = bookId).filePath)))
         } else {
             "bunaqasi yo'q ekan yuklaymiz".myLog()
 
