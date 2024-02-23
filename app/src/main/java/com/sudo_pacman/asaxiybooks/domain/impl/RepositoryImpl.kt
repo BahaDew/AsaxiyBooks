@@ -27,6 +27,9 @@ class RepositoryImpl @Inject constructor() : Repository {
     override val bookLoadError: MutableSharedFlow<String> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
 
+
+    private val allBookData = ArrayList<BookUIData>()
+
     override fun getBooks() {
         fireStore
             .collection("books_data")
@@ -133,5 +136,14 @@ class RepositoryImpl @Inject constructor() : Repository {
         }
 
         awaitClose()
+    }
+
+    override fun getBookByName(name: String): List<BookUIData> {
+          if(name.isEmpty()) return  arrayListOf()
+        val ls = allBookData.filter {
+            it.name.lowercase().contains(name.lowercase()) ?: false
+        }
+
+        return ls
     }
 }
