@@ -15,6 +15,7 @@ import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.io.File
 
 @AndroidEntryPoint
 class ReadScreen : Fragment(R.layout.screen_read) {
@@ -25,18 +26,10 @@ class ReadScreen : Fragment(R.layout.screen_read) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.downloadBook(navArgs.bookData)
-        binding.progress.visibility = View.VISIBLE
-
-
-        viewModel.bookSharedFlow.onEach {
-            "screen kitob keldi name: ${it.name} , path: ${it.absolutePath}".myLog()
-//            "screen da bunaqa kitob bormi ${i}"
-            binding.pdfViewer.recycle()
-            binding.progress.visibility = View.GONE
-            binding.pdfViewer
-                .fromFile(it)
-                .load()
-        }.launchIn(lifecycleScope)
+        binding.pdfViewer.recycle()
+        binding.progress.visibility = View.GONE
+        binding.pdfViewer
+            .fromFile(File(navArgs.bookPath))
+            .load()
     }
 }

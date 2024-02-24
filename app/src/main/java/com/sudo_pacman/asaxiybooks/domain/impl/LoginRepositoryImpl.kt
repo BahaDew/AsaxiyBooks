@@ -31,6 +31,8 @@ class LoginRepositoryImpl @Inject constructor() : LoginRepository {
                 }
                 else {
                     val user = Mapper.run { value!!.toUserDataList()[0] }
+                    "repo login set qilyapman $user".myLog()
+                    "repo login set qilayotgan id larim ${user.booksId.joinToString(",")}".myLog()
                     MySharedPreference.setUserData(user)
                     trySend(Result.success(true))
                     channel.close()

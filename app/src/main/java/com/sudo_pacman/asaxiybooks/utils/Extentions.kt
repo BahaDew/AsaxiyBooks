@@ -33,7 +33,8 @@ object Mapper {
             val name = document.data.getOrDefault("name", "").toString()
             val gmail = document.data.getOrDefault("gmail", "").toString()
             val password = document.data.getOrDefault("password", "").toString()
-            val booksId = document.data.getOrDefault("", mutableListOf<String>()) as List<String>
+            val booksId = document.data.getOrDefault("booksId", mutableListOf<String>()) as List<String>
+            "mapper user idlar ${booksId.joinToString(",")}".myLog()
 
             val userData = UserData(
                 id = id,
