@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sudo_pacman.asaxiybooks.R
+import com.sudo_pacman.asaxiybooks.data.source.MySharedPreference
 import com.sudo_pacman.asaxiybooks.databinding.ScreenSplashBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -21,10 +22,15 @@ class SplashScreen : Fragment(R.layout.screen_splash) {
     private val binding by viewBinding(ScreenSplashBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val sharedPref = MySharedPreference
 
         lifecycleScope.launch {
             delay(2000)
-            findNavController().navigate(SplashScreenDirections.actionSplashScreenToIntroScreen())
+            if (sharedPref.isLogin()) {
+                findNavController().navigate(SplashScreenDirections.actionSplashScreenToMainScreen())
+            } else findNavController().navigate(SplashScreenDirections.actionSplashScreenToIntroScreen())
+
+//            findNavController().navigate(SplashScreenDirections.actionSplashScreenToIntroScreen())
 
 //            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }

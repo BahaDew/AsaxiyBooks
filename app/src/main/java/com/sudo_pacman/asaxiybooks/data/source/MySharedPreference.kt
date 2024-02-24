@@ -58,6 +58,8 @@ object MySharedPreference {
         sharedPreferences.edit().putString(bookId,bookLink).apply()
     }
 
+    fun isLogin(): Boolean = sharedPreferences.getBoolean("login", false)
+
 }
 
 
