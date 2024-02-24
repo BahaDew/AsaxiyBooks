@@ -43,12 +43,8 @@ class LogInScreen : Fragment(R.layout.screen_log_in) {
         binding.apply {
 
             signIn.setOnClickListener {
-//                if (!isValidPassword())return@setOnClickListener
-//                if (!isValidGmail())return@setOnClickListener
                 viewModel.loginUser(password.text.toString(), emailEditText.text.toString())
             }
-
-
 
             email.setOnClickListener {
                 viewModel.onClickEmail()

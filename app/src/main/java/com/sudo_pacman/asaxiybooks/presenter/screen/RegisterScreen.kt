@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sudo_pacman.asaxiybooks.R
+import com.sudo_pacman.asaxiybooks.data.model.AddBookData
+import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.databinding.ScreenRegisterBinding
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.RegisterVM
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.RegisterVMImpl
@@ -41,6 +43,21 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
                 viewModel.registerUser(name, password, gmail)
                 findNavController().navigate(RegisterScreenDirections.actionRegisterScreenToMainScreen())
             }
+
+//            viewModel.addBook(
+//                AddBookData(
+//                    "https://firebasestorage.googleapis.com/v0/b/asaxiybooks-6f7ed.appspot.com/o/audio%2Fbook_7_Kunlar.mp3?alt=media&token=86ec1ae0-4031-4bc0-9398-9cef5d318aa5",
+//                    "Abdulla qodiriy",
+//                    "",
+//                    "CyloVyCdbMKXkJRizgPR",
+//                    "https://firebasestorage.googleapis.com/v0/b/asaxiybooks-6f7ed.appspot.com/o/images%2Fotkan%20kunlar.PNG?alt=media&token=fd504c53-4af0-4847-bc36-c73f2ca7a63a",
+//                    "\"O'tkan kunlar” asarini ilk bor ogiganimda, kitobning so'ngida asarga Tohir Malik tomonidan yozilgan sharhni oqib goldim. Ushbu sharhni ogimagunimcha, men “O'tkan kunlar” asarini shunchaki bir sevgi  gissasi, muhabbat hagida yozilgan ilk o’zbek romani deb o'ylagan edim. Ushbu sharhni ogib chiggach asar hagidagi fikrim butunlay o’zgardi va asar yozilishining asl magsadi va uning ostida yotgan xalq  dardini tushunib yetdim. Sizga ham Tohir Malik tomonidan \"O’tkan kunlar” romani hagida yozilgan mazkur magolani oqishni tavsiya gilaman.",
+//                    "",
+//                    "O'tkan kunlar",
+//                    "1.83",
+//                    "mp3"
+//                )
+//            )
 
         }
 

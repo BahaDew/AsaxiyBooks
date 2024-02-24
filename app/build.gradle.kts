@@ -110,17 +110,15 @@ dependencies {
     implementation("com.makeramen:roundedimageview:2.3.0")
 
     /**
-    *  ROOM ORM
-    **/
+     *  ROOM ORM
+     **/
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
 
-    // circle seekbar
+    /**
+     * circle seekbar
+     **/
     implementation("me.tankery.lib:circularSeekBar:1.4.2")
 
-    //Gson
-    implementation ("com.google.code.gson:gson:2.8.8")
 }
-
-
