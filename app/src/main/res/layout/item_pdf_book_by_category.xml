@@ -42,10 +42,10 @@
             android:layout_marginEnd="20dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="O'tkan kunlar (Audio kitob)"
+            android:text="@string/o_tkan_kunlar"
             android:textColor="#FFF"
             android:fontFamily="@font/roboto"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintLeft_toRightOf="@id/box_img"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/box_img" />

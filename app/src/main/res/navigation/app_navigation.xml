@@ -68,6 +68,9 @@
         <action
             android:id="@+id/action_mainScreen_to_audioScreen"
             app:destination="@id/audioScreen" />
+        <action
+            android:id="@+id/action_mainScreen_to_ordersHistory"
+            app:destination="@id/ordersHistory" />
 
     </fragment>
 
@@ -154,6 +157,16 @@
         <argument
             android:name="data"
             app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />
+    </fragment>
+    <fragment
+        android:id="@+id/ordersHistory"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.OrdersHistory"
+        android:label="OrdersHistory"
+        tools:layout="@layout/screen_history"
+        >
+        <action
+            android:id="@+id/action_ordersHistory_to_infoScreen"
+            app:destination="@id/infoScreen" />
     </fragment>
 
 </navigation>
