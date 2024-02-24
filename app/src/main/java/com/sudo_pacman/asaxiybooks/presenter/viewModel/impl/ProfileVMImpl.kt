@@ -23,6 +23,7 @@ class ProfileVMImpl @Inject constructor(
 
     override fun onClickLogOut() {
         viewModelScope.launch {
+            MySharedPreference.logOut()
             appNavigator.navigateTo(MainScreenDirections.actionMainScreenToLogInScreen())
         }
     }

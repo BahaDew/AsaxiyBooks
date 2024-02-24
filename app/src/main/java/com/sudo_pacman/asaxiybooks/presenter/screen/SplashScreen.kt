@@ -26,6 +26,7 @@ class SplashScreen : Fragment(R.layout.screen_splash) {
 
         lifecycleScope.launch {
             delay(2000)
+
             if (sharedPref.isLogin()) {
                 findNavController().navigate(SplashScreenDirections.actionSplashScreenToMainScreen())
             } else findNavController().navigate(SplashScreenDirections.actionSplashScreenToIntroScreen())

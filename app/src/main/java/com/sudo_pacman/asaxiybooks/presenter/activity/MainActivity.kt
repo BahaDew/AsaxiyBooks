@@ -1,8 +1,6 @@
 package com.sudo_pacman.asaxiybooks.presenter.activity
 
-import android.app.Instrumentation.ActivityResult
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
