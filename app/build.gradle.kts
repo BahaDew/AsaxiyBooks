@@ -118,6 +118,9 @@ dependencies {
 
     // circle seekbar
     implementation("me.tankery.lib:circularSeekBar:1.4.2")
+
+    //Gson
+    implementation ("com.google.code.gson:gson:2.8.8")
 }
 
 
