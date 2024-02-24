@@ -3,16 +3,14 @@ package com.sudo_pacman.asaxiybooks.presenter.viewModel.impl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
-import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
+import com.sudo_pacman.asaxiybooks.data.model.CategoryByBooksData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.navigation.AppNavigator
 import com.sudo_pacman.asaxiybooks.presenter.screen.OrdersHistoryDirections
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.HistoryVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,7 +23,7 @@ class HistoryVMImp @Inject constructor(
     private val repository: Repository,
     private val appNavigator: AppNavigator
 ): ViewModel(), HistoryVM {
-    override val historyBooks = MutableStateFlow<List<CategoryByBookData>>(arrayListOf())
+    override val historyBooks = MutableStateFlow<List<CategoryByBooksData>>(arrayListOf())
 
     var _errorMessage: ((String) -> Unit)? = null
     override val errorMessage = channelFlow{
@@ -37,7 +35,7 @@ class HistoryVMImp @Inject constructor(
     override val progressState = MutableStateFlow(false)
 
     override fun getAllBooks() {
-        repository.getCategoryByBooks().onEach {
+        repository.getCategoryByAudioBooks().onEach {
             progressState.value = true
             it.onSuccess { list ->
                 historyBooks.value = list

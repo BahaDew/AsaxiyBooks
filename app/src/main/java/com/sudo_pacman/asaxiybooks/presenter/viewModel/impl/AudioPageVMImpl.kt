@@ -3,7 +3,7 @@ package com.sudo_pacman.asaxiybooks.presenter.viewModel.impl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
-import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
+import com.sudo_pacman.asaxiybooks.data.model.CategoryByBooksData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.navigation.AppNavigator
 import com.sudo_pacman.asaxiybooks.presenter.screen.MainScreenDirections
@@ -25,7 +25,7 @@ class AudioPageVMImpl @Inject constructor(
     private val appNavigator: AppNavigator,
 ) : ViewModel(), AudioPageVM {
     override val progressSate = MutableStateFlow(true)
-    override val allCategoryByData = MutableStateFlow<List<CategoryByBookData>>(arrayListOf())
+    override val allCategoryByData = MutableStateFlow<List<CategoryByBooksData>>(arrayListOf())
     private var _errorMessage: ((String) -> Unit)? = null
     override val errorMessage: Flow<String> = channelFlow {
         _errorMessage = {
@@ -36,7 +36,7 @@ class AudioPageVMImpl @Inject constructor(
 
     override fun getAllCategoryByData() {
         progressSate.value = false
-        repository.getCategoryByBooks()
+        repository.getCategoryByAudioBooks()
             .onEach {
                 progressSate.value = true
                 it.onSuccess { list ->
@@ -48,7 +48,7 @@ class AudioPageVMImpl @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    override fun onClickCategory(category: CategoryByBookData) {
+    override fun onClickCategory(category: CategoryByBooksData) {
         "viewModel bosildi category ".myLog("ADAPTER")
         viewModelScope.launch {
             "viewModelScope bosildi category ".myLog("ADAPTER")

@@ -3,7 +3,7 @@ package com.sudo_pacman.asaxiybooks.presenter.viewModel.impl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
-import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
+import com.sudo_pacman.asaxiybooks.data.model.CategoryByBooksData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.navigation.AppNavigator
 import com.sudo_pacman.asaxiybooks.presenter.screen.MainScreenDirections
@@ -24,7 +24,7 @@ class LibraryVMImp @Inject constructor(
     private val appNavigator: AppNavigator
 ): ViewModel(),LibraryVM  {
 
-    override val allBookByCategory = MutableStateFlow<List<CategoryByBookData>>(
+    override val allBookByCategory = MutableStateFlow<List<CategoryByBooksData>>(
         arrayListOf()
     )
 
@@ -40,7 +40,7 @@ class LibraryVMImp @Inject constructor(
     override val progressState = MutableStateFlow(true)
     override fun getAllCategoryByData() {
         progressState.value = false
-        repository.getCategoryByBooks()
+        repository.getCategoryByPdfBooks()
             .onEach {
                 progressState.value = true
                 it.onSuccess { list ->
@@ -59,7 +59,7 @@ class LibraryVMImp @Inject constructor(
         }
     }
 
-    override fun onClickCategory(category: CategoryByBookData) {
+    override fun onClickCategory(category: CategoryByBooksData) {
         viewModelScope.launch {
             appNavigator.navigateTo(MainScreenDirections.actionMainScreenToCategoryBooks2(category))
         }

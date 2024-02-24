@@ -112,7 +112,7 @@
             app:destination="@id/infoScreen" />
         <argument
             android:name="categoryByData"
-            app:argType="com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData" />
+            app:argType="com.sudo_pacman.asaxiybooks.data.model.CategoryByBooksData" />
         <action
             android:id="@+id/action_categoryByAudiosScreen_to_audioScreen"
             app:destination="@id/audioScreen" />
@@ -120,7 +120,7 @@
     </fragment>
     <fragment
         android:id="@+id/categoryBooks2"
-        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.CategoryBooks"
+        android:name="com.sudo_pacman.asaxiybooks.presenter.screen.CategoryPdfBooks"
         android:label="CategoryBooks"
         tools:layout="@layout/screen_by_category">
         <action
@@ -128,7 +128,7 @@
             app:destination="@id/infoScreen" />
         <argument
             android:name="categoryByData"
-            app:argType="com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData" />
+            app:argType="com.sudo_pacman.asaxiybooks.data.model.CategoryByBooksData" />
     </fragment>
     <fragment
         android:id="@+id/logInScreen"

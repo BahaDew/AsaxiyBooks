@@ -2,8 +2,10 @@ package com.sudo_pacman.asaxiybooks.domain.impl
 
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.sudo_pacman.asaxiybooks.data.dao.BookDao
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
-import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
+import com.sudo_pacman.asaxiybooks.data.model.CategoryByBooksData
+import com.sudo_pacman.asaxiybooks.data.toUiData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.utils.myLog
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +21,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RepositoryImpl @Inject constructor() : Repository {
+class RepositoryImpl @Inject constructor(
+    private val bookDao: BookDao
+) : Repository {
     private val fireStore = Firebase.firestore
 
     override val booksList: MutableSharedFlow<List<BookUIData>> =
@@ -28,9 +32,6 @@ class RepositoryImpl @Inject constructor() : Repository {
     override val bookLoadError: MutableSharedFlow<String> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
 
-
-
-    private val allBookData = ArrayList<BookUIData>()
 
     override fun getBooks() {
         fireStore
@@ -62,9 +63,9 @@ class RepositoryImpl @Inject constructor() : Repository {
             }
     }
 
-    override fun getCategoryByBooks(): Flow<Result<List<CategoryByBookData>>> =
-        callbackFlow<Result<List<CategoryByBookData>>> {
-            val categoryList = ArrayList<CategoryByBookData>()
+    override fun getCategoryByAudioBooks(): Flow<Result<List<CategoryByBooksData>>> =
+        callbackFlow<Result<List<CategoryByBooksData>>> {
+            val categoryList = ArrayList<CategoryByBooksData>()
             var count = 0
             fireStore.collection("category")
                 .addSnapshotListener { value, _ ->
@@ -78,52 +79,147 @@ class RepositoryImpl @Inject constructor() : Repository {
                                 count++
                                 val listBookData = ArrayList<BookUIData>()
                                 qs.forEach { snapshot ->
-                                    val data =
-                                        BookUIData(
-                                            docID = snapshot.id,
-                                            audioUrl = snapshot.data.getOrDefault("audioUrl", "")
-                                                .toString(),
-                                            author = snapshot.data.getOrDefault("author", "")
-                                                .toString(),
-                                            bookUrl = snapshot.data.getOrDefault("bookUrl", "")
-                                                .toString(),
-                                            categoryId = snapshot.data.getOrDefault(
-                                                "categoryId",
-                                                ""
+                                    val type = snapshot.data.getOrDefault("type", "")
+                                        .toString()
+                                    if (type == "mp3") {
+                                        val data =
+                                            BookUIData(
+                                                docID = snapshot.id,
+                                                audioUrl = snapshot.data.getOrDefault(
+                                                    "audioUrl",
+                                                    ""
+                                                )
+                                                    .toString(),
+                                                author = snapshot.data.getOrDefault("author", "")
+                                                    .toString(),
+                                                bookUrl = snapshot.data.getOrDefault("bookUrl", "")
+                                                    .toString(),
+                                                categoryId = snapshot.data.getOrDefault(
+                                                    "categoryId",
+                                                    ""
+                                                )
+                                                    .toString(),
+                                                coverImage = snapshot.data.getOrDefault(
+                                                    "coverImage",
+                                                    ""
+                                                )
+                                                    .toString(),
+                                                description = snapshot.data.getOrDefault(
+                                                    "description",
+                                                    ""
+                                                )
+                                                    .toString(),
+                                                filePath = snapshot.data.getOrDefault(
+                                                    "filePath",
+                                                    ""
+                                                )
+                                                    .toString(),
+                                                name = snapshot.data.getOrDefault("name", "")
+                                                    .toString(),
+                                                totalSize = snapshot.data.getOrDefault(
+                                                    "totalSize",
+                                                    ""
+                                                )
+                                                    .toString(),
+                                                type = type,
                                             )
-                                                .toString(),
-                                            coverImage = snapshot.data.getOrDefault(
-                                                "coverImage",
-                                                ""
-                                            )
-                                                .toString(),
-                                            description = snapshot.data.getOrDefault(
-                                                "description",
-                                                ""
-                                            )
-                                                .toString(),
-                                            filePath = snapshot.data.getOrDefault("filePath", "")
-                                                .toString(),
-                                            name = snapshot.data.getOrDefault("name", "")
-                                                .toString(),
-                                            totalSize = snapshot.data.getOrDefault("totalSize", "")
-                                                .toString(),
-                                            type = snapshot.data.getOrDefault("type", "")
-                                                .toString(),
-                                        )
-                                    listBookData.add(data)
+                                        listBookData.add(data)
+                                    }
                                 }
-                                categoryList.add(
-                                    CategoryByBookData(
-                                        categoryName = categoryName,
-                                        categoryId = categoryId,
-                                        books = listBookData,
-                                        type = 10
+                                if (listBookData.isNotEmpty()) {
+                                    categoryList.add(
+                                        CategoryByBooksData(
+                                            categoryName = categoryName,
+                                            categoryId = categoryId,
+                                            books = listBookData,
+                                            type = 10
+                                        )
                                     )
-                                )
-                                "$count chi ma'lumot ${value.size()} ta ma'lumot bor".myLog("BAHA")
+                                }
                                 if (count == value.size()) {
-                                    "$count ta ma'lumot".myLog("BAHA")
+                                    trySend(Result.success(categoryList))
+                                }
+                            }
+                            .addOnFailureListener { exp ->
+                                trySend(Result.failure(exp))
+                            }
+                    }
+                }
+            awaitClose()
+        }.flowOn(Dispatchers.IO)
+
+    override fun getCategoryByPdfBooks(): Flow<Result<List<CategoryByBooksData>>> =
+        callbackFlow<Result<List<CategoryByBooksData>>> {
+            val categoryList = ArrayList<CategoryByBooksData>()
+            var count = 0
+            fireStore.collection("category")
+                .addSnapshotListener { value, _ ->
+                    value?.forEach {
+                        val categoryName = it.data.getOrDefault("name", "") as String
+                        val categoryId = it.id
+                        fireStore.collection("books_data")
+                            .whereEqualTo("categoryId", categoryId)
+                            .get()
+                            .addOnSuccessListener { qs ->
+                                count++
+                                val listBookData = ArrayList<BookUIData>()
+                                qs.forEach { snapshot ->
+                                    val type = snapshot.data.getOrDefault("type", "").toString()
+                                    if (type == "pdf") {
+                                        val data =
+                                            BookUIData(
+                                                docID = snapshot.id,
+                                                audioUrl = snapshot.data.getOrDefault(
+                                                    "audioUrl",
+                                                    ""
+                                                ).toString(),
+                                                author = snapshot.data.getOrDefault("author", "")
+                                                    .toString(),
+                                                bookUrl = snapshot.data.getOrDefault("bookUrl", "")
+                                                    .toString(),
+                                                categoryId = snapshot.data.getOrDefault(
+                                                    "categoryId",
+                                                    ""
+                                                )
+                                                    .toString(),
+                                                coverImage = snapshot.data.getOrDefault(
+                                                    "coverImage",
+                                                    ""
+                                                )
+                                                    .toString(),
+                                                description = snapshot.data.getOrDefault(
+                                                    "description",
+                                                    ""
+                                                )
+                                                    .toString(),
+                                                filePath = snapshot.data.getOrDefault(
+                                                    "filePath",
+                                                    ""
+                                                )
+                                                    .toString(),
+                                                name = snapshot.data.getOrDefault("name", "")
+                                                    .toString(),
+                                                totalSize = snapshot.data.getOrDefault(
+                                                    "totalSize",
+                                                    ""
+                                                )
+                                                    .toString(),
+                                                type = type,
+                                            )
+                                        listBookData.add(data)
+                                    }
+                                }
+                                if (listBookData.isNotEmpty()) {
+                                    categoryList.add(
+                                        CategoryByBooksData(
+                                            categoryName = categoryName,
+                                            categoryId = categoryId,
+                                            books = listBookData,
+                                            type = 10
+                                        )
+                                    )
+                                }
+                                if (count == value.size()) {
                                     trySend(Result.success(categoryList))
                                 }
                             }
@@ -152,15 +248,6 @@ class RepositoryImpl @Inject constructor() : Repository {
         awaitClose()
     }
 
-//    override fun getBookByName(name: String): List<BookUIData> {
-//          if(name.isEmpty()) return  arrayListOf()
-//        val ls = allBookData.filter {
-//            it.name.lowercase().contains(name.lowercase()) ?: false
-//        }
-//
-//        return ls
-//    }
-
     override fun getBooksByName(name: String): Flow<Result<List<BookUIData>>> =
         channelFlow<Result<List<BookUIData>>> {
             ("name -> #$name#  " + name.trim().isEmpty()).myLog("BUSH")
@@ -173,12 +260,6 @@ class RepositoryImpl @Inject constructor() : Repository {
                         val booksList = ArrayList<BookUIData>()
                         querySnapshot.forEach { snapshot ->
                             val userName = snapshot.data.getOrDefault("name", "").toString()
-                            "qidir name : $name kegan name  solishtir $userName ${
-                                userName.lowercase().contains(name.lowercase())
-                            }".myLog("BAHA2")
-                            "2 - > qidir name : $name kegan name  solishtir $userName ${
-                                name.lowercase().contains(userName.lowercase())
-                            }".myLog("BAHA2")
                             if (userName.lowercase().contains(name.lowercase())) {
                                 val data =
                                     BookUIData(
@@ -225,4 +306,14 @@ class RepositoryImpl @Inject constructor() : Repository {
             }
             awaitClose()
         }.flowOn(Dispatchers.IO).catch { emit(Result.failure(it)) }
+
+    override fun getDownloadAudioBooksData(): Flow<Result<List<BookUIData>>> = callbackFlow<Result<List<BookUIData>>> {
+        trySend(Result.success(bookDao.getAllBooks().filter { it.type == "mp3" }.map { it.toUiData() }))
+        awaitClose()
+    }.flowOn(Dispatchers.IO)
+
+    override fun getDownloadPdfBooksData(): Flow<Result<List<BookUIData>>> = callbackFlow<Result<List<BookUIData>>> {
+        trySend(Result.success(bookDao.getAllBooks().filter { it.type == "pdf" }.map { it.toUiData() }))
+        awaitClose()
+    }.flowOn(Dispatchers.IO)
 }

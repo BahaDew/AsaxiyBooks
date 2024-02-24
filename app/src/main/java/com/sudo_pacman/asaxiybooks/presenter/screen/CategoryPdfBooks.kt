@@ -15,7 +15,7 @@ import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.CategoryVMImp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CategoryBooks : Fragment(R.layout.screen_by_category){
+class CategoryPdfBooks : Fragment(R.layout.screen_by_category){
     private val binding by viewBinding(ScreenByCategoryBinding::bind)
     private val adapter = CategoryPdfByBooksAdapter()
     private val navArgs by navArgs<CategoryByAudiosScreenArgs>()

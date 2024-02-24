@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.navigation.AppNavigator
-import com.sudo_pacman.asaxiybooks.presenter.screen.CategoryBooksDirections
+import com.sudo_pacman.asaxiybooks.presenter.screen.CategoryPdfBooksDirections
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.CategoryVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,7 +21,7 @@ class CategoryVMImp @Inject constructor(
 
     override fun onClickBook(bookUIData: BookUIData) {
         viewModelScope.launch {
-            appNavigator.navigateTo(CategoryBooksDirections.actionCategoryBooks2ToInfoScreen(bookUIData))
+            appNavigator.navigateTo(CategoryPdfBooksDirections.actionCategoryBooks2ToInfoScreen(bookUIData))
         }
     }
 

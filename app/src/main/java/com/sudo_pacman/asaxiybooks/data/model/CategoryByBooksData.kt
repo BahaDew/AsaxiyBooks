@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class CategoryByBookData(
+data class CategoryByBooksData(
     val categoryId : String,
     val categoryName : String,
     val books : List<BookUIData>,
