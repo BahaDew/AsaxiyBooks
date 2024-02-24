@@ -1,5 +1,6 @@
 package com.sudo_pacman.asaxiybooks.presenter.page
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.onEach
 class ProfilePage : Fragment(R.layout.page_profile) {
     private val viewModel: ProfileVM by viewModels<ProfileVMImpl>()
     private val binding by viewBinding(PageProfileBinding::bind)
+    private val logOutDialog by lazy {  }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
