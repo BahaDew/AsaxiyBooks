@@ -17,4 +17,6 @@ interface Repository {
 
     fun getDownloadAudioBooksData() : Flow<Result<List<BookUIData>>>
     fun getDownloadPdfBooksData() : Flow<Result<List<BookUIData>>>
+
+    fun getUserBoughtBooks() : Flow<Result<List<BookUIData>>>
 }

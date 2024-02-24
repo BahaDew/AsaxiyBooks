@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface HistoryVM {
 
-    val historyBooks : StateFlow<List<CategoryByBooksData>>
+    val historyBooks : StateFlow<List<BookUIData>>
     val errorMessage : Flow<String>
     val progressState: StateFlow<Boolean>
 

@@ -1,6 +1,8 @@
 package com.sudo_pacman.asaxiybooks.presenter.page
 
+import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -20,7 +22,7 @@ import kotlinx.coroutines.flow.onEach
 class ProfilePage : Fragment(R.layout.page_profile) {
     private val viewModel: ProfileVM by viewModels<ProfileVMImpl>()
     private val binding by viewBinding(PageProfileBinding::bind)
-    private val logOutDialog by lazy {  }
+    private val logOutDialog by lazy { AlertDialog.Builder(requireContext()) }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -29,7 +31,7 @@ class ProfilePage : Fragment(R.layout.page_profile) {
 
     private fun initView() = binding.apply {
         btnLogOut.setOnClickListener {
-            viewModel.onClickLogOut()
+            openDialog()
         }
         btnCart.setOnClickListener {
             viewModel.onClickCard()
@@ -43,5 +45,20 @@ class ProfilePage : Fragment(R.layout.page_profile) {
             }
             .flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
+    }
+    private fun openDialog() {
+        logOutDialog
+            .setCancelable(true)
+            .setTitle("Akkauntdan chiqish")
+            .setMessage("Ishonchingiz komilmi!")
+            .setPositiveButton("YES") { dialog, _ ->
+                viewModel.onClickLogOut()
+                dialog.dismiss()
+            }
+            .setNegativeButton("NO") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 }
