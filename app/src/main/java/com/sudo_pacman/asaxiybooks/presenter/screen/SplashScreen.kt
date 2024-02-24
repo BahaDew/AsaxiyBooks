@@ -31,8 +31,6 @@ class SplashScreen : Fragment(R.layout.screen_splash) {
                 findNavController().navigate(SplashScreenDirections.actionSplashScreenToMainScreen())
             } else findNavController().navigate(SplashScreenDirections.actionSplashScreenToIntroScreen())
 
-//            findNavController().navigate(SplashScreenDirections.actionSplashScreenToIntroScreen())
-
 //            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
         requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)

@@ -5,13 +5,14 @@ import com.sudo_pacman.asaxiybooks.data.model.CategoryByBooksData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
-interface AudioPageVM {
-    val progressSate: StateFlow<Boolean>
-    val allCategoryByData: StateFlow<List<CategoryByBooksData>>
+interface HistoryVM {
+
+    val historyBooks : StateFlow<List<CategoryByBooksData>>
     val errorMessage : Flow<String>
+    val progressState: StateFlow<Boolean>
 
-    fun getAllCategoryByData()
 
-    fun onClickCategory(category: CategoryByBooksData)
-    fun onClickBook(bookUIData: BookUIData)
+    fun getAllBooks()
+    fun onClickBook(bookData: BookUIData)
+    fun onClickBack()
 }

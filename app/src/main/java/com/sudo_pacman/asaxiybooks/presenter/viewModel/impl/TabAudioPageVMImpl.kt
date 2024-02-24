@@ -11,6 +11,8 @@ import com.sudo_pacman.asaxiybooks.presenter.viewModel.TabAudioPageVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +26,15 @@ class TabAudioPageVMImpl @Inject constructor(
     override val allDownloadAudioBooks = MutableStateFlow<List<BookUIData>>(arrayListOf())
 
     override fun requestAllDownloadAudioBooks() {
-        repository
+        repository.getDownloadAudioBooksData()
+            .onEach {
+                it.onSuccess { list ->
+                    allDownloadAudioBooks.value = list
+                    placeholderState.value = list.isNotEmpty()
+                }.onFailure {
+
+                }
+            }.launchIn(viewModelScope)
     }
 
     override fun onClickBook(bookUIData: BookUIData) {

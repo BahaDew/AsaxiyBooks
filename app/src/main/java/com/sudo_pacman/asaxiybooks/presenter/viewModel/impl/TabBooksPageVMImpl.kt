@@ -10,6 +10,8 @@ import com.sudo_pacman.asaxiybooks.presenter.screen.MainScreenDirections
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.TabBooksPageVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +24,16 @@ class TabBooksPageVMImpl @Inject constructor(
     override val placeholderState = MutableStateFlow(false)
     override val allDownloadBooks = MutableStateFlow<List<BookUIData>>(arrayListOf())
     override fun requestAllDownloadBooks() {
-        repository
+        repository.getDownloadPdfBooksData()
+            .onEach {
+                it.onSuccess { list ->
+                    allDownloadBooks.value = list
+                    placeholderState.value = list.isNotEmpty()
+                }.onFailure {
+                    placeholderState.value = false
+                }
+            }
+            .launchIn(viewModelScope)
     }
 
     override fun onClickBook(bookUIData: BookUIData) {

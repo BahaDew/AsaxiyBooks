@@ -30,7 +30,7 @@ class ProfileVMImpl @Inject constructor(
 
     override fun onClickCard() {
         viewModelScope.launch {
-//            appNavigator.navigateTo(MainScreenDirections)
+          appNavigator.navigateTo(MainScreenDirections.actionMainScreenToOrdersHistory())
         }
     }
 

@@ -8,21 +8,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
-import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
+import com.sudo_pacman.asaxiybooks.data.model.CategoryByBooksData
 import com.sudo_pacman.asaxiybooks.databinding.ScreenInnerItemBinding
 
 
-class LibraryAdapter: ListAdapter<CategoryByBookData, LibraryAdapter.LibraryViewHolder>(LibraryDiffUtil) {
+class LibraryAdapter: ListAdapter<CategoryByBooksData, LibraryAdapter.LibraryViewHolder>(LibraryDiffUtil) {
 
     private var onClickBook : ((BookUIData) -> Unit)? = null
-    private var onClickCategory: ((CategoryByBookData) -> Unit)? = null
+    private var onClickCategory: ((CategoryByBooksData) -> Unit)? = null
     private var time = System.currentTimeMillis()
-    object LibraryDiffUtil : DiffUtil.ItemCallback<CategoryByBookData>(){
-        override fun areItemsTheSame(oldItem: CategoryByBookData, newItem: CategoryByBookData): Boolean {
+    object LibraryDiffUtil : DiffUtil.ItemCallback<CategoryByBooksData>(){
+        override fun areItemsTheSame(oldItem: CategoryByBooksData, newItem: CategoryByBooksData): Boolean {
             return oldItem.categoryId == newItem.categoryId
         }
 
-        override fun areContentsTheSame(oldItem: CategoryByBookData, newItem: CategoryByBookData): Boolean {
+        override fun areContentsTheSame(oldItem: CategoryByBooksData, newItem: CategoryByBooksData): Boolean {
             return oldItem == newItem
         }
 
@@ -82,7 +82,7 @@ class LibraryAdapter: ListAdapter<CategoryByBookData, LibraryAdapter.LibraryView
         this.onClickBook = onClickBook
     }
 
-    fun setOnClickCategory(onClickCategory: (CategoryByBookData) -> Unit){
+    fun setOnClickCategory(onClickCategory: (CategoryByBooksData) -> Unit){
         this.onClickCategory = onClickCategory
     }
 }

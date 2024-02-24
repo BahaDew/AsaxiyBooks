@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
-import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
+import com.sudo_pacman.asaxiybooks.data.model.CategoryByBooksData
 import com.sudo_pacman.asaxiybooks.databinding.ItemInnerRvAudioBinding
 import com.sudo_pacman.asaxiybooks.utils.myLog
 
-class AudioOuterAdapter : ListAdapter<CategoryByBookData, AudioOuterAdapter.CategoryHolder>(CategoryDiffUtil) {
+class AudioOuterAdapter : ListAdapter<CategoryByBooksData, AudioOuterAdapter.CategoryHolder>(CategoryDiffUtil) {
     private var onClickBook : ((BookUIData) -> Unit)? = null
-    private var onClickCategory : ((CategoryByBookData) -> Unit)? = null
+    private var onClickCategory : ((CategoryByBooksData) -> Unit)? = null
     private var time = System.currentTimeMillis()
 
     inner class CategoryHolder(private val binding : ItemInnerRvAudioBinding) : ViewHolder(binding.root) {
@@ -46,17 +46,17 @@ class AudioOuterAdapter : ListAdapter<CategoryByBookData, AudioOuterAdapter.Cate
         }
     }
 
-    object CategoryDiffUtil : DiffUtil.ItemCallback<CategoryByBookData>() {
+    object CategoryDiffUtil : DiffUtil.ItemCallback<CategoryByBooksData>() {
         override fun areItemsTheSame(
-            oldItem: CategoryByBookData,
-            newItem: CategoryByBookData
+            oldItem: CategoryByBooksData,
+            newItem: CategoryByBooksData
         ): Boolean {
             return oldItem.categoryId == newItem.categoryId
         }
 
         override fun areContentsTheSame(
-            oldItem: CategoryByBookData,
-            newItem: CategoryByBookData
+            oldItem: CategoryByBooksData,
+            newItem: CategoryByBooksData
         ): Boolean {
             return oldItem == newItem
         }
@@ -79,7 +79,7 @@ class AudioOuterAdapter : ListAdapter<CategoryByBookData, AudioOuterAdapter.Cate
         this.onClickBook = onClickBook
     }
 
-    fun setOnClickCategory(onClickCategory : (CategoryByBookData) -> Unit) {
+    fun setOnClickCategory(onClickCategory : (CategoryByBooksData) -> Unit) {
         this.onClickCategory = onClickCategory
     }
 }
