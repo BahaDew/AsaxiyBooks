@@ -18,5 +18,11 @@ interface InfoViewModel {
 
     fun buyBook(book: BookUIData)
     fun startScreen(book: BookUIData)
+
     val isBoughtSharedFlow: MutableSharedFlow<Boolean>
+    fun isDownload(book: BookUIData): Boolean
+    fun clickRead(bookData: BookUIData)
+
+    val isReadSharedFlow: MutableSharedFlow<Boolean>
+    val bookReadSharedFlow: MutableSharedFlow<File>
 }

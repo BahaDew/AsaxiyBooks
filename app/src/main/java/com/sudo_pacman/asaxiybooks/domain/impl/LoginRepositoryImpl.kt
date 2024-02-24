@@ -6,6 +6,7 @@ import com.sudo_pacman.asaxiybooks.data.model.AddUserData
 import com.sudo_pacman.asaxiybooks.data.source.MySharedPreference
 import com.sudo_pacman.asaxiybooks.domain.LoginRepository
 import com.sudo_pacman.asaxiybooks.utils.Mapper
+import com.sudo_pacman.asaxiybooks.utils.myLog
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -28,6 +29,8 @@ class LoginRepositoryImpl @Inject constructor() : LoginRepository {
                 }
                 else {
                     val user = Mapper.run { value!!.toUserDataList()[0] }
+                    "repo login set qilyapman $user".myLog()
+                    "repo login set qilayotgan id larim ${user.booksId.joinToString(",")}".myLog()
                     MySharedPreference.setUserData(user)
                     trySend(Result.success(true))
                     channel.close()

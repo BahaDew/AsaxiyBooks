@@ -95,9 +95,10 @@
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.ReadScreen"
         android:label="ReadScreen"
         tools:layout="@layout/screen_read">
+
         <argument
-            android:name="book_data"
-            app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />
+            android:name="book_path"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/categoryByAudiosScreen"

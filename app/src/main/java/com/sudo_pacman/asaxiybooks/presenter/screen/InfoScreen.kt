@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
+import com.sudo_pacman.asaxiybooks.data.source.MySharedPreference
 import com.sudo_pacman.asaxiybooks.databinding.ScreenInfoBinding
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.InfoViewModel
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.InfoViewModelImpl
@@ -37,8 +39,7 @@ class InfoScreen : Fragment(R.layout.screen_info) {
     private var isResume = false
     private val downloadDialog by lazy(LazyThreadSafetyMode.NONE) { Dialog(requireContext()) }
     private val buyDialog by lazy((LazyThreadSafetyMode.NONE)) { Dialog(requireContext()) }
-    private var isBuy = false
-
+    private val navController by lazy {   findNavController() }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val bookData = navArgs.data
@@ -52,28 +53,35 @@ class InfoScreen : Fragment(R.layout.screen_info) {
     private fun initView(bookData: BookUIData) {
         viewModel.startScreen(bookData)
 
+        "screen userda bor kitoblar ${MySharedPreference.getUserData().booksId.joinToString(",")}".myLog()
 
         viewModel.isBoughtSharedFlow.onEach {
-            if (it) {
-                binding.btnDownload.text = "Yuklab olish"
-                isBuy = true
-            }
-            else {
-                binding.btnDownload.text = "Sotib olish"
-                isBuy = false
-            }
+            "screen kitob sotib olinganmi $it".myLog()
+            binding.btnPay.isVisible = !it
+
+            binding.btnDownload.isVisible = it
         }.launchIn(lifecycleScope)
 
+
+        viewModel.isReadSharedFlow.onEach {
+            "screen info o'qishga tayyor".myLog()
+            binding.btnRead.isVisible = it
+        }.launchIn(lifecycleScope)
+
+        binding.btnPay.setOnClickListener {
+            "screen info click pay".myLog()
+            payDialog(bookData)
+        }
+
         binding.btnDownload.setOnClickListener {
-            if (isBuy) {
-                "screen info sotob olingan ekan yuklaymiz".myLog()
-                viewModel.downloadBook(bookData)
-                downloadDialog()
-//                findNavController().navigate(InfoScreenDirections.actionInfoScreenToReadScreen(bookData))
-            } else {
-                "screen info sotib olish kerak ekab".myLog()
-                payDialog()
-            }
+            "screen info click download".myLog()
+            viewModel.downloadBook(bookData)
+            downloadDialog()
+        }
+
+        binding.btnRead.setOnClickListener {
+            "screen info click read".myLog()
+            viewModel.clickRead(bookData)
         }
     }
 
@@ -94,8 +102,7 @@ class InfoScreen : Fragment(R.layout.screen_info) {
 
         viewModel.dismissDownloadDialog.onEach {
             downloadDialog.dismiss()
-        }
-            .launchIn(lifecycleScope)
+        }.launchIn(lifecycleScope)
 
         lifecycleScope.launch {
 
@@ -108,6 +115,7 @@ class InfoScreen : Fragment(R.layout.screen_info) {
                 }
 
         }
+
     }
 
     private fun downloadDialog() {
@@ -146,12 +154,12 @@ class InfoScreen : Fragment(R.layout.screen_info) {
         downloadDialog.show()
     }
 
-    private fun payDialog() {
+    private fun payDialog(bookData: BookUIData) {
         buyDialog.setContentView(R.layout.dialog_buy)
 
         buyDialog.window?.findViewById<AppCompatButton>(R.id.btn_yes_pay)?.setOnClickListener {
-            isBuy = true
-            viewModel.buyBook(navArgs.data)
+            viewModel.buyBook(bookData)
+            binding.btnDownload.isVisible = true
             buyDialog.dismiss()
         }
 
@@ -164,5 +172,9 @@ class InfoScreen : Fragment(R.layout.screen_info) {
         buyDialog.window?.setGravity(Gravity.CENTER)
 
         buyDialog.show()
+    }
+
+    private fun isDownload(bookData: BookUIData): Boolean {
+        return viewModel.isDownload(book = bookData)
     }
 }

@@ -5,6 +5,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FileDownloadTask
 import com.google.firebase.storage.ktx.storage
 import com.sudo_pacman.asaxiybooks.data.dao.BookDao
+import com.sudo_pacman.asaxiybooks.data.entity.EntityBookData
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.data.model.UploadData
 import com.sudo_pacman.asaxiybooks.data.source.MySharedPreference
@@ -65,48 +66,65 @@ class RepositoryPdf @Inject constructor(
         awaitClose()
     }
 
-    fun downloadBookWithProgress(bookUIData: BookUIData): Flow<UploadData> = callbackFlow {
+//    fun downloadBookWithProgress(bookUIData: BookUIData): Flow<UploadData> = callbackFlow {
+//
+//        "repo olish kerak $bookUIData".myLog()
+//
+//        val bookId = bookDao.isHas(bookUIData.bookUrl)
+//
+//        if (bookId != 0L) {
+//            "repo o'zi bor ekan".myLog()
+//            trySend(UploadData.Success(File(bookDao.getBooksById(id = bookId).filePath)))
+//        } else {
+//            "bunaqasi yo'q ekan yuklaymiz".myLog()
+//
+//            val book = File.createTempFile("Book", "pdf")
+//            loadTask = fireStorage
+//                .getReferenceFromUrl(bookUIData.bookUrl)
+//                .getFile(book)
+//
+//            loadTask!!
+//                .addOnSuccessListener {
+//                    "repo kitob yuklash tugadi".myLog()
+//                    trySend(UploadData.Success(File(bookUIData.filePath)))
+//                }
+//                .addOnFailureListener {
+//                    trySend(UploadData.Error(it.message ?: ""))
+//                }
+//                .addOnPausedListener {
+//                    trySend(UploadData.PAUSE)
+//                }
+//                .addOnCanceledListener {
+//                    trySend(UploadData.CANCEL)
+//                }
+//                .addOnProgressListener {
+////                    "yuklanyapti ${it.bytesTransferred*100 / it.totalByteCount}".myLog()
+//                    trySend(UploadData.Progress((it.bytesTransferred * 100) / it.totalByteCount))
+//                }
+//        }
+//
+//        awaitClose()
+//    }
+//        .flowOn(Dispatchers.IO)
 
-        "repo olish kerak $bookUIData".myLog()
+    fun downloadBookWithProgress(data: BookUIData): Flow<UploadData> = callbackFlow {
+        "repo yuklab olish kerak $data".myLog()
+        "repo yuklab olish kerak bo'lkan book url ${data.bookUrl}".myLog()
+        val book = File.createTempFile("Pdf", ".pdf")
+        loadTask = fireStorage
+            .getReferenceFromUrl(data.bookUrl)
+            .getFile(book)
 
-        val bookId = bookDao.isHas(bookUIData.bookUrl)
+        loadTask!!
+            .addOnSuccessListener {
+                bookDao.setBook(data.toEntityBookData(book.absolutePath))
 
-        if (bookId != 0L) {
-            "repo o'zi bor ekan".myLog()
-            trySend(UploadData.Success(File(bookDao.getBooksById(id = bookId).filePath)))
-        } else {
-            "bunaqasi yo'q ekan yuklaymiz".myLog()
+                trySend(UploadData.Success(File(book.absolutePath)))
 
-            val book = File.createTempFile("Book", "pdf")
-            loadTask = fireStorage.getReferenceFromUrl(bookUIData.bookUrl)
-                .getFile(book)
-
-            loadTask!!
-                .addOnSuccessListener {
-                    bookDao.setBook(bookUIData.toEntityBookData(book.path))
-                    bookUIData.filePath = book.absolutePath
-
-                    fireStore
-                        .collection("books_data")
-                        .document(bookUIData.docID)
-                        .set(bookUIData)
-
-                    trySend(UploadData.Success(File(bookUIData.filePath)))
-                }
-                .addOnFailureListener {
-                    trySend(UploadData.Error(it.message ?: ""))
-                }
-                .addOnPausedListener {
-                    trySend(UploadData.PAUSE)
-                }
-                .addOnCanceledListener {
-                    trySend(UploadData.CANCEL)
-                }
-                .addOnProgressListener {
-//                    "yuklanyapti ${it.bytesTransferred*100 / it.totalByteCount}".myLog()
-                    trySend(UploadData.Progress((it.bytesTransferred * 100) / it.totalByteCount))
-                }
-        }
+            }
+            .addOnProgressListener {
+                trySend(UploadData.Progress(it.bytesTransferred * 100 / it.totalByteCount))
+            }
 
         awaitClose()
     }
@@ -128,13 +146,17 @@ class RepositoryPdf @Inject constructor(
     fun buyBook(book: BookUIData): Flow<Unit> = callbackFlow {
         val user = MySharedPreference.getUserData()
         user.booksId.add(book.docID)
+        MySharedPreference.setUserData(user)
+
+        "repo userda bor kitoblar ${MySharedPreference.getUserData().booksId.joinToString(",")}".myLog()
 
         fireStore
             .collection("users")
-            .document(MySharedPreference.getUserData().id)
+            .document(user.id)
             .set(user)
             .addOnSuccessListener {
                 "repo add book to user".myLog()
+
                 trySend(Unit)
             }
             .addOnFailureListener {
@@ -144,18 +166,25 @@ class RepositoryPdf @Inject constructor(
         awaitClose()
     }
 
-    fun isBought(bookUIData: BookUIData): Flow<Boolean> = callbackFlow<Boolean>{
-        fireStore
-            .collection("users")
-            .whereEqualTo("password", MySharedPreference.getUserData().password)
-            .whereEqualTo("gmail", MySharedPreference.getUserData().gmail)
-            .limit(1)
-            .addSnapshotListener { value, error ->
-                val user = Mapper.run { value!!.toUserDataList()[0] }
+    fun isBought(bookUIData: BookUIData): Boolean {
+        "repo pdf mashi kitob bormi ${bookUIData.docID}".myLog()
+        "repo pdf userda bor kitoblar ${MySharedPreference.getUserData().booksId.joinToString(",")}".myLog()
 
-                trySend(user.booksId.contains(bookUIData.docID))
-            }
+        return MySharedPreference.getUserData().booksId.contains(bookUIData.docID)
+    }
 
-        awaitClose()
+    fun isDownload(bookUIData: BookUIData): Boolean {
+        val bookId = bookDao.isHas(bookUIData.bookUrl)
+        return if (bookId != 0L) {
+            "repo isDownload bunaqasi borakan".myLog()
+            true
+        } else false
+    }
+
+    fun getBook(bookData: BookUIData): File {
+        "repo kitobni olamiz $bookData".myLog()
+        val bookId = bookDao.isHas(bookData.bookUrl)
+
+        return File(bookDao.getBooksById(id = bookId).filePath)
     }
 }
