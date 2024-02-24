@@ -23,8 +23,8 @@ class RegisterScreen : Fragment(R.layout.screen_register) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         requireActivity().window.statusBarColor = Color.parseColor("#0F172B")
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
