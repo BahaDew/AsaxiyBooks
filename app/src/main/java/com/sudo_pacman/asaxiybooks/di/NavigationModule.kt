@@ -20,5 +20,4 @@ interface NavigationModule {
 
     @[Binds Singleton]
     fun bindAppNavigationHandler(imp: AppNavigationDispatcher): AppNavigationHandler
-
 }

@@ -30,6 +30,7 @@ class LibraryPage : Fragment(R.layout.page_library){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getAllCategoryByData()
+        "onCreate: getAll".myLog("BEHRUZ")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

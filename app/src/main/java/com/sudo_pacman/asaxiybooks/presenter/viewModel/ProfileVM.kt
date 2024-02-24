@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.StateFlow
 interface ProfileVM {
     val userData : StateFlow<UserData>
     fun onClickLogOut()
+    fun onClickCard()
 }

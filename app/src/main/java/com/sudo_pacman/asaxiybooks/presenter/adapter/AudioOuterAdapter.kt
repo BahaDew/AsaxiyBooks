@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.data.model.CategoryByBookData
 import com.sudo_pacman.asaxiybooks.databinding.ItemInnerRvAudioBinding
+import com.sudo_pacman.asaxiybooks.utils.myLog
 
 class AudioOuterAdapter : ListAdapter<CategoryByBookData, AudioOuterAdapter.CategoryHolder>(CategoryDiffUtil) {
     private var onClickBook : ((BookUIData) -> Unit)? = null
@@ -23,6 +24,7 @@ class AudioOuterAdapter : ListAdapter<CategoryByBookData, AudioOuterAdapter.Cate
             binding.btnAll.setOnClickListener{
                 if(System.currentTimeMillis() - time >= 500) {
                     time = System.currentTimeMillis()
+                    "adapter bosildi category ".myLog("ADAPTER")
                     onClickCategory?.invoke(getItem(adapterPosition))
                 }
             }

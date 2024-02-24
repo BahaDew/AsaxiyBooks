@@ -17,18 +17,23 @@ import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class ProfilePage : Fragment(R.layout.page_profile) {
-    private val viewModel : ProfileVM by viewModels<ProfileVMImpl>()
+    private val viewModel: ProfileVM by viewModels<ProfileVMImpl>()
     private val binding by viewBinding(PageProfileBinding::bind)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
         initFlow()
     }
+
     private fun initView() = binding.apply {
         btnLogOut.setOnClickListener {
             viewModel.onClickLogOut()
         }
+        btnCart.setOnClickListener {
+            viewModel.onClickCard()
+        }
     }
+
     private fun initFlow() = binding.apply {
         viewModel.userData
             .onEach {

@@ -2,11 +2,13 @@ package com.sudo_pacman.asaxiybooks.presenter.screen
 
 import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
@@ -15,8 +17,11 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.sudo_pacman.asaxiybooks.R
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
+import com.sudo_pacman.asaxiybooks.data.source.MySharedPreference
 import com.sudo_pacman.asaxiybooks.databinding.ScreenAudioBinding
+import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
 @AndroidEntryPoint
 class AudioScreen : Fragment(R.layout.screen_audio) {
@@ -27,6 +32,8 @@ class AudioScreen : Fragment(R.layout.screen_audio) {
     private var isPlaying = true
     private lateinit var data: BookUIData
     private val navArgs: AudioScreenArgs by navArgs()
+//    private lateinit var pref: MySharedPreference
+
 
 //    private var audioUrl =
 //        "https://firebasestorage.googleapis.com/v0/b/asaxiybooks-6f7ed.appspot.com/o/audio%2Fbook_6_audio.mp3?alt=media&token=86936d6f-b3c0-41e9-80a4-16a1d71125f3"
@@ -35,6 +42,10 @@ class AudioScreen : Fragment(R.layout.screen_audio) {
 
         data = navArgs.data
         seekBar = binding.seekBar
+
+        "Data: $data".myLog()
+        "Data audioUrl: ${data.audioUrl}".myLog()
+
         init()
         controllerSound()
 
@@ -42,8 +53,10 @@ class AudioScreen : Fragment(R.layout.screen_audio) {
     }
 
     private fun controllerSound() {
-//        val book = File(shar.getBookLink(bookId = audio.id))
-//        mediaPlayer = MediaPlayer.create(requireContext(), Uri.fromFile(book))
+
+        val book = File(MySharedPreference.getBookLink(bookId = data.docID))
+        "controllerSound: ${book.name} or ${book.isFile} or $book".myLog()
+        mediaPlayer = MediaPlayer.create(requireContext(), Uri.fromFile(book))
         mediaPlayer?.setOnPreparedListener {
             seekBar.max = mediaPlayer!!.duration
             mediaPlayer!!.start()
@@ -53,6 +66,7 @@ class AudioScreen : Fragment(R.layout.screen_audio) {
             binding.playMusic.setImageResource(R.drawable.ic_pause)
             startSeekBarUpdate()
         }
+
         binding.playMusic.setOnClickListener {
             if (mediaPlayer == null) {
 
@@ -152,7 +166,10 @@ class AudioScreen : Fragment(R.layout.screen_audio) {
 
     fun init() {
         binding.apply {
-            Glide.with(requireContext()).load(data.coverImage[0]).listener(object : RequestListener<Drawable> {
+            Glide.with(requireContext())
+                .load(data.coverImage)
+                .listener(object : RequestListener<Drawable> {
+
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
                         imgBook.setImageResource(R.drawable.book)
                         return false
@@ -169,8 +186,13 @@ class AudioScreen : Fragment(R.layout.screen_audio) {
                     }
 
                 }).into(imgBook)
+
             tvBookName.text = data.name
             tvAuthor.text = data.author
+
+            btnBack.setOnClickListener {
+                findNavController().navigateUp()
+            }
         }
     }
 

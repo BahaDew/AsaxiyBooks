@@ -10,7 +10,7 @@
     <View
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="?android:actionBarSize"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -20,7 +20,7 @@
         android:fontFamily="@font/roboto_medium"
         android:text="Audio kitoblar"
         android:textColor="#FFF"
-        android:textSize="25dp"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="@id/bar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

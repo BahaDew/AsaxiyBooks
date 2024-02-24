@@ -8,6 +8,7 @@ import com.sudo_pacman.asaxiybooks.domain.Repository
 import com.sudo_pacman.asaxiybooks.navigation.AppNavigator
 import com.sudo_pacman.asaxiybooks.presenter.screen.MainScreenDirections
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.AudioPageVM
+import com.sudo_pacman.asaxiybooks.utils.myLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -48,7 +49,9 @@ class AudioPageVMImpl @Inject constructor(
     }
 
     override fun onClickCategory(category: CategoryByBookData) {
+        "viewModel bosildi category ".myLog("ADAPTER")
         viewModelScope.launch {
+            "viewModelScope bosildi category ".myLog("ADAPTER")
             appNavigator.navigateTo(
                 MainScreenDirections.actionMainScreenToCategoryByAudiosScreen(
                     category
@@ -58,7 +61,9 @@ class AudioPageVMImpl @Inject constructor(
     }
 
     override fun onClickBook(bookUIData: BookUIData) {
+        "ViewModel: book bosildi".myLog("AUDIO")
         viewModelScope.launch {
+            "appNavigator: book bosildi".myLog("AUDIO")
             appNavigator.navigateTo(MainScreenDirections.actionMainScreenToAudioScreen(bookUIData))
         }
     }
