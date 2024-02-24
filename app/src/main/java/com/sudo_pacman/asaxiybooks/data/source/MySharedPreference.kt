@@ -42,11 +42,7 @@ object MySharedPreference {
         }
 
         return UserData(
-            id = id,
-            name = name,
-            gmail = gmail,
-            password = password,
-            booksId = booksId
+            id = id, name = name, gmail = gmail, password = password, booksId = booksId
         )
     }
 
@@ -55,8 +51,19 @@ object MySharedPreference {
     }
 
     fun setBookInfo(bookId: String, bookLink: String) {
-        sharedPreferences.edit().putString(bookId,bookLink).apply()
+        sharedPreferences.edit().putString(bookId, bookLink).apply()
     }
+
+    fun isLogin(): Boolean = sharedPreferences.getBoolean("login", false)
+
+    fun logOut() {
+        sharedPreferences.edit().putString("name", "").apply()
+        sharedPreferences.edit().putString("gmail", "").apply()
+        sharedPreferences.edit().putString("password", "").apply()
+        sharedPreferences.edit().putString("type", "").apply()
+        sharedPreferences.edit().putBoolean("login", false).apply()
+    }
+
 
 }
 

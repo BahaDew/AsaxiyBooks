@@ -29,6 +29,11 @@
             app:destination="@id/introScreen"
             app:popUpTo="@id/splashScreen"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashScreen_to_mainScreen"
+            app:destination="@id/mainScreen"
+            app:popUpTo="@id/splashScreen"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/introScreen"
@@ -154,9 +159,11 @@
         android:name="com.sudo_pacman.asaxiybooks.presenter.screen.AudioScreen"
         tools:layout="@layout/screen_audio"
         android:label="AudioScreen" >
+
         <argument
             android:name="data"
             app:argType="com.sudo_pacman.asaxiybooks.data.model.BookUIData" />
+        
     </fragment>
     <fragment
         android:id="@+id/ordersHistory"

@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.sudo_pacman.asaxiybooks.R
+import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.databinding.ScreenInfoBinding
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.InfoViewModel
 import com.sudo_pacman.asaxiybooks.presenter.viewModel.impl.InfoViewModelImpl
@@ -40,32 +41,28 @@ class InfoScreen : Fragment(R.layout.screen_info) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        lifecycleScope.launch {
-
-            Firebase.firestore.collection("category")
-                .get()
-                .addOnSuccessListener { querySnapshot ->
-                    querySnapshot.documents.forEach {
-                        binding.tvCatogry.text = it.data?.getOrDefault("name", "").toString()
-                    }
-                }
-
-        }
-
         val bookData = navArgs.data
-
         "infoga keldi $bookData".myLog()
 
-        Glide.with(requireContext())
-            .load(bookData.coverImage)
-            .placeholder(R.drawable.ic_sand_clock)
-            .error(R.drawable.book)
-            .into(binding.imgBook)
+        loadData(bookData)
+        initView(bookData)
+    }
 
-        binding.tvAuthor.text = bookData.author
-        binding.tvBookName.text = bookData.name
-        binding.bookDescription.text = bookData.description
+
+    private fun initView(bookData: BookUIData) {
+        viewModel.startScreen(bookData)
+
+
+        viewModel.isBoughtSharedFlow.onEach {
+            if (it) {
+                binding.btnDownload.text = "Yuklab olish"
+                isBuy = true
+            }
+            else {
+                binding.btnDownload.text = "Sotib olish"
+                isBuy = false
+            }
+        }.launchIn(lifecycleScope)
 
         binding.btnDownload.setOnClickListener {
             if (isBuy) {
@@ -78,7 +75,18 @@ class InfoScreen : Fragment(R.layout.screen_info) {
                 payDialog()
             }
         }
+    }
 
+    private fun loadData(bookData: BookUIData) {
+        Glide.with(requireContext())
+            .load(bookData.coverImage)
+            .placeholder(R.drawable.ic_sand_clock)
+            .error(R.drawable.book)
+            .into(binding.imgBook)
+
+        binding.tvAuthor.text = bookData.author
+        binding.tvBookName.text = bookData.name
+        binding.bookDescription.text = bookData.description
 
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
@@ -88,6 +96,18 @@ class InfoScreen : Fragment(R.layout.screen_info) {
             downloadDialog.dismiss()
         }
             .launchIn(lifecycleScope)
+
+        lifecycleScope.launch {
+
+            Firebase.firestore.collection("category")
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    querySnapshot.documents.forEach {
+                        binding.tvCatogry.text = it.data?.getOrDefault("name", "").toString()
+                    }
+                }
+
+        }
     }
 
     private fun downloadDialog() {
@@ -131,7 +151,6 @@ class InfoScreen : Fragment(R.layout.screen_info) {
 
         buyDialog.window?.findViewById<AppCompatButton>(R.id.btn_yes_pay)?.setOnClickListener {
             isBuy = true
-            binding.btnDownload.text = "Yuklab olish"
             viewModel.buyBook(navArgs.data)
             buyDialog.dismiss()
         }
@@ -146,6 +165,4 @@ class InfoScreen : Fragment(R.layout.screen_info) {
 
         buyDialog.show()
     }
-
-    private fun initView() {}
 }

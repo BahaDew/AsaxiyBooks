@@ -8,6 +8,8 @@ import com.sudo_pacman.asaxiybooks.data.dao.BookDao
 import com.sudo_pacman.asaxiybooks.data.model.BookUIData
 import com.sudo_pacman.asaxiybooks.data.model.UploadData
 import com.sudo_pacman.asaxiybooks.data.source.MySharedPreference
+import com.sudo_pacman.asaxiybooks.utils.Mapper
+import com.sudo_pacman.asaxiybooks.utils.Mapper.toUserDataList
 import com.sudo_pacman.asaxiybooks.utils.myLog
 import com.sudo_pacman.asaxiybooks.utils.toEntityBookData
 import kotlinx.coroutines.Dispatchers
@@ -137,6 +139,21 @@ class RepositoryPdf @Inject constructor(
             }
             .addOnFailureListener {
                 "repo add book to user fail ${it.message}".myLog()
+            }
+
+        awaitClose()
+    }
+
+    fun isBought(bookUIData: BookUIData): Flow<Boolean> = callbackFlow<Boolean>{
+        fireStore
+            .collection("users")
+            .whereEqualTo("password", MySharedPreference.getUserData().password)
+            .whereEqualTo("gmail", MySharedPreference.getUserData().gmail)
+            .limit(1)
+            .addSnapshotListener { value, error ->
+                val user = Mapper.run { value!!.toUserDataList()[0] }
+
+                trySend(user.booksId.contains(bookUIData.docID))
             }
 
         awaitClose()

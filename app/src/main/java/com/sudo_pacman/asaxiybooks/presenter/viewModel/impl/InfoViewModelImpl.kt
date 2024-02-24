@@ -25,8 +25,9 @@ class InfoViewModelImpl @Inject constructor(
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
 
     override val progressPercentSharedFlow = MutableStateFlow(0L)
-
-    override val dismissDownloadDialog: MutableSharedFlow<Unit> = MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    override val dismissDownloadDialog: MutableSharedFlow<Unit> =
+        MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
+    override val isBoughtSharedFlow = MutableSharedFlow<Boolean>(replay = 1, onBufferOverflow = BufferOverflow.DROP_LATEST)
 
     override fun downloadBook(bookUIData: BookUIData) {
         repo
@@ -70,4 +71,42 @@ class InfoViewModelImpl @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
+
+    override fun startScreen(book: BookUIData) {
+        repo.isBought(book)
+            .onEach {
+                isBoughtSharedFlow.tryEmit(it)
+            }.launchIn(viewModelScope)
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
